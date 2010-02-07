@@ -1,14 +1,36 @@
 /*
 
-  BDF2DOGM.C
+  bdf2dogm.c
+
+  (c) 2010 Oliver Kraus (olikraus@gmail.com)
+
+  Utility program to convert fonts from the BDF file format to the internal DOGM format
+
   
-  converts fonts from the BDF file format to the internal DOGM format
-  
+
+  This file is part of the dogm128 Arduino library.
+
+  The dogm128 Arduino library is free software: you can redistribute it and/or modify
+  it under the terms of the Lesser GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  The dogm128 Arduino library is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  Lesser GNU General Public License for more details.
+
+  You should have received a copy of the Lesser GNU General Public License
+  along with dogm128.  If not, see <http://www.gnu.org/licenses/>.
+
+
+
   Notes:
   - Fonts are avilable from X11 
   - my personal favorits from X11: 4x6, 5x7, 6x12, 9x18
   - there are some limitations (e.g versus font size) and bdf2dogm will abort if these limitations are broken
   - there a some simplifications with overlapping chars (e.g. 'f' from helvR08) DWIDTH is increased to BBX width + BBX x
+
 */
 
 

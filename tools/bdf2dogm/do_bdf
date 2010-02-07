@@ -1,0 +1,10 @@
+#/bin/bash
+
+cc bdf2dogm.c -o bdf2dogm
+
+
+for i in *.bdf;  
+do echo $i; ./bdf2dogm $i font_${i%.bdf}.c font_${i%.bdf}; 
+done;
+
+

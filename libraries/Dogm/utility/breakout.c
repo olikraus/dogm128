@@ -4,6 +4,24 @@
   
   Arduino breakout clone for the dogm128x64 display
   
+  (c) 2010 Oliver Kraus (olikraus@gmail.com)
+
+
+  This file is part of the dogm128 Arduino library.
+
+  The dogm128 Arduino library is free software: you can redistribute it and/or modify
+  it under the terms of the Lesser GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  The dogm128 Arduino library is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  Lesser GNU General Public License for more details.
+
+  You should have received a copy of the Lesser GNU General Public License
+  along with dogm128.  If not, see <http://www.gnu.org/licenses/>.
+
 */
 
 
@@ -23,7 +41,8 @@ typedef uint16_t u16;
 typedef int16_t s16;
 
 #define BO_F1 font_5x7
-#define BO_F2 font_9x18
+#define BO_F2 font_6x12
+#define BO_F3 font_9x18
 
 #define BO_FP 4
 
@@ -621,13 +640,13 @@ void bo_Draw(void)
     if ( bo_step_state == BO_STATE_INTRO1 )
     {
       s16 o = ((dog_sin(((s16)bo_timer)*3))/21);
-      dog_DrawStr(15, 16+o, BO_F2, "Breakorino");
+      dog_DrawStr(5, 16+o, BO_F2, "dogm128 Breakorino");
       //dog_DrawStr(20, 10+o+1, BO_F2, "Breakorino");
     }
     if ( bo_step_state == BO_STATE_LOST )
-      dog_DrawStr(20, 10+(bo_timer>>4), BO_F2, "Game Over");
+      dog_DrawStr(20, 10+(bo_timer>>4), BO_F3, "Game Over");
     if ( bo_step_state == BO_STATE_COMLETED )
-      dog_DrawStr(20, 20-(bo_timer>>4), BO_F2, "Completed");
+      dog_DrawStr(20, 20-(bo_timer>>4), BO_F3, "Completed");
       
       
 }
