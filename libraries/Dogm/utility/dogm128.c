@@ -51,7 +51,6 @@
 #include <string.h>
 #include "dogm128.h"
 
-#ifndef UNIX
 #include <avr/interrupt.h>
 #include <avr/io.h>
 #include <wiring.h>	/* arduino pinMode */
@@ -63,19 +62,6 @@
 #define dog_pgm_read_w(adr) (*(const int16_t *)(adr))
 #define dog_pgm_read(adr) (*(const char *)(adr)) 
 #endif
-
-#else
-#define dog_pgm_read_w(adr) (*(const int16_t *)(adr))
-#define dog_pgm_read(adr) (*(const char *)(adr)) 
-#endif
-
-
-/*
-#include "fnt_5p.c"
-#include "fnt_8m.c"
-#include "fnt_7m.c"
-*/
-
 
 #define DOG_WIDTH 128
 #define DOG_HEIGHT 64
@@ -91,28 +77,6 @@ uint8_t dog_max_y = DOG_PAGE_HEIGHT-1;
 
 
 
-#ifdef UNIX
-
-void dog_transfer_page(void)
-{
-  int y,x;
-  for( y = 0; y < 8; y++ )
-  {
-    printf("%d %d ", dog_curr_page, y);
-    for( x = 0; x < 128; x++ )
-    {
-      if ( dog_page_buffer[128-x] & (1<<y) )
-	printf("*");
-      else
-	printf(".");
-    }
-    printf("\n");
-  }
-}
-
-void dog_init(void)
-{
-}
 
 /*==============================================================*/
 /* 
@@ -121,7 +85,6 @@ void dog_init(void)
 */
 /*==============================================================*/
 
-#else /* UNIX */
 
 
 unsigned char dog_spi_pin_a0 = PIN_A0_DEFAULT;
@@ -282,14 +245,10 @@ void dog_transfer_page(void)
   dog_spi_disable_client();
 }
 
-#endif
-
 
 /*==============================================================*/
 /* page buffer functions */
 /*==============================================================*/
-
-
 
 void dog_ClearPage(void)
 {
@@ -326,28 +285,6 @@ uint8_t dog_NextPage(void)
 /*==============================================================*/
 
 unsigned char dog_bit_to_mask[8] = { 1, 2, 4, 8, 16, 32, 64, 128 };
-
-void dog_single_point(uint8_t x, uint8_t y, uint8_t val)
-{
-  unsigned char tmp;
-  if ( x < 128 )
-    if ( y >= dog_min_y && y <=dog_max_y )
-    {
-      tmp = y;
-      tmp &= (unsigned char)7;
-      tmp = dog_bit_to_mask[tmp];
-      if ( val )
-      {
-	dog_page_buffer[x] |= tmp;
-      }
-      else
-      {
-	tmp ^= 0x0ff;
-	
-	dog_page_buffer[x] &= tmp;
-      }
-    }
-}
 
 void dog_SetPixel(uint8_t x, uint8_t y)
 {
@@ -512,7 +449,7 @@ signed char dog_cos(uint8_t w)
 }
 
 /*==============================================================*/
-/* graphic functions */
+/* box graphic functions */
 /*==============================================================*/
 
 void dog_SetBox(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2)
@@ -536,7 +473,11 @@ void dog_XorBox(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2)
     dog_XorVLine(x,y1,y2);
 }
 
-void dog_SetPoint(uint8_t x, uint8_t y, uint8_t size)
+/*==============================================================*/
+/* draw graphic functions */
+/*==============================================================*/
+
+void dog_DrawPoint(uint8_t x, uint8_t y, uint8_t size)
 {
   uint8_t val =1;
   if ( size == 0 ) 
@@ -555,7 +496,7 @@ void dog_SetPoint(uint8_t x, uint8_t y, uint8_t size)
     dog_SetPixel(x,y);
 }
 
-void dog_line(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, uint8_t size)
+void dog_DrawLine(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, uint8_t size)
 {
   uint8_t tmp;
   uint8_t x,y;
@@ -583,9 +524,9 @@ void dog_line(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, uint8_t size)
   for( x = x1; x <= x2; x++ )
  {
    if ( swapxy == 0 ) 
-     dog_SetPoint(x,y,size); 
+     dog_DrawPoint(x,y,size); 
    else 
-     dog_SetPoint(y,x,size);
+     dog_DrawPoint(y,x,size);
    err -= (uint8_t)dy;
    if ( err < 0 ) 
    {
@@ -595,7 +536,18 @@ void dog_line(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, uint8_t size)
  }  
 }
 
-void dog_arc(uint8_t mx, uint8_t my, uint8_t r, uint8_t w0, uint8_t w1, uint8_t size)
+/*
+  mx, my		center of the arc/circle
+  r			radius in pixel
+  w0			start angle (counter clock direction, zero at the left)
+  w1			end angle
+  size		line thickness
+  
+  Notes:
+  1) A circle will be drawn, if w0 == w1
+  2) angle: 128 = Pi
+*/
+void dog_DrawArc(uint8_t mx, uint8_t my, uint8_t r, uint8_t w0, uint8_t w1, uint8_t size)
 {
   uint8_t l,i,w,x1,y1,x2,y2;
   unsigned short dw;
@@ -624,7 +576,7 @@ void dog_arc(uint8_t mx, uint8_t my, uint8_t r, uint8_t w0, uint8_t w1, uint8_t 
     w = ((unsigned short)dw*(unsigned short)i )/(unsigned short)l + w0;
     x2 = mx+((r*dog_cos(w)) >> 6);
     y2 = my+((r*dog_sin(w)) >> 6);
-    dog_line(x1,y1,x2,y2,size);
+    dog_DrawLine(x1,y1,x2,y2,size);
     x1 = x2;
     y1 = y2;
   }
@@ -885,67 +837,3 @@ char *dog_itoa(unsigned long v)
 }
 
 
-unsigned char dog_test_x = 0;
-unsigned long dog_time = 0;
-
-
-void dog_test1(void)
-{
-  unsigned long t;
-  unsigned char x, i;
-  t = millis();
-  dog_StartPage();
-  do
-  {
-      for( i = 0; i < 4; i++ )
-      {
-	x = dog_test_x;
-	
-	/*
-	dog_str(x+2, 8+i*16+x, fnt_5p, 0, dog_itoa(x));
- 	dog_str(x+2, 0+i*16+x, fnt_5p, 0, dog_itoa(i));
-	dog_str(x+20, 8+i*16+x, fnt_5p, 0, "ABCDEFGHIJKLMN");
-	dog_str(x+20, 0+i*16+x, fnt_5p, 0, "abcdefghijklmnopqrst");
-	*/
-      }
-      /*
-      for( i = 0; i < 19; i++ )
-	dog_ClrVLine(30+i,61-i*3,62-i);
-      */
-      //dog_str(2, 56, fnt_5p, 0, dog_itoa(dog_time));
-  }
-  while( dog_NextPage() );
-  dog_time = millis() - t;
-  dog_test_x += 1;
-  dog_test_x &= 7;
-}
-
-void dog_test(void)
-{
-  unsigned long t;
-  unsigned char x, i;
-  t = millis();
-  dog_StartPage();
-  do
-  {
-      //for( i = 0; i < 4; i++ )
-      {
-	x = dog_test_x;
-	dog_SetBox( 0+x,0+x, 10+x, 10+x);
-	dog_SetBox( 10+x,10+x, 50+x, 50+x);
-	dog_ClrBox( 20+x,20, 30+x, 30);
-	dog_SetBox( 60+x,0+x, 80+x, 55+x);
-	dog_SetBox( 82+x,0+x, 90+x, 55+x);
-	dog_XorBox(15,18,25,60);
-      }
-      /*
-      for( i = 0; i < 19; i++ )
-	dog_ClrVLine(30+i,61-i*3,62-i);
-      */
-      // dog_str(2, 56, fnt_5p, 0, dog_itoa(dog_time));
-  }
-  while( dog_NextPage() );
-  dog_time = millis() - t;
-  dog_test_x += 1;
-  dog_test_x &= 7;
-}

@@ -11,6 +11,7 @@ void Dogm::Init(void)
 
 Dogm::Dogm(uint8_t pin_a0)
 {
+  size = 0;
   tx = 0;
   ty = 0;
   a0Pin = pin_a0;

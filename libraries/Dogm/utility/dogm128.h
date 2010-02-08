@@ -61,6 +61,8 @@ void dog_set_inverse(uint8_t val);
 void dog_StartPage(void);
 uint8_t dog_NextPage(void);
 
+/* --- set/clr functions --- */
+  
 void dog_SetPixel(uint8_t x, uint8_t y);
 void dog_ClrPixel(uint8_t x, uint8_t y);
 
@@ -74,6 +76,12 @@ void dog_XorVLine(uint8_t x, uint8_t y1, uint8_t y2);
 void dog_SetBox(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2);
 void dog_ClrBox(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2);
 void dog_XorBox(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2);
+
+/* --- draw functions --- */
+
+void dog_DrawPoint(uint8_t x, uint8_t y, uint8_t size);
+void dog_DrawLine(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, uint8_t size);
+void dog_DrawArc(uint8_t mx, uint8_t my, uint8_t r, uint8_t w0, uint8_t w1, uint8_t size);
 
 uint8_t dog_DrawChar(uint8_t x, uint8_t y, PGM_P font, unsigned char code);
 uint8_t dog_DrawStr(uint8_t x, uint8_t y, PGM_P font, const char *s);
