@@ -22,7 +22,7 @@ Dogm::Dogm(uint8_t pin_a0)
   
 }
 
-void Dogm::Start(void)
+void Dogm::start(void)
 {
   if ( is_req_init )
     Init();

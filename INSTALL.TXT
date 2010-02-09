@@ -1,0 +1,14 @@
+
+This is the dogm128 library for the Arduino project.
+
+The dogm128 library is a C/C++ interface to the ST7565R based graphics module.
+
+Install instructions
+
+Arduino-0017
+  1. Extract dogm128 zip file
+  2. Copy the directory "Dogm" and all included files to 
+      <arduino-path>/hardware/libraries/
+  3. Restart Arduino Environment
+  
+

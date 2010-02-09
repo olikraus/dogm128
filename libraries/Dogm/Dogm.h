@@ -18,8 +18,8 @@ class Dogm : public Print {
   
     Dogm(uint8_t pin_a0); 
       
-    void Start(void);
-    uint8_t Next(void) { return dog_NextPage(); }
+    void start(void);
+    uint8_t next(void) { return dog_NextPage(); }
     
     void SetPixel(uint8_t x, uint8_t y) { dog_SetPixel(x, y); }
     void ClrPixel(uint8_t x, uint8_t y) { dog_ClrPixel(x, y); }

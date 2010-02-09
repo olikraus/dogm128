@@ -1,0 +1,10 @@
+rm dogm128.zip
+zip -j dogm128.zip ../COPYING.LESSER
+zip dogm128.zip ./Dogm/*.cpp
+zip dogm128.zip ./Dogm/*.h
+zip dogm128.zip -r ./Dogm/utility
+zip dogm128.zip ./Dogm/examples/Breakorino/*.pde
+zip dogm128.zip ./Dogm/examples/Fonts/*.pde
+
+
+
