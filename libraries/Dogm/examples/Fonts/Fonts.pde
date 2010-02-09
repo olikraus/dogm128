@@ -2,7 +2,10 @@
 
   Fonts
   
-  Show some of the fonts
+  Show some fonts of the dog128 library.
+  Written by Oliver Kraus.
+  
+  
   
   SCL (SPI Clock)   Pin 13
   SI (MOSI)         Pin 11
@@ -18,7 +21,6 @@ int a0Pin = 9;      // address line a0 for the dogm module
 int sensorPin = 0;  // analog input
 
 Dogm dogm(a0Pin);
-
 
 void setup() {
 }
@@ -47,21 +49,18 @@ void loop() {
   }
   font_select++;
   
-  dogm.Start();
-  do
-  {
-    dogm.SetFont(p);
-    dogm.SetXY(0,h*3+3);
+  dogm.start();
+  do {
+    dogm.setFont(p);
+    dogm.setXY(0,h*3+3);
     dogm.print(f);
     dogm.print(": 0123456789.,;");
-    dogm.SetXY(0,h*2+3);
+    dogm.setXY(0,h*2+3);
     dogm.print("abcdefgjijklmnopqrstuvwxyz");
-    dogm.SetXY(0,h*1+3);
+    dogm.setXY(0,h*1+3);
     dogm.print("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-    dogm.SetXY(0,h*0+3);
+    dogm.setXY(0,h*0+3);
     dogm.print("+-*/#-!$%&(){}[]");
-  } while( dog_NextPage() );
+  } while( dogm.next() );
   delay(1000);
-  
-
 }

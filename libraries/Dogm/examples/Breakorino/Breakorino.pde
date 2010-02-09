@@ -2,7 +2,8 @@
 
   Breakorino
   
-  A breakout clone for dogm128 graphics module
+  A break out game for dogm128 graphics module.
+  Written by Oliver Kraus
   
   SCL (SPI Clock)   Pin 13
   SI (MOSI)         Pin 11
@@ -27,10 +28,10 @@ void setup() {
 
 void loop() {
   int sensorValue;
-  dogm.Start();
+  dogm.start();
   do{
     bo_Draw();
-  } while( dogm.Next() );
+  } while( dogm.next() );
   delay(1);
   sensorValue = analogRead(sensorPin);
   bo_SetX(sensorValue>>2);
