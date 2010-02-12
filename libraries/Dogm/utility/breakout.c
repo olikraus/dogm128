@@ -1,6 +1,6 @@
 /*
 
-  Breaorino
+  breakout.c: Breakorino C functions
   
   Arduino breakout clone for the dogm128x64 display
   
