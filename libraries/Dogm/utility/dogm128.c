@@ -636,6 +636,20 @@ void dog_DrawArc(uint8_t mx, uint8_t my, uint8_t r, uint8_t w0, uint8_t w1, uint
 #define chr_get_height_P(buf) ((unsigned char)(dog_pgm_read((buf)+2)))
 #define CHR_DATA 3
 
+uint8_t dog_GetFontBBXHeight(PGM_P buf)
+{
+  return fnt_get_bbox_height(buf);
+}
+
+uint8_t dog_GetFontBBXWidth(PGM_P buf)
+{
+  return fnt_get_bbox_width(buf);
+}
+
+uint8_t dog_GetFontBBXDescent(PGM_P buf)
+{
+  return fnt_get_bbox_descent(buf);
+}
 
 static unsigned char chr_get_pixel(PGM_P buf, unsigned char x, unsigned char y )
 {
@@ -770,7 +784,7 @@ uint8_t dog_DrawChar(uint8_t x, uint8_t y, PGM_P font, unsigned char code)
   y0 = y;
   y0 -= fnt_get_bbox_descent(font);  
   y1 = y0;
-  y1 += fnt_get_bbox_height(font);
+  y1 += fnt_get_bbox_height(font);  
   
   if ( (signed char)dog_max_y < y0 )
     return dog_get_char_width(font, code);
@@ -779,6 +793,8 @@ uint8_t dog_DrawChar(uint8_t x, uint8_t y, PGM_P font, unsigned char code)
   
   return dog_char(x,y,font,0,code);
 }
+
+
 
 uint8_t dog_get_str_width(PGM_P font, const char *s)
 {

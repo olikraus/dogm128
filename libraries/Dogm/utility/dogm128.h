@@ -57,6 +57,8 @@ void dog_init(unsigned short pin_a0);
 void dog_set_contrast(uint8_t val);
 void dog_set_inverse(uint8_t val);
 
+  
+/* --- page functions --- */
 
 void dog_StartPage(void);
 uint8_t dog_NextPage(void);
@@ -85,6 +87,12 @@ void dog_DrawArc(uint8_t mx, uint8_t my, uint8_t r, uint8_t w0, uint8_t w1, uint
 
 uint8_t dog_DrawChar(uint8_t x, uint8_t y, PGM_P font, unsigned char code);
 uint8_t dog_DrawStr(uint8_t x, uint8_t y, PGM_P font, const char *s);
+
+/* --- font information --- */
+uint8_t dog_GetFontBBXHeight(PGM_P buf);
+uint8_t dog_GetFontBBXWidth(PGM_P buf);
+uint8_t dog_GetFontBBXDescent(PGM_P buf);
+  
 
 /* --- util --- */
 

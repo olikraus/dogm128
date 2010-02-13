@@ -32,7 +32,7 @@
   - there a some simplifications with overlapping chars (e.g. 'f' from helvR08) DWIDTH is increased to BBX width + BBX x
 
 */
-
+#define DEBUG								
 
 #include <stdio.h>
 #include <string.h>
@@ -400,7 +400,7 @@ int bdf_is_zero_line(int y)
 
 void bdf_copy_to_chr(unsigned char *buf)
 {
-  int x, y, i, dogm_x, upshift;
+  int x, y, dogm_x, upshift;
   unsigned char val;
   unsigned len;
   int y_start;
@@ -408,7 +408,7 @@ void bdf_copy_to_chr(unsigned char *buf)
   int w, h;
   int descent;
 
-  /* assert( bdf_BBX_y <= 0 ); *
+  /* assert( bdf_BBX_y <= 0 ); */
   /*assert( bdf_BBX_x == 0 );*/
   
   assert( bdf_BBX_w <= CHR_MAX_WIDTH );
@@ -444,6 +444,7 @@ void bdf_copy_to_chr(unsigned char *buf)
       break;
     if ( y_end == y_start )
       break;
+    
     if ( bdf_is_zero_line(y_end) == 0 )
       break;
     descent--;
@@ -454,8 +455,9 @@ void bdf_copy_to_chr(unsigned char *buf)
   {
     if ( y_start < 0 )
       break;
-    if ( y_end == y_start )
+    if ( y_end <= y_start )
       break;
+    
     if ( bdf_is_zero_line(y_start) == 0 )
       break;
     y_start++;
@@ -467,8 +469,8 @@ void bdf_copy_to_chr(unsigned char *buf)
   if ( font_max_bbox_width < w )
     font_max_bbox_width = w;
   
-  if ( font_max_bbox_height < h )
-    font_max_bbox_height = h;
+  if ( font_max_bbox_height < h+descent )
+    font_max_bbox_height = h+descent;
   
   
   len = ((bdf_DWIDTH+7)/8) * (y_end-y_start+1+upshift) + CHR_DATA;

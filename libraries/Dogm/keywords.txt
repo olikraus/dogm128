@@ -25,6 +25,7 @@ xorBox	KEYWORD2
 setFont	KEYWORD2
 setXY	KEYWORD2
 drawChar	KEYWORD2
+drawStr	KEYWORD2
 setSize	KEYWORD2
 drawPoint	KEYWORD2
 drawLine	KEYWORD2
