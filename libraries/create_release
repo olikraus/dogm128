@@ -1,6 +1,7 @@
 rm dogm128.zip
 zip -j dogm128.zip ../COPYING.LESSER
 zip -j dogm128.zip ../INSTALL.TXT
+zip -j dogm128.zip ../ChangeLog
 zip dogm128.zip ./Dogm/*.cpp
 zip dogm128.zip ./Dogm/*.h
 zip dogm128.zip -r ./Dogm/utility
