@@ -148,7 +148,7 @@ void dog_data_mode(void)
   digitalWrite(dog_spi_pin_a0, HIGH);
 }
 
-unsigned short dog_delay(unsigned short val)
+void dog_delay(unsigned short val)
 {
   delay(val);
 }
@@ -217,7 +217,6 @@ void dog_set_inverse(uint8_t val)
 void dog_transfer_page(void)
 {
   signed char idx;
-  volatile unsigned char tmp;
 
   /* enable and reset com interface of the ST7565R */
   dog_spi_enable_client();
@@ -479,7 +478,6 @@ void dog_XorBox(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2)
 
 void dog_DrawPoint(uint8_t x, uint8_t y, uint8_t size)
 {
-  uint8_t val =1;
   if ( size == 0 ) 
   {
     dog_SetPixel(x,y);
@@ -718,8 +716,8 @@ uint8_t dog_char(uint8_t x, uint8_t y, PGM_P font, uint8_t mode, unsigned char c
   PGM_P cbuf = fnt_get_chr(font, code);
   unsigned char ascent_area, descent_area;
   unsigned char  i, j;
-  uint8_t y1,y2,tmp_y;
-  uint8_t val, tmp_x;
+  uint8_t tmp_y;
+  uint8_t tmp_x;
   uint8_t height,width;
 
   if ( chr_get_len_P(cbuf) == 0 )

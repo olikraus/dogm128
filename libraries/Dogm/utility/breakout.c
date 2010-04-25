@@ -21,8 +21,11 @@
 
   You should have received a copy of the Lesser GNU General Public License
   along with dogm128.  If not, see <http://www.gnu.org/licenses/>.
+  
 
 */
+
+#define BO_BUILD "v1.01"
 
 
 #include <stdio.h>
@@ -62,8 +65,8 @@ typedef int16_t s16;
 
 #define BO_FIELD_X0 2
 #define BO_FIELD_Y0 2
-#define BO_FIELD_X1 (BO_FIELD_X0+(BO_FIELD_WIDTH)>>BO_FP)
-#define BO_FIELD_Y1 (BO_FIELD_Y0+(BO_FIELD_HEIGHT)>>BO_FP)
+#define BO_FIELD_X1 (BO_FIELD_X0+((BO_FIELD_WIDTH)>>BO_FP))
+#define BO_FIELD_Y1 (BO_FIELD_Y0+((BO_FIELD_HEIGHT)>>BO_FP))
 
 
 /* brick states */
@@ -433,7 +436,6 @@ void bo_SetupLevel(u8 level)
 {
   int w,h;
   int x,y;
-  int fx, fy;
   w = BO_AREA_WIDTH;
   h = BO_AREA_HEIGHT;
   for( y = 0; y < h; y++)
@@ -494,7 +496,6 @@ void bo_SetupPlayer(bo_player *p)
 void draw_brick(u8 ox, u8 oy, u8 brick_status)
 {
   u8 w,h;
-  u8 x,y;
   w = BO_BRICK_WIDTH>>BO_FP;
   h = BO_BRICK_HEIGHT>>BO_FP;
   switch( brick_status)
@@ -560,7 +561,7 @@ void draw_bricks(void)
 void draw_ball(bo_ball *b)
 {
   if ( b->is_ball_lost )
-    return 0;
+    return;
 
   //s16 mx, my;
   /* calculate middle of the ball */
@@ -577,7 +578,7 @@ void draw_ball(bo_ball *b)
 
 void draw_player(bo_player *p)
 {
-  u8 ox, oy, w, h, x, y;
+  u8 ox, oy, w, h;
   ox = p->x0>>BO_FP;
   oy = p->y0>>BO_FP;
   ox += BO_FIELD_X0;
@@ -640,15 +641,14 @@ void bo_Draw(void)
     if ( bo_step_state == BO_STATE_INTRO1 )
     {
       s16 o = ((dog_sin(((s16)bo_timer)*3))/21);
-      dog_DrawStr(5, 16+o, BO_F2, "dogm128 Breakorino");
+      dog_DrawStr(5, 18+o, BO_F2, "dogm128 Breakorino");
+      dog_DrawStr(45, 10+o, BO_F2, BO_BUILD);
       //dog_DrawStr(20, 10+o+1, BO_F2, "Breakorino");
     }
     if ( bo_step_state == BO_STATE_LOST )
       dog_DrawStr(20, 10+(bo_timer>>4), BO_F3, "Game Over");
     if ( bo_step_state == BO_STATE_COMLETED )
       dog_DrawStr(20, 20-(bo_timer>>4), BO_F3, "Completed");
-      
-      
 }
 
 void bo_Step(void)
