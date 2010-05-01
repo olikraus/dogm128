@@ -2,6 +2,8 @@
 #
 # Arduino 0018 Makefile
 #
+# written by olikraus@gmail.com
+#
 # Features:
 #   - boards.txt is used to derive parameters
 #   - All intermediate files are put into a separate directory (TMPDIRNAME)
@@ -15,7 +17,10 @@
 # 	all		build everything
 #	upload	build and upload to arduino
 #	clean	remove all temporary files (includes final hex file)
-
+#
+# History
+#	001	28 Apr 2010	first  release
+#
 
 #=== user configuration ===
 # All ...PATH variables must have a '/' at the end
@@ -45,9 +50,7 @@ AVRDUDE_PORT:=/dev/ttyUSB0
 
 # List of all libaries which should be included.
 EXTRA_DIRS=$(ARDUINO_PATH)libraries/LiquidCrystal/
-#EXTRA_DIRS+=$(realpath ../../../)
-EXTRA_DIRS+=/home/kraus/src/arduino/dogm128/hg/libraries/Dogm/
-EXTRA_DIRS+=$(CURDIR)/../../../
+EXTRA_DIRS+=$(ARDUINO_PATH)libraries/Dogm/
 
 
 #=== fetch parameter from boards.txt processor parameter ===
@@ -64,7 +67,9 @@ F_CPU:=$(shell sed -n -e "s/$(BOARD).build.f_cpu=\(.*\)/\1/p" $(BOARDS_TXT))
 # get the AVRDUDE_UPLOAD_RATE value from the $(BOARD).upload.speed variable. For the atmega328 board this is 57600
 AVRDUDE_UPLOAD_RATE:=$(shell sed -n -e "s/$(BOARD).upload.speed=\(.*\)/\1/p" $(BOARDS_TXT))
 # get the AVRDUDE_PROGRAMMER value from the $(BOARD).upload.protocol variable. For the atmega328 board this is stk500
-AVRDUDE_PROGRAMMER:=$(shell sed -n -e "s/$(BOARD).upload.protocol=\(.*\)/\1/p" $(BOARDS_TXT))
+# AVRDUDE_PROGRAMMER:=$(shell sed -n -e "s/$(BOARD).upload.protocol=\(.*\)/\1/p" $(BOARDS_TXT))
+# use stk500v1, because stk500 will default to stk500v2
+AVRDUDE_PROGRAMMER:=stk500v1
 
 #=== identify user files ===
 PDESRC:=$(shell ls *.pde)
@@ -127,7 +132,7 @@ AVRDUDE = avrdude
 
 # Build C and C++ flags. Include path information must be placed here
 COMMON_FLAGS = -DF_CPU=$(F_CPU) -mmcu=$(MCU) 
-COMMON_FLAGS += -gdwarf-2
+# COMMON_FLAGS += -gdwarf-2
 COMMON_FLAGS += -Os
 COMMON_FLAGS += -Wall -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
 COMMON_FLAGS += -I. 
@@ -219,6 +224,8 @@ clean:
 	$(RM) $(TMPDIRPATH)
 
 # Program the device.  
+# step 1: reset the arduino board with the stty command
+# step 2: user avrdude to upload the software
 .PHONY: upload
 upload: $(HEXNAME)
 	stty -F $(AVRDUDE_PORT) hupcl
