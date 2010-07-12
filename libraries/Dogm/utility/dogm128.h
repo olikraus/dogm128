@@ -89,6 +89,8 @@ uint8_t dog_DrawChar(uint8_t x, uint8_t y, PGM_P font, unsigned char code);
 uint8_t dog_DrawStr(uint8_t x, uint8_t y, PGM_P font, const char *s);
 
 /* --- font information --- */
+uint8_t dog_get_str_width(PGM_P font, const char *s);
+
 uint8_t dog_GetFontBBXHeight(PGM_P buf);
 uint8_t dog_GetFontBBXWidth(PGM_P buf);
 uint8_t dog_GetFontBBXDescent(PGM_P buf);

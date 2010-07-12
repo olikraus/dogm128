@@ -40,6 +40,7 @@ class Dogm : public Print {
     void setXY(uint8_t x, uint8_t y) { tx = x; ty = y; }
     void drawChar(uint8_t c) { tx += dog_DrawChar(tx, ty, fptr, c); }
     void drawStr(const char *s) { tx += dog_DrawStr(tx, ty, fptr, s); }
+    uint8_t getStrWidth(const char *s) { return dog_get_str_width(fptr, s); }
     void write(uint8_t c) { tx += dog_DrawChar(tx, ty, fptr, c); }
 
     /* Draw functions */

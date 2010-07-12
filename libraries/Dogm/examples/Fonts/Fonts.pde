@@ -54,6 +54,7 @@ void loop() {
     dogm.setFont(p);
     dogm.setXY(0,h*3+3);
     dogm.print(f);
+    dogm.setBox(0, h*3+3, dogm.getStrWidth(f), h*3+3 );
     dogm.print(": 0123456789.,;");
     dogm.setXY(0,h*2+3);
     dogm.print("abcdefgjijklmnopqrstuvwxyz");

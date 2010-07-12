@@ -4,3 +4,9 @@ dogm128 ChangeLog
 
 2010-02-13	Oliver Kraus <olikrau@gmail.com>
 	* First release
+2010-07-?	Oliver Kraus <olikrau@gmail.com>
+	* Fixed compiler warnings
+	* Fixed a bug in Breakorino
+	* Implemented getStrWidth Function (issue 13)
+	* Added new example "Stars.pde" 
+	
