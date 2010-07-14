@@ -7,6 +7,8 @@ zip dogm128.zip ./Dogm/*.h
 zip dogm128.zip -r ./Dogm/utility
 zip dogm128.zip ./Dogm/examples/Breakorino/*.pde
 zip dogm128.zip ./Dogm/examples/Fonts/*.pde
+zip dogm128.zip ./Dogm/examples/Stars/*.pde
+zip dogm128.zip ./Dogm/examples/Walk/*.pde
 
 
 

@@ -67,6 +67,10 @@ uint8_t dog_NextPage(void);
   
 void dog_SetPixel(uint8_t x, uint8_t y);
 void dog_ClrPixel(uint8_t x, uint8_t y);
+void dog_XorPixel(uint8_t x, uint8_t y);	/* v1.01 */
+
+/* x1 must be lower or equal to x2 */
+void dog_SetHLine(uint8_t x1, uint8_t x2, uint8_t y); /* v1.01 */
 
 /* y1 must be lower or equal to y2 */
 void dog_SetVLine(uint8_t x, uint8_t y1, uint8_t y2);
@@ -78,6 +82,14 @@ void dog_XorVLine(uint8_t x, uint8_t y1, uint8_t y2);
 void dog_SetBox(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2);
 void dog_ClrBox(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2);
 void dog_XorBox(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2);
+
+/* --- bitmap functions --- */
+
+/* at position (x,y) set a pixel for each logical one bit in the bitmap pattern */
+/* the bitmap must contain (w+7)/8 bytes, each byte is interpreted as bitmap pattern */
+/* most significant bit of the byte in the pattern is on the left */
+void dog_SetHBitmap(uint8_t x, uint8_t y, const unsigned char *bitmap, uint8_t w); /* v1.01 */
+void dog_SetBitmap(uint8_t x, uint8_t y, const unsigned char *bitmap, uint8_t w, uint8_t h); /* v1.01 */
 
 /* --- draw functions --- */
 

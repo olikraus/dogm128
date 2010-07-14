@@ -287,7 +287,7 @@ unsigned char dog_bit_to_mask[8] = { 1, 2, 4, 8, 16, 32, 64, 128 };
 
 void dog_SetPixel(uint8_t x, uint8_t y)
 {
-  unsigned char tmp;
+  uint8_t tmp;
   if ( x < 128 )
     if ( y >= dog_min_y && y <=dog_max_y )
     {
@@ -300,7 +300,7 @@ void dog_SetPixel(uint8_t x, uint8_t y)
 
 void dog_ClrPixel(uint8_t x, uint8_t y)
 {
-  unsigned char tmp;
+  uint8_t tmp;
   if ( x < 128 )
     if ( y >= dog_min_y && y <=dog_max_y )
     {
@@ -311,6 +311,38 @@ void dog_ClrPixel(uint8_t x, uint8_t y)
       dog_page_buffer[x] &= tmp;
     }
 }
+
+void dog_XorPixel(uint8_t x, uint8_t y)
+{
+  uint8_t tmp;
+  if ( x < 128 )
+    if ( y >= dog_min_y && y <=dog_max_y )
+    {
+      tmp = y;
+      tmp &= (unsigned char)7;
+      tmp = dog_bit_to_mask[tmp];
+      dog_page_buffer[x] ^= tmp;
+    }
+}
+
+/* x1 must be lower or equal to x2 */
+void dog_SetHLine(uint8_t x1, uint8_t x2, uint8_t y)
+{
+  uint8_t tmp, x;
+  if ( x1 < 128 )
+    if ( y >= dog_min_y && y <=dog_max_y )
+    {
+      tmp = y;
+      tmp &= (uint8_t)7;
+      tmp = dog_bit_to_mask[tmp];
+      
+      if ( x2 > 127 )
+	x2 = 127;
+      for( x = x1; x <= x2; x++ )
+	dog_page_buffer[x] |= tmp;
+    }  
+}
+
 
 unsigned char dog_mask0[8] = { 0x01, 0x03, 0x07, 0x0f, 0x1f, 0x3f, 0x7f, 0xff };
 unsigned char dog_mask7[8] = { 0xff, 0xfe, 0xfc, 0xf8, 0xf0, 0xe0, 0xc0, 0x80 };
@@ -401,6 +433,56 @@ void dog_XorVLine(uint8_t x, uint8_t y1, uint8_t y2)
   data = *ptr;
   data ^= tmp;
   *ptr = data;
+}
+
+/*==============================================================*/
+/* bitmap */
+/*==============================================================*/
+
+
+/* at position (x,y) set a pixel for each logical one bit in the bitmap pattern */
+/* the bitmap must contain (w+7)/8 bytes, each byte is interpreted as bitmap pattern */
+/* most significant bit of the byte in the pattern is on the left */
+void dog_SetHBitmap(uint8_t x, uint8_t y, const unsigned char *bitmap, uint8_t w)
+{
+  uint8_t i, tmp, b;
+  if ( x < 128 )
+    if ( y >= dog_min_y && y <=dog_max_y )
+    {
+      tmp = y;
+      tmp &= (uint8_t)7;
+      tmp = dog_bit_to_mask[tmp];
+      
+      if ( x+w > 128 )
+      {
+	w = 128;
+	w -= x;
+      }
+      b = 0;
+      for( i = 0; i < w; i++ )
+      {
+	if ( (i & 7) == 0 ) 
+	  b = *bitmap++;
+	if ( b & 128 )
+	  dog_page_buffer[x] |= tmp;
+	b<<=1;
+	x++;
+      }
+    }  
+}
+
+/* NOTE: (x,y) is the upper left corner of the bitmap !!! */
+void dog_SetBitmap(uint8_t x, uint8_t y, const unsigned char *bitmap, uint8_t w, uint8_t h)
+{
+  uint8_t j;
+  for( j = 0; j < h; j++)
+  {
+    dog_SetHBitmap(x, y, bitmap, w);
+    bitmap += (w+7)  / 8;
+    if ( y == 0 )
+      break;
+    y--;
+  }
 }
 
 /*==============================================================*/

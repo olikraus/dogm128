@@ -23,6 +23,10 @@ class Dogm : public Print {
     
     void setPixel(uint8_t x, uint8_t y) { dog_SetPixel(x, y); }
     void clrPixel(uint8_t x, uint8_t y) { dog_ClrPixel(x, y); }
+    void xorPixel(uint8_t x, uint8_t y) { dog_XorPixel(x,y); }	/* v1.01 */
+
+    /* x1 must be lower or equal to x2 */
+    void setHLine(uint8_t x1, uint8_t x2, uint8_t y) { dog_SetHLine(x1, x2, y); }/* v1.01 */
 
     /* y1 must be lower or equal to y2 */
     void setVLine(uint8_t x, uint8_t y1, uint8_t y2) { dog_SetVLine(x, y1, y2); }
@@ -35,6 +39,10 @@ class Dogm : public Print {
     void clrBox(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2) { dog_ClrBox(x1, y1, x2, y2); }
     void xorBox(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2) { dog_XorBox(x1, y1, x2, y2); }
 
+    /* Bitmap */
+    void setHBitmap(uint8_t x, uint8_t y, const unsigned char *bitmap, uint8_t w) { dog_SetHBitmap(x,y,bitmap,w); }/* v1.01 */
+    void setBitmap(uint8_t x, uint8_t y, const unsigned char *bitmap, uint8_t w, uint8_t h) { dog_SetBitmap(x,y,bitmap,w,h); } /* v1.01 */
+    
     /* Font */
     void setFont(PGM_P font) { fptr = font; }
     void setXY(uint8_t x, uint8_t y) { tx = x; ty = y; }
