@@ -41,7 +41,9 @@ class Dogm : public Print {
 
     /* Bitmap */
     void setHBitmap(uint8_t x, uint8_t y, const unsigned char *bitmap, uint8_t w) { dog_SetHBitmap(x,y,bitmap,w); }/* v1.01 */
+    void setHBitmapP(uint8_t x, uint8_t y, PGM_P bitmap, uint8_t w) { dog_SetHBitmapP(x,y,bitmap,w); }/* v1.01 */
     void setBitmap(uint8_t x, uint8_t y, const unsigned char *bitmap, uint8_t w, uint8_t h) { dog_SetBitmap(x,y,bitmap,w,h); } /* v1.01 */
+    void setBitmapP(uint8_t x, uint8_t y, PGM_P bitmap, uint8_t w, uint8_t h) { dog_SetBitmapP(x,y,bitmap,w,h); } /* v1.01 */
     
     /* Font */
     void setFont(PGM_P font) { fptr = font; }

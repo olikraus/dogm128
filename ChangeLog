@@ -9,4 +9,6 @@ dogm128 ChangeLog
 	* Fixed a bug in Breakorino
 	* Implemented getStrWidth Function (issue 13)
 	* Added new example "Stars.pde" 
+	* Added Bitmap Support (example "Walk.pde")
+	* Less flash ROM required (functions put into individual files)
 	

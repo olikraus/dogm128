@@ -117,7 +117,9 @@ void dog_XorBox(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2);
 /* the bitmap must contain (w+7)/8 bytes, each byte is interpreted as bitmap pattern */
 /* most significant bit of the byte in the pattern is on the left */
 void dog_SetHBitmap(uint8_t x, uint8_t y, const unsigned char *bitmap, uint8_t w); /* v1.01 */
+void dog_SetHBitmapP(uint8_t x, uint8_t y, PGM_P bitmap, uint8_t w); /* v1.01 */
 void dog_SetBitmap(uint8_t x, uint8_t y, const unsigned char *bitmap, uint8_t w, uint8_t h); /* v1.01 */
+void dog_SetBitmapP(uint8_t x, uint8_t y, PGM_P bitmap, uint8_t w, uint8_t h); /* v1.01 */
 
 /* --- draw functions --- */
 /*

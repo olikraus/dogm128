@@ -33,8 +33,7 @@
 #include <Dogm.h>
 
 // the bitmap contains 7 pictures each with a size of 10x12 pixel
-unsigned char bitmaps[] = {
-
+const char bitmaps[] PROGMEM = {
 /*
 0000000000000000  
 0000111000000000
@@ -248,7 +247,7 @@ void loop() {
     dogm.clrBox(31,23,35,40);
 
     // draw the character
-    dogm.setBitmap(position,30,bitmaps+walk_cycle*24, 10, 12);
+    dogm.setBitmapP(position,30,bitmaps+walk_cycle*24, 10, 12);
 
     // a box before the character
     dogm.setBox(40,12,46,31);
