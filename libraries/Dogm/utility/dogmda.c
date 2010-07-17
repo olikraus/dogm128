@@ -42,7 +42,11 @@ void dog_DrawArc(uint8_t mx, uint8_t my, uint8_t r, uint8_t w0, uint8_t w1, uint
 {
   uint8_t l,i,w,x1,y1,x2,y2;
   unsigned short dw;
-  dw = w1-w0;
+  if ( w1 > w0 )
+    dw = w1-w0;
+  else
+    dw = 256-w0+w1;
+    
   if ( dw == 0 )
     dw = 256;
   
@@ -57,7 +61,8 @@ void dog_DrawArc(uint8_t mx, uint8_t my, uint8_t r, uint8_t w0, uint8_t w1, uint
   /* die beiden shifts werden auf die beiden existierenden verteilt, damit sind radien bis 80 zugelassen */
   
   
-  l = (uint8_t)(((((unsigned short)r * dw) >> 7) * (unsigned short)201)>>8) ;
+  /*l = (uint8_t)(((((unsigned short)r * dw) >> 7) * (unsigned short)201)>>8) ;*/
+  l = (uint8_t)(((((unsigned short)r * dw) >> 7) * (unsigned short)201)>>7) ;
   
   
   x1 = mx+((r*dog_cos(w0)) >> 6);

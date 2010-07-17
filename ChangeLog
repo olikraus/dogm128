@@ -11,4 +11,6 @@ dogm128 ChangeLog
 	* Added new example "Stars.pde" 
 	* Added Bitmap Support (example "Walk.pde")
 	* Less flash ROM required (functions put into individual files)
+	* Fixed bug in drawArc (w0 > w1)
+	* Added GraphicsTest.pde
 	
