@@ -9,6 +9,7 @@ zip dogm128.zip ./Dogm/examples/Breakorino/*.pde
 zip dogm128.zip ./Dogm/examples/Fonts/*.pde
 zip dogm128.zip ./Dogm/examples/Stars/*.pde
 zip dogm128.zip ./Dogm/examples/Walk/*.pde
+zip dogm128.zip ./Dogm/examples/GraphicTest/*.pde
 
 
 

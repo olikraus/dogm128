@@ -2,9 +2,9 @@
 
   GraphicTest
   
-  Test the library
+  Test for the dogm128 library
 
-  Written by Oliver Kraus.
+  Written 2010 by Oliver Kraus.
   
   SCL (SPI Clock)   Pin 13
   SI (MOSI)         Pin 11
