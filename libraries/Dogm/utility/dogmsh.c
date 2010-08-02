@@ -28,15 +28,15 @@
 void dog_SetHLine(uint8_t x1, uint8_t x2, uint8_t y)
 {
   uint8_t tmp, x;
-  if ( x1 < 128 )
+  if ( x1 < DOG_WIDTH )
     if ( y >= dog_min_y && y <=dog_max_y )
     {
       tmp = y;
       tmp &= (uint8_t)7;
       tmp = dog_bit_to_mask[tmp];
       
-      if ( x2 > 127 )
-	x2 = 127;
+      if ( x2 > DOG_WIDTH-1 )
+	x2 = DOG_WIDTH-1;
       for( x = x1; x <= x2; x++ )
 	dog_page_buffer[x] |= tmp;
     }  

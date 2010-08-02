@@ -90,36 +90,36 @@ uint8_t dog_NextPage(void);
 
 /* --- set/clr functions --- */
 
-extern unsigned char dog_bit_to_mask[8];
+extern unsigned char dog_bit_to_mask[8];	/* dogmsd.c */
   
-void dog_SetPixel(uint8_t x, uint8_t y);
-void dog_ClrPixel(uint8_t x, uint8_t y);
-void dog_XorPixel(uint8_t x, uint8_t y);	/* v1.01 */
+void dog_SetPixel(uint8_t x, uint8_t y);	/* dogmsp.c */
+void dog_ClrPixel(uint8_t x, uint8_t y);	/* dogmcp.c */
+void dog_XorPixel(uint8_t x, uint8_t y);	/* v1.01, dogmxp.c */
 
 /* x1 must be lower or equal to x2 */
-void dog_SetHLine(uint8_t x1, uint8_t x2, uint8_t y); /* v1.01 */
+void dog_SetHLine(uint8_t x1, uint8_t x2, uint8_t y); 	/* v1.01, dogmsh.c */
 
-uint8_t dog_get_vline_mask(uint8_t y1, uint8_t y2);	/* internal function */
+uint8_t dog_get_vline_mask(uint8_t y1, uint8_t y2);	/* internal function, dogmov.c */
 /* y1 must be lower or equal to y2 */
-void dog_SetVLine(uint8_t x, uint8_t y1, uint8_t y2);
-void dog_ClrVLine(uint8_t x, uint8_t y1, uint8_t y2);
-void dog_XorVLine(uint8_t x, uint8_t y1, uint8_t y2);
+void dog_SetVLine(uint8_t x, uint8_t y1, uint8_t y2);			/* dogmsv.c */
+void dog_ClrVLine(uint8_t x, uint8_t y1, uint8_t y2);			/* dogmcv.c */
+void dog_XorVLine(uint8_t x, uint8_t y1, uint8_t y2);			/* dogmxv.c */
 
 /* x1 must be lower or equal to x2 */
 /* y1 must be lower or equal to y2 */
-void dog_SetBox(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2);
-void dog_ClrBox(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2);
-void dog_XorBox(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2);
+void dog_SetBox(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2);	/* dogmsb.c */
+void dog_ClrBox(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2);	/* dogmcb.c */
+void dog_XorBox(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2);	/* dogmxb.c */
 
 /* --- bitmap functions --- */
 
 /* at position (x,y) set a pixel for each logical one bit in the bitmap pattern */
 /* the bitmap must contain (w+7)/8 bytes, each byte is interpreted as bitmap pattern */
 /* most significant bit of the byte in the pattern is on the left */
-void dog_SetHBitmap(uint8_t x, uint8_t y, const unsigned char *bitmap, uint8_t w); /* v1.01 */
-void dog_SetHBitmapP(uint8_t x, uint8_t y, PGM_P bitmap, uint8_t w); /* v1.01 */
-void dog_SetBitmap(uint8_t x, uint8_t y, const unsigned char *bitmap, uint8_t w, uint8_t h); /* v1.01 */
-void dog_SetBitmapP(uint8_t x, uint8_t y, PGM_P bitmap, uint8_t w, uint8_t h); /* v1.01 */
+void dog_SetHBitmap(uint8_t x, uint8_t y, const unsigned char *bitmap, uint8_t w); /* v1.01, dogmsm.c */
+void dog_SetHBitmapP(uint8_t x, uint8_t y, PGM_P bitmap, uint8_t w); /* v1.01, dogmsmp.c */
+void dog_SetBitmap(uint8_t x, uint8_t y, const unsigned char *bitmap, uint8_t w, uint8_t h); /* v1.01, dogmsm.c */
+void dog_SetBitmapP(uint8_t x, uint8_t y, PGM_P bitmap, uint8_t w, uint8_t h); /* v1.01, dogmsmp.c */
 
 /* --- draw functions --- */
 /*
@@ -133,9 +133,9 @@ void dog_SetBitmapP(uint8_t x, uint8_t y, PGM_P bitmap, uint8_t w, uint8_t h); /
   +#+
 */
 
-void dog_DrawPoint(uint8_t x, uint8_t y, uint8_t size);
-void dog_DrawLine(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, uint8_t size);
-void dog_DrawArc(uint8_t mx, uint8_t my, uint8_t r, uint8_t w0, uint8_t w1, uint8_t size);
+void dog_DrawPoint(uint8_t x, uint8_t y, uint8_t size); 	/* dogmdp.c */
+void dog_DrawLine(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, uint8_t size); 	/* dogmdl.c */
+void dog_DrawArc(uint8_t mx, uint8_t my, uint8_t r, uint8_t w0, uint8_t w1, uint8_t size);  	/* dogmda.c */
 
 
 /* --- font information --- */
@@ -145,15 +145,15 @@ uint8_t dog_GetFontBBXHeight(PGM_P buf);
 uint8_t dog_GetFontBBXWidth(PGM_P buf);
 uint8_t dog_GetFontBBXDescent(PGM_P buf);
   
-uint8_t dog_DrawChar(uint8_t x, uint8_t y, PGM_P font, unsigned char code);
-uint8_t dog_DrawStr(uint8_t x, uint8_t y, PGM_P font, const char *s);
+uint8_t dog_DrawChar(uint8_t x, uint8_t y, PGM_P font, unsigned char code); /* dogmfont.c */
+uint8_t dog_DrawStr(uint8_t x, uint8_t y, PGM_P font, const char *s);	/* dogmfont.c */
 
 /* --- math --- */
 
   /* w: 0..255     64 = PI/2, 128 = PI, 192 = 3*PI/2 */
   /* returns: -64 .. 64 */
-signed char dog_sin(uint8_t w);
-signed char dog_cos(uint8_t w);
+signed char dog_sin(uint8_t w);	/* dogmma.c */
+signed char dog_cos(uint8_t w);	/* dogmma.c */
 
 /* --- other --- */
 char *dog_itoa(unsigned long v);

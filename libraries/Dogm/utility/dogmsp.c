@@ -27,7 +27,7 @@
 void dog_SetPixel(uint8_t x, uint8_t y)
 {
   uint8_t tmp;
-  if ( x < 128 )
+  if ( x < DOG_WIDTH )
     if ( y >= dog_min_y && y <=dog_max_y )
     {
       tmp = y;

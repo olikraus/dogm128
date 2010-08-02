@@ -33,6 +33,8 @@ void dog_ClrVLine(uint8_t x, uint8_t y1, uint8_t y2)
     return;
   if ( y1 > dog_max_y )
     return;
+  if ( x >= DOG_WIDTH )
+    return;
   ptr = dog_page_buffer+x; 
   tmp = dog_get_vline_mask(y1, y2);
   tmp ^= 0x0ff;

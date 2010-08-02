@@ -30,16 +30,16 @@
 void dog_SetHBitmap(uint8_t x, uint8_t y, const unsigned char *bitmap, uint8_t w)
 {
   uint8_t i, tmp, b;
-  if ( x < 128 )
+  if ( x < DOG_WIDTH )
     if ( y >= dog_min_y && y <=dog_max_y )
     {
       tmp = y;
       tmp &= (uint8_t)7;
       tmp = dog_bit_to_mask[tmp];
       
-      if ( x+w > 128 )
+      if ( x+w > DOG_WIDTH )
       {
-	w = 128;
+	w = DOG_WIDTH;
 	w -= x;
       }
       b = 0;
