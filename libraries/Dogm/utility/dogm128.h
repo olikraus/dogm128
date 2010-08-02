@@ -19,6 +19,11 @@
   You should have received a copy of the Lesser GNU General Public License
   along with dogm128.  If not, see <http://www.gnu.org/licenses/>.
 
+  one of the following constants shoudl be defined:
+    DOGM128_HW
+    DOGS102_HW
+    DOGM132_HW
+
 
 */
 
@@ -52,11 +57,36 @@
 #endif
 
 
+
+/* default is DOGM128_HW */
+#ifndef DOGM128_HW
+#ifndef DOGS102_HW
+#ifndef DOGM132_HW
+#define DOGM128_HW
+#endif
+#endif
+#endif
+
+/* setings for the various DOG displays */
+#ifdef DOGM128_HW
 #define DOG_WIDTH 128
 #define DOG_HEIGHT 64
-
-#define DOG_PAGE_WIDTH 128
 #define DOG_PAGE_CNT 8
+#endif
+
+#ifdef DOGM102_HW
+#define DOG_WIDTH 102
+#define DOG_HEIGHT 64
+#define DOG_PAGE_CNT 8
+#endif
+
+#ifdef DOGM132_HW
+#define DOG_WIDTH 132
+#define DOG_HEIGHT 32
+#define DOG_PAGE_CNT 8
+#endif
+
+#define DOG_PAGE_WIDTH DOG_WIDTH
 #define DOG_PAGE_HEIGHT 8
 
 
