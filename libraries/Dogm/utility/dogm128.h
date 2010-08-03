@@ -19,16 +19,21 @@
   You should have received a copy of the Lesser GNU General Public License
   along with dogm128.  If not, see <http://www.gnu.org/licenses/>.
 
-  one of the following constants shoudl be defined:
+  one of the following constants could be defined:
     DOGM128_HW
     DOGS102_HW
     DOGM132_HW
-
-
 */
 
 #ifndef _DOGM128_H
 #define _DOGM128_H
+
+/* uncomment the following line for the DOGS102 display */
+/* #define DOGS102_HW */
+
+/* uncomment the following line for the DOGM132 display */
+/* #define DOGM132_HW */
+
 
 #include <stdint.h>
 #include <avr/pgmspace.h>
@@ -56,7 +61,6 @@
 #define PROGMEM
 #endif
 
-/* #define DOGS102_HW */
 
 /* default is DOGM128_HW */
 #ifndef DOGM128_HW

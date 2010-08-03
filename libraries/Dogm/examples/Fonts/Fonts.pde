@@ -52,15 +52,15 @@ void loop() {
   dogm.start();
   do {
     dogm.setFont(p);
-    dogm.setXY(0,h*3+3);
+    dogm.setXY(0,h*0+3);
     dogm.print(f);
-    dogm.setBox(0, h*3+3, dogm.getStrWidth(f), h*3+3 );
+    dogm.setBox(0, h*0+3, dogm.getStrWidth(f), h*0+3 );
     dogm.print(": 0123456789.,;");
     dogm.setXY(0,h*2+3);
     dogm.print("abcdefgjijklmnopqrstuvwxyz");
     dogm.setXY(0,h*1+3);
     dogm.print("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-    dogm.setXY(0,h*0+3);
+    dogm.setXY(0,h*3+3);
     dogm.print("+-*/#-!$%&(){}[]");
   } while( dogm.next() );
   delay(1000);
