@@ -2,7 +2,7 @@
 
   breakout.c: Breakorino C functions
   
-  Arduino breakout clone for the dogm128x64 display
+  Arduino breakout clone for the dogm128x64 and dogs102x64 display
   
   (c) 2010 Oliver Kraus (olikraus@gmail.com)
 
@@ -95,6 +95,7 @@ typedef int16_t s16;
 #define BO_BRICK_CLOSE_START 8
 #define BO_BRICK_NORMAL 10
 #define BO_BRICK_SOLID 11
+#define BO_BRICK_BALL 12
 
 
 struct _bo_ball
@@ -109,6 +110,10 @@ struct _bo_ball
   unsigned is_ball_lost;
 };
 typedef struct _bo_ball bo_ball;
+
+bo_ball bo_ball1_obj;
+bo_ball bo_ball2_obj;
+bo_ball bo_ball3_obj;
 
 struct _bo_player
 {
@@ -232,8 +237,29 @@ void bo_CheckBrickArea(bo_ball *b)
 	    if ( bo_area[iy][ix] == BO_BRICK_NORMAL )
 	    {
 	      bo_area[iy][ix] = BO_BRICK_CLOSE_START;
-	      bo_remaining_bricks--;
 	    }
+	    return;
+	  }
+	  break;
+	case BO_BRICK_BALL:
+	  if ( bo_IsBallBrickIntersection(b, gx, gy) )
+	  {
+	    bo_ball *bb;
+	    /* look for lost ball */
+	    if ( bo_ball1_obj.is_ball_lost != 0 )
+	      bb = &bo_ball1_obj;
+	    else if ( bo_ball2_obj.is_ball_lost != 0 )
+	      bb = &bo_ball2_obj;
+	    else if ( bo_ball3_obj.is_ball_lost != 0 )
+	      bb = &bo_ball3_obj;
+	    else
+		bb = NULL;
+	    if ( bb != NULL )
+	      *bb = *b;		/* clone the ball */
+	    /* reflection only applies to the original ball */
+	    bo_DoBallBrickReflection(b, gx, gy);
+	    bo_player_brick_points++;
+	    bo_area[iy][ix] = BO_BRICK_CLOSE_START;
 	    return;
 	  }
 	  break;
@@ -260,6 +286,7 @@ void bo_CheckBrickArea(bo_ball *b)
 	  break;
 	case BO_BRICK_CLOSE8:
 	  bo_area[iy][ix] = BO_BRICK_NONE;
+	  bo_remaining_bricks--;
 	  break;
 	default:
 	  break;
@@ -385,6 +412,7 @@ void bo_CheckPlayer(bo_ball *b, bo_player *p)
 
 void bo_DoDeltaLimit(bo_ball *b)
 {
+  
   if ( b->dx >= (1<<(BO_FP))  )
   {
     b->dx = (1<<(BO_FP));
@@ -393,6 +421,15 @@ void bo_DoDeltaLimit(bo_ball *b)
   {
     b->dy = (1<<(BO_FP-1));
   }
+  
+  if ( b->dx == 0 )
+  {
+    if ( b->y0 > (1<<(BO_FP)) )
+      b->dx = -1;
+    else
+      b->dx = 1;
+  }
+
 }
 
 void bo_DoBallDelta(bo_ball *b)
@@ -440,7 +477,7 @@ void bo_CalcRemainingBricks(void)
   {
     for( x = 0; x < w; x++)
     {
-      if ( bo_area[y][x] == BO_BRICK_NORMAL )
+      if ( bo_area[y][x] == BO_BRICK_NORMAL || bo_area[y][x] == BO_BRICK_BALL )
 	bo_remaining_bricks++;
     }
   }
@@ -457,6 +494,7 @@ void bo_SetupLevel(u8 level)
     for( x = 0; x < w; x++)
     {
       bo_area[y][x] = BO_BRICK_NORMAL;
+      
       if ( level == 1 )
 	if ( ((x+y) & 1) == 0 )
 	  bo_area[y][x] = BO_BRICK_NONE;
@@ -465,6 +503,11 @@ void bo_SetupLevel(u8 level)
 	if ( y == 0 )
 	  if ( (x & 1) == 0 )
 	    bo_area[y][x] = BO_BRICK_SOLID;
+      
+      if ( level == 3 )
+	if ( y == 1 )
+	  if ( ( x & 1 ) == 0 )
+	    bo_area[y][x] = BO_BRICK_BALL;
     }
   }
   
@@ -520,6 +563,12 @@ void draw_brick(u8 ox, u8 oy, u8 brick_status)
 	case BO_BRICK_SOLID:
 	  dog_SetBox(ox, oy, ox+w, oy+h);
 	  dog_ClrBox(ox+1, oy+1, ox+w-1, oy+h-1);
+	  return;
+	case BO_BRICK_BALL:
+	  dog_SetBox(ox, oy, ox+w, oy+h);
+	  dog_ClrVLine(ox+2, oy+1, oy+3 );
+	  dog_ClrPixel(ox+1, oy+2);
+	  dog_ClrPixel(ox+3, oy+2);
 	  return;
 	case BO_BRICK_CLOSE_START:
 	  dog_SetBox(ox-2, oy+1, ox+w+2, oy+h);
@@ -621,7 +670,6 @@ void draw_field(u8 level)
 /* API */
 /*================================================================*/
 
-bo_ball bo_ball_obj;
 bo_player bo_player_obj;
 u8 bo_step_state;
 u8 bo_timer;
@@ -637,7 +685,11 @@ u8 bo_level;
 void bo_Setup(uint8_t level)
 {
   bo_level = level;
-  bo_SetupBall(&bo_ball_obj);
+  bo_SetupBall(&bo_ball1_obj);
+  bo_SetupBall(&bo_ball2_obj);
+  bo_ball2_obj.is_ball_lost = 1;
+  bo_SetupBall(&bo_ball3_obj);
+  bo_ball3_obj.is_ball_lost = 1;
   bo_SetupPlayer(&bo_player_obj);
   bo_SetupLevel(level);
   if ( level == 0 )
@@ -649,7 +701,9 @@ void bo_Setup(uint8_t level)
 void bo_Draw(void)
 {
     draw_bricks();
-    draw_ball(&bo_ball_obj);
+    draw_ball(&bo_ball1_obj);
+    draw_ball(&bo_ball2_obj);
+    draw_ball(&bo_ball3_obj);
     draw_player(&bo_player_obj);
     draw_field(bo_level);
     if ( bo_step_state == BO_STATE_INTRO1 )
@@ -693,8 +747,10 @@ void bo_Step(void)
 	  bo_step_state = BO_STATE_IN_GAME;
 	break;
       case BO_STATE_IN_GAME:
-	bo_DoBallStep(&bo_ball_obj, &bo_player_obj);
-	if ( bo_ball_obj.is_ball_lost != 0 )
+	bo_DoBallStep(&bo_ball1_obj, &bo_player_obj);
+	bo_DoBallStep(&bo_ball2_obj, &bo_player_obj);
+	bo_DoBallStep(&bo_ball3_obj, &bo_player_obj);
+	if ( bo_ball1_obj.is_ball_lost != 0 && bo_ball2_obj.is_ball_lost != 0  && bo_ball3_obj.is_ball_lost != 0 )
 	{
 	  bo_step_state = BO_STATE_LOST;
 	  bo_timer = 80;
