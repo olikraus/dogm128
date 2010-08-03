@@ -25,7 +25,7 @@
 
 */
 
-#define BO_BUILD "v1.01"
+#define BO_BUILD "v1.02"
 
 
 #include <stdio.h>
@@ -45,29 +45,43 @@ typedef int16_t s16;
 
 #define BO_F1 font_5x7
 #define BO_F2 font_6x12
-#define BO_F3 font_9x18
+#define BO_F3 font_8x16
 
 #define BO_FP 4
 
+#ifdef DOGS102_HW
+#define BO_AREA_WIDTH 5
+#else
 #define BO_AREA_WIDTH 7
+#endif
 #define BO_AREA_HEIGHT 3
 
 #define BO_BRICK_WIDTH (12<<BO_FP)
 #define BO_BRICK_HEIGHT (4<<BO_FP)
+
+/*
+  DOGM128:
+    7*(12+4) + 2 = 114 --> 128-114 = 14 pixels empty on the left side
+  DOGS128:
+    
+*/
+
 #define BO_AREA_UNIT_X (BO_BRICK_WIDTH+(4<<BO_FP))
 #define BO_AREA_UNIT_Y (BO_BRICK_HEIGHT+(4<<BO_FP))
 #define BO_AREA_ORIG_X (2<<BO_FP)
 #define BO_AREA_ORIG_Y (30<<BO_FP)
 
-/* dimensions of the overall game field */
+/* dimensions of the overall game field (BO_FP units) */
 #define BO_FIELD_WIDTH (BO_AREA_ORIG_X + BO_AREA_UNIT_X * BO_AREA_WIDTH)
 #define BO_FIELD_HEIGHT (BO_AREA_ORIG_Y + BO_AREA_UNIT_Y * BO_AREA_HEIGHT)
 
+/* pixel values */
 #define BO_FIELD_X0 2
 #define BO_FIELD_Y0 2
 #define BO_FIELD_X1 (BO_FIELD_X0+((BO_FIELD_WIDTH)>>BO_FP))
 #define BO_FIELD_Y1 (BO_FIELD_Y0+((BO_FIELD_HEIGHT)>>BO_FP))
-
+#define BO_FIELD_PIX_WIDTH ((BO_FIELD_WIDTH)>>BO_FP)
+#define BO_FIELD_PIX_HEIGHT ((BO_FIELD_HEIGHT)>>BO_FP)
 
 /* brick states */
 #define BO_BRICK_NONE 0
@@ -593,11 +607,11 @@ void draw_field(u8 level)
 {
   u8 x;
   dog_SetVLine(BO_FIELD_X0, BO_FIELD_Y0, BO_FIELD_Y1);
-  dog_SetVLine(BO_FIELD_X1, BO_FIELD_Y0, BO_FIELD_Y1);
+  dog_SetVLine(BO_FIELD_X1-1, BO_FIELD_Y0, BO_FIELD_Y1);
   x = dog_DrawStr(0, 57, BO_F1, dog_itoa(bo_remaining_bricks));
   /* dog_DrawStr(x+2, 57, BO_F1, "left"); */
-  x = dog_DrawStr(40, 57, BO_F1, "level");
-  dog_DrawStr(x+2+40, 57, BO_F1, dog_itoa(level+1));
+  x = dog_DrawStr(30, 57, BO_F1, "level");
+  dog_DrawStr(x+2+30, 57, BO_F1, dog_itoa(level+1));
     
 }
 
@@ -640,15 +654,29 @@ void bo_Draw(void)
     draw_field(bo_level);
     if ( bo_step_state == BO_STATE_INTRO1 )
     {
+      const char *s1 = "Breakorino";
+      const char *s2 = BO_BUILD;
       s16 o = ((dog_sin(((s16)bo_timer)*3))/21);
-      dog_DrawStr(5, 18+o, BO_F2, "dogm128 Breakorino");
-      dog_DrawStr(45, 10+o, BO_F2, BO_BUILD);
-      //dog_DrawStr(20, 10+o+1, BO_F2, "Breakorino");
+      u8 w;
+      
+      w = dog_get_str_width(BO_F2, s1);
+      dog_DrawStr(BO_FIELD_X0 + (BO_FIELD_PIX_WIDTH-w)/2, 18+o, BO_F2, s1);
+      
+      w = dog_get_str_width(BO_F2, s2);
+      dog_DrawStr(BO_FIELD_X0 + (BO_FIELD_PIX_WIDTH-w)/2, 10+o, BO_F2, s2);
     }
     if ( bo_step_state == BO_STATE_LOST )
-      dog_DrawStr(20, 10+(bo_timer>>4), BO_F3, "Game Over");
+    {
+      const char *s = "Game Over";
+      u8 w = dog_get_str_width(BO_F3, s);
+      dog_DrawStr(BO_FIELD_X0 + (BO_FIELD_PIX_WIDTH-w)/2, 10+(bo_timer>>4), BO_F3, s);
+    }
     if ( bo_step_state == BO_STATE_COMLETED )
-      dog_DrawStr(20, 20-(bo_timer>>4), BO_F3, "Completed");
+    {
+      const char *s = "Completed";
+      u8 w = dog_get_str_width(BO_F3, s);
+      dog_DrawStr(BO_FIELD_X0 + (BO_FIELD_PIX_WIDTH-w)/2, 20-(bo_timer>>4), BO_F3, s);
+    }
 }
 
 void bo_Step(void)

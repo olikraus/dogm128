@@ -254,11 +254,11 @@ void loop() {
     dogm.clrBox(41,13,45,30);
 
     // draw the cartoon frame
-    dogm.clrBox(0,0,15,63);
-    dogm.clrBox(90,0,105,63);
+    dogm.clrBox(0,0,15,DOG_HEIGHT-1);
+    dogm.clrBox(DOG_WIDTH-15,0,DOG_WIDTH-1,DOG_HEIGHT-1);
     dogm.setVLine(15,0,50);
-    dogm.setVLine(90,0,50);
-    dogm.setHLine(0,105, 5);
+    dogm.setVLine(DOG_WIDTH-15,0,50);
+    dogm.setHLine(0,DOG_WIDTH-1, 5);
   } while( dogm.next() );
   
   // do some delay so that the LCD can display the character
@@ -270,6 +270,6 @@ void loop() {
     walk_cycle = 0;
   
   position++;
-  if ( position == 90 )
+  if ( position == DOG_WIDTH-15 )
     position = 0;
 }

@@ -64,6 +64,10 @@ int8_t ys;			// y position on the screen
 int8_t is_visible;	// is the converted point visible
 int8_t zs = 13;		// eye to screen distance (fixed)
 
+// define some additional constants
+#define MX (DOG_WIDTH/2)
+#define MY (DOG_HEIGHT/2)
+
 
 // calculate xs and ys from a 3d value
 void convert_3d_to_2d(struct pt3d *p3, struct pt2d *p2)
@@ -76,17 +80,17 @@ void convert_3d_to_2d(struct pt3d *p3, struct pt2d *p2)
     t *= p3->x;
     t <<=1;
     t /= p3->z;
-    if ( t >= -64 && t <= 63 )
+    if ( t >= -MX && t <= MX-1 )
     {
-      t += 64;
+      t += MX;
       p2->x = t;
       t = zs;
       t *= p3->y;
       t <<=1;
       t /= p3->z;
-      if ( t >= -32 && t <= 31 )
+      if ( t >= -MY && t <= MY-1 )
       {
-	t += 32;
+	t += MY;
 	p2->y = t;
       }
       else
@@ -109,8 +113,8 @@ void convert_3d_to_2d(struct pt3d *p3, struct pt2d *p2)
 void init_star(struct pt3d *pt)
 {
     pt->z = 100-random(70);
-    pt->x = random(120)-60;
-    pt->y = random(60)-30;
+    pt->x = random(DOG_WIDTH)-MX;
+    pt->y = random(DOG_HEIGHT)-MY;
 }
 
 // init the star list

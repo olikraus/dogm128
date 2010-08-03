@@ -24,14 +24,31 @@ void setup() {
 }
 
 
-void page0()
+void all_page()
 {
     dogm.setFont(font_5x8);
-    dogm.setXY(10,50);
+  
+    // draw a cross at the DOGS x-boundary
+    dogm.setVLine(101,0, 3);
+    dogm.setVLine(102,1, 4);
+    dogm.setHLine(100,103, 2);
+
+    // draw a cross at the DOGM132 y-boundary  
+    dogm.setHLine(98,103, 31);
+    dogm.setHLine(99,104, 32);
+    dogm.setVLine(101,30, 34);
+}
+
+
+void page0()
+{
+    all_page();
+    dogm.setFont(font_5x8);
+    dogm.setXY(20,10);
     dogm.drawStr("Set Test");
-    dogm.setBox(5,20,90,43);
+    dogm.setBox(5,20,DOG_WIDTH-5,43);
     dogm.setVLine(80,0, 63);
-    dogm.setHLine(0,127, 2);
+    dogm.setHLine(0,DOG_WIDTH-1, 2);
     dogm.setPixel(10, 17);
     dogm.setPixel(12, 17);
     dogm.setPixel(14, 17);
@@ -39,10 +56,11 @@ void page0()
 
 void page1()
 {
+    all_page();
     dogm.setFont(font_5x8);
-    dogm.setXY(10,50);
+    dogm.setXY(20,10);
     dogm.drawStr("Clr Test");
-    dogm.setBox(5,20,90,43);
+    dogm.setBox(5,20,DOG_WIDTH-5,43);
     dogm.clrBox(20,30,30,40);
     dogm.clrVLine(80,0, 63);
     dogm.clrPixel(10, 27);
@@ -55,8 +73,9 @@ void page1()
 
 void page2()
 {
+    all_page();
     dogm.setFont(font_5x8);
-    dogm.setXY(10,40);
+    dogm.setXY(20,16);
     dogm.drawStr("Xor Test");
     dogm.xorBox(5,20,90,43);
     dogm.xorVLine(80,0, 63);
@@ -70,6 +89,7 @@ void page2()
 
 void page3()
 {
+    all_page();
     dogm.setFont(font_5x8);
     dogm.setXY(10,40);
     dogm.drawStr("Draw Test");

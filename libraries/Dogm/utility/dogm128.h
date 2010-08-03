@@ -56,7 +56,7 @@
 #define PROGMEM
 #endif
 
-
+/* #define DOGS102_HW */
 
 /* default is DOGM128_HW */
 #ifndef DOGM128_HW
@@ -67,27 +67,28 @@
 #endif
 #endif
 
+/* hight of a page for all supported DOG devices */ 
+#define DOG_PAGE_HEIGHT 8
+
 /* setings for the various DOG displays */
 #ifdef DOGM128_HW
 #define DOG_WIDTH 128
 #define DOG_HEIGHT 64
-#define DOG_PAGE_CNT 8
 #endif
 
-#ifdef DOGM102_HW
+#ifdef DOGS102_HW
 #define DOG_WIDTH 102
 #define DOG_HEIGHT 64
-#define DOG_PAGE_CNT 8
 #endif
 
 #ifdef DOGM132_HW
 #define DOG_WIDTH 132
 #define DOG_HEIGHT 32
-#define DOG_PAGE_CNT 8
 #endif
 
+/* derived constants */
+#define DOG_PAGE_CNT (DOG_HEIGHT/DOG_PAGE_HEIGHT)
 #define DOG_PAGE_WIDTH DOG_WIDTH
-#define DOG_PAGE_HEIGHT 8
 
 
 #ifdef __cplusplus

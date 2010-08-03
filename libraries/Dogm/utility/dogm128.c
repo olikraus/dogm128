@@ -172,7 +172,7 @@ void dog_init(unsigned short pin_a0)
 
 void dog_transfer_page(void)
 {
-  signed char idx;
+  uint8_t idx;
 
   /* enable and reset com interface of the ST7565R */
   dog_spi_enable_client();
@@ -188,11 +188,11 @@ void dog_transfer_page(void)
   
   dog_data_mode();
   
-  idx = 127;
-  while( idx >= 0 )
+  idx = DOG_PAGE_WIDTH;
+  while( idx != 0 )
   {
-    dog_spi_out(dog_page_buffer[idx]); 
     idx--;
+    dog_spi_out(dog_page_buffer[idx]); 
   }
 
   /* disable com interface of the ST7565R */
