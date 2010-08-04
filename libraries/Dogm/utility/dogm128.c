@@ -139,6 +139,7 @@ void dog_init_display(void)
   dog_delay(10);
   dog_cmd_mode();
   /* mostly taken from the EA dogm description */
+#ifdef DOGM128_HW
   dog_spi_out(0x040);		/* set display start line to 0 */
   dog_spi_out(0x0a1);		/* ADC set to reverse */
   dog_spi_out(0x0c0);		/* common output mode */
@@ -153,6 +154,40 @@ void dog_init_display(void)
   dog_spi_out(0x0ac);		/* indicator */
   dog_spi_out(0x000);		/* disable */
   dog_spi_out(0x0af);		/* display on */
+#endif
+
+#ifdef DOGM132_HW
+  dog_spi_out(0x040);		/* set display start line to 0 */
+  dog_spi_out(0x0a1);		/* ADC set to reverse */
+  dog_spi_out(0x0c0);		/* common output mode */
+  dog_spi_out(0x0a6);		/* display normal, bit val 0: LCD pixel off. */
+  dog_spi_out(0x0a2);		/* LCD bias 1/9 */
+  dog_spi_out(0x02f);		/* all power  control circuits on */
+  dog_spi_out(0x0f8);		/* set booster ratio to */
+  dog_spi_out(0x000);		/* 4x */
+  dog_spi_out(0x023);		/* set V0 voltage resistor ratio to large */
+  dog_spi_out(0x081);		/* set contrast */
+  dog_spi_out(0x01f);		/* contrast value, EA default: 0x01f */
+  dog_spi_out(0x0ac);		/* indicator */
+  dog_spi_out(0x000);		/* disable */
+  dog_spi_out(0x0af);		/* display on */
+#endif
+
+#ifdef DOGS102_HW
+  dog_spi_out(0x040);		/* set display start line to 0 */
+  dog_spi_out(0x0a1);		/* ADC set to reverse */
+  dog_spi_out(0x0c0);		/* common output mode */
+  dog_spi_out(0x0a6);		/* display normal, bit val 0: LCD pixel off. */
+  dog_spi_out(0x0a2);		/* LCD bias 1/9 */
+  dog_spi_out(0x02f);		/* all power  control circuits on */
+  dog_spi_out(0x027);		/* regulator, booster and follower */
+  dog_spi_out(0x081);		/* set contrast */
+  dog_spi_out(0x00e);		/* contrast value, EA default: 0x010 */
+  dog_spi_out(0x0fa);		/* Set Temp compensation */ 
+  dog_spi_out(0x090);		/* 0.11 deg/c WP Off WC Off*/
+  dog_spi_out(0x0af);		/* display on */
+#endif
+
   dog_spi_out(0x0a5);		/* display all points */
   dog_delay(300);
   dog_spi_out(0x0a4);		/* normal display  */

@@ -28,11 +28,27 @@
 #ifndef _DOGM128_H
 #define _DOGM128_H
 
-/* uncomment the following line for the DOGS102 display */
-/* #define DOGS102_HW */
+#define DOGM128_HW	/* uncomment for the DOGM128 display */
+//#define DOGS102_HW		/* uncomment for the DOGS102 display */
+//#define DOGM132_HW	/* uncomment for the DOGM132 display */
 
-/* uncomment the following line for the DOGM132 display */
-/* #define DOGM132_HW */
+/* default is DOGM128_HW */
+#if !defined DOGM128_HW && !defined DOGM132_HW && !defined DOGS102_HW
+#define DOGM128_HW
+#endif
+
+// prevent duplicate definition
+#if defined DOGM128_HW 
+#if defined DOGM132_HW
+#undef DOGM132_HW
+#endif
+#if defined DOGS102_HW
+#undef DOGS102_HW
+#endif
+#endif
+#if defined DOGM132_HW && defined DOGS102_HW
+#undef DOGS102_HW
+#endif
 
 
 #include <stdint.h>
@@ -62,14 +78,7 @@
 #endif
 
 
-/* default is DOGM128_HW */
-#ifndef DOGM128_HW
-#ifndef DOGS102_HW
-#ifndef DOGM132_HW
-#define DOGM128_HW
-#endif
-#endif
-#endif
+
 
 /* hight of a page for all supported DOG devices */ 
 #define DOG_PAGE_HEIGHT 8

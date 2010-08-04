@@ -49,14 +49,19 @@ typedef int16_t s16;
 
 #define BO_FP 4
 
-#ifdef DOGS102_HW
-#define BO_AREA_WIDTH 5
-#else
+//#ifdef DOGS102_HW
+//#define BO_AREA_WIDTH 5
+//#else
 #define BO_AREA_WIDTH 7
-#endif
+//#endif
 #define BO_AREA_HEIGHT 3
 
+#ifdef DOGS102_HW
+#define BO_BRICK_WIDTH (10<<BO_FP)
+#else
 #define BO_BRICK_WIDTH (12<<BO_FP)
+#endif
+
 #define BO_BRICK_HEIGHT (4<<BO_FP)
 
 /*
