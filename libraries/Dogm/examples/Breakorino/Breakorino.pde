@@ -15,6 +15,11 @@
 
 #include <Dogm.h>
 
+#ifdef DOGM132_HW
+#error Breakorino can not be used on a DOGM132 display
+#endif
+
+
 int a0Pin = 9;      // address line a0 for the dogm module
 int sensorPin = 0;  // analog input
 
