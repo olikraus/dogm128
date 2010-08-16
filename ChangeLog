@@ -18,4 +18,8 @@ dogm128 ChangeLog
 2010-xx-xx	v1.03	Oliver Kraus <olikrau@gmail.com>
 	* Code update: Use DOG_WIDTH if required
 	* Support for DOGM132 and DOGS102
-	* New level 4 for Breakorino
+	* New levels 4 & 5 for Breakorino
+	* Added SPI abstraction layer (dogmspi.c)
+	* More generic delay procedure (dog_delay())
+	* clrHLine, xorHLine
+	
