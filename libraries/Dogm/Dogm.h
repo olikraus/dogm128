@@ -27,6 +27,8 @@ class Dogm : public Print {
 
     /* x1 must be lower or equal to x2 */
     void setHLine(uint8_t x1, uint8_t x2, uint8_t y) { dog_SetHLine(x1, x2, y); }/* v1.01 */
+    void clrHLine(uint8_t x1, uint8_t x2, uint8_t y) { dog_ClrHLine(x1, x2, y); }/* v1.03 */
+    void xorHLine(uint8_t x1, uint8_t x2, uint8_t y) { dog_XorHLine(x1, x2, y); }/* v1.03 */
 
     /* y1 must be lower or equal to y2 */
     void setVLine(uint8_t x, uint8_t y1, uint8_t y2) { dog_SetVLine(x, y1, y2); }

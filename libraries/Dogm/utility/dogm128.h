@@ -142,6 +142,8 @@ void dog_XorPixel(uint8_t x, uint8_t y);	/* v1.01, dogmxp.c */
 
 /* x1 must be lower or equal to x2 */
 void dog_SetHLine(uint8_t x1, uint8_t x2, uint8_t y); 	/* v1.01, dogmsh.c */
+void dog_ClrHLine(uint8_t x1, uint8_t x2, uint8_t y); 	/* v1.03, dogmch.c */
+void dog_XorHLine(uint8_t x1, uint8_t x2, uint8_t y); 	/* v1.03, dogmxh.c */
 
 uint8_t dog_get_vline_mask(uint8_t y1, uint8_t y2);	/* internal function, dogmov.c */
 /* y1 must be lower or equal to y2 */

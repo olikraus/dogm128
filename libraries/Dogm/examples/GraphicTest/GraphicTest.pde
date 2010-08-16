@@ -69,6 +69,7 @@ void page1()
     dogm.clrPixel(10, 17);
     dogm.clrPixel(12, 17);
     dogm.clrPixel(14, 17);
+    dogm.clrHLine(16, 23, 27);
 }
 
 void page2()
@@ -85,13 +86,14 @@ void page2()
     dogm.xorPixel(10, 17);
     dogm.xorPixel(12, 17);
     dogm.xorPixel(14, 17);
+    dogm.xorHLine(16, 127, 27);
 }
 
 void page3()
 {
     all_page();
     dogm.setFont(font_5x8);
-    dogm.setXY(10,40);
+    dogm.setXY(2,24);
     dogm.drawStr("Draw Test");
     dogm.setSize(1);
     dogm.drawLine(0,0,127,20);
@@ -102,10 +104,10 @@ void page3()
     dogm.setSize(0);
     dogm.drawPoint(10,20);
     dogm.drawPoint(16,20);
-    dogm.drawArc(53, 44, 10, 192, 64); 
+    dogm.drawArc(53, 40, 10, 192, 64); 
     dogm.setSize(1);
     dogm.drawPoint(13,20);
-    dogm.drawArc(53, 44, 14, 192, 64); 
+    dogm.drawArc(53, 40, 14, 192, 64); 
 }
 
 uint8_t page = 0;
