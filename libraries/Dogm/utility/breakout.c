@@ -25,7 +25,7 @@
 
 */
 
-#define BO_BUILD "v1.02"
+#define BO_BUILD "v1.03"
 
 
 #include <stdio.h>
@@ -49,6 +49,7 @@ typedef int16_t s16;
 
 #define BO_FP 4
 
+/* bricks form a wall, this defines the maximum size of the wall */
 //#ifdef DOGS102_HW
 //#define BO_AREA_WIDTH 5
 //#else
@@ -67,14 +68,13 @@ typedef int16_t s16;
 /*
   DOGM128:
     7*(12+4) + 2 = 114 --> 128-114 = 14 pixels empty on the left side
-  DOGS128:
     
 */
 
 #define BO_AREA_UNIT_X (BO_BRICK_WIDTH+(4<<BO_FP))
 #define BO_AREA_UNIT_Y (BO_BRICK_HEIGHT+(4<<BO_FP))
 #define BO_AREA_ORIG_X (2<<BO_FP)
-#define BO_AREA_ORIG_Y (30<<BO_FP)
+#define BO_AREA_ORIG_Y (32<<BO_FP)
 
 /* dimensions of the overall game field (BO_FP units) */
 #define BO_FIELD_WIDTH (BO_AREA_ORIG_X + BO_AREA_UNIT_X * BO_AREA_WIDTH)
@@ -101,6 +101,7 @@ typedef int16_t s16;
 #define BO_BRICK_NORMAL 10
 #define BO_BRICK_SOLID 11
 #define BO_BRICK_BALL 12
+#define BO_BRICK_NO_REFLECTION 13
 
 
 struct _bo_ball
@@ -136,9 +137,14 @@ typedef struct _bo_player bo_player;
 
 
 u8 bo_area[BO_AREA_HEIGHT][BO_AREA_WIDTH];
-s16 bo_player_brick_points;
+s16 bo_player_brick_points; /* only written to... could  be removed */
 s16 bo_remaining_bricks;
+s16 bo_no_reflection_cnt = 0;
 
+/*================================================================*/
+/* declarations */
+/*================================================================*/
+void bo_DoBallDelta(bo_ball *b);
 
 /*================================================================*/
 /* aux functions */
@@ -185,6 +191,7 @@ u8 bo_IsBallBrickIntersection(bo_ball *b, s16 x, s16 y)
 */
 void bo_DoBallBrickReflection(bo_ball *b, s16 x, s16 y)
 {
+  u8 cnt;
   s16 mx, my;
   /* calculate middle of the ball */
   mx = (b->x0+b->x1)/2;
@@ -212,6 +219,15 @@ void bo_DoBallBrickReflection(bo_ball *b, s16 x, s16 y)
     b->dx = - b->dx;
     b->is_ball_reflection = 1;
   }
+  bo_DoBallDelta(b);
+  cnt = 6;
+  while ( bo_IsBallBrickIntersection(b, x, y) != 0 )
+  {
+    if ( cnt == 0 )
+      break;
+    cnt--;
+    bo_DoBallDelta(b);
+  }
 }
 
 /*
@@ -235,14 +251,19 @@ void bo_CheckBrickArea(bo_ball *b)
       {
 	case BO_BRICK_NORMAL:
 	case BO_BRICK_SOLID:
+	case BO_BRICK_NO_REFLECTION:
 	  if ( bo_IsBallBrickIntersection(b, gx, gy) )
 	  {
-	    bo_DoBallBrickReflection(b, gx, gy);
+	    if ( bo_area[iy][ix] == BO_BRICK_NO_REFLECTION )
+	      bo_no_reflection_cnt = 9*256;
+	    if ( bo_no_reflection_cnt == 0 )
+	      bo_DoBallBrickReflection(b, gx, gy);
 	    bo_player_brick_points++;
-	    if ( bo_area[iy][ix] == BO_BRICK_NORMAL )
+	    if ( bo_area[iy][ix] != BO_BRICK_SOLID )
 	    {
 	      bo_area[iy][ix] = BO_BRICK_CLOSE_START;
 	    }
+	    
 	    return;
 	  }
 	  break;
@@ -427,12 +448,10 @@ void bo_DoDeltaLimit(bo_ball *b)
     b->dy = (1<<(BO_FP-1));
   }
   
-  if ( b->dx == 0 )
+  if ( b->dy == 0 )
   {
-    if ( b->y0 > (1<<(BO_FP)) )
-      b->dx = -1;
-    else
-      b->dx = 1;
+    b->dy = -(1<<(BO_FP-1));
+    bo_DoBallDelta(b);
   }
 
 }
@@ -482,7 +501,7 @@ void bo_CalcRemainingBricks(void)
   {
     for( x = 0; x < w; x++)
     {
-      if ( bo_area[y][x] == BO_BRICK_NORMAL || bo_area[y][x] == BO_BRICK_BALL )
+      if ( bo_area[y][x] == BO_BRICK_NORMAL || bo_area[y][x] == BO_BRICK_BALL || bo_area[y][x] == BO_BRICK_NO_REFLECTION )
 	bo_remaining_bricks++;
     }
   }
@@ -513,6 +532,16 @@ void bo_SetupLevel(u8 level)
 	if ( y == 1 )
 	  if ( ( x & 1 ) == 0 )
 	    bo_area[y][x] = BO_BRICK_BALL;
+	  
+      if ( level == 4 )
+      {
+	if ( y == 1 )
+	  if ( x != 0 )
+	    bo_area[y][x] = BO_BRICK_SOLID;
+	if ( y == 0 )
+	  if ( ( x & 1 ) == 0 )
+	    bo_area[y][x] = BO_BRICK_NO_REFLECTION;
+      }
     }
   }
   
@@ -525,11 +554,14 @@ void bo_SetupBall(bo_ball *b)
   b->dx = (1<<BO_FP)/2;
   b->dy = (1<<BO_FP)/2;
   b->x0 = (1<<BO_FP);
-  b->y0 = (1<<BO_FP);
+  b->y0 = (1<<BO_FP) + 2*(1<<BO_FP);
   b->x1 = 5*(1<<BO_FP);
-  b->y1 = 5*(1<<BO_FP);
+  b->y1 = 5*(1<<BO_FP) + 2*(1<<BO_FP);
+  
+  
   b->is_ball_lost = 0;
   b->is_ball_reflection = 0;
+  
 }
 
 /* pos is between 0 and 255 */
@@ -574,6 +606,20 @@ void draw_brick(u8 ox, u8 oy, u8 brick_status)
 	  dog_ClrVLine(ox+2, oy+1, oy+3 );
 	  dog_ClrPixel(ox+1, oy+2);
 	  dog_ClrPixel(ox+3, oy+2);
+	  return;
+	case BO_BRICK_NO_REFLECTION:
+	  {
+	    const unsigned char b[1] = { 0xaa };
+	    dog_SetBox(ox, oy, ox+w, oy+h);
+	    dog_ClrHLine(ox, ox+4, oy);
+	    dog_SetHBitmap(ox, oy, b, 5); 
+	    dog_ClrHLine(ox, ox+4, oy+h);
+	    dog_SetHBitmap(ox, oy+h, b, 5); 
+	    dog_ClrHLine(ox+w-4, ox+w, oy);
+	    dog_SetHBitmap(ox+w-4, oy, b, 5); 
+	    dog_ClrHLine(ox+w-4, ox+w, oy+h);
+	    dog_SetHBitmap(ox+w-4, oy+h, b, 5); 
+	  }
 	  return;
 	case BO_BRICK_CLOSE_START:
 	  dog_SetBox(ox-2, oy+1, ox+w+2, oy+h);
@@ -662,11 +708,14 @@ void draw_field(u8 level)
   u8 x;
   dog_SetVLine(BO_FIELD_X0, BO_FIELD_Y0, BO_FIELD_Y1);
   dog_SetVLine(BO_FIELD_X1-1, BO_FIELD_Y0, BO_FIELD_Y1);
-  x = dog_DrawStr(0, 57, BO_F1, dog_itoa(bo_remaining_bricks));
+  x = dog_DrawStr(4, 57, BO_F1, dog_itoa(bo_remaining_bricks));
   /* dog_DrawStr(x+2, 57, BO_F1, "left"); */
-  x = dog_DrawStr(30, 57, BO_F1, "level");
-  dog_DrawStr(x+2+30, 57, BO_F1, dog_itoa(level+1));
-    
+  x = dog_DrawStr(25, 57, BO_F1, "level");
+  dog_DrawStr(x+2+25, 57, BO_F1, dog_itoa(level+1));
+
+  if ( bo_no_reflection_cnt > 0 )
+    dog_DrawStr(x+2+25+15, 57, BO_F1, dog_itoa((bo_no_reflection_cnt>>8)+1));
+  
 }
 
 
@@ -689,6 +738,8 @@ u8 bo_level;
 
 void bo_Setup(uint8_t level)
 {
+  /* level = 4; */
+  bo_no_reflection_cnt = 0;
   bo_level = level;
   bo_SetupBall(&bo_ball1_obj);
   bo_SetupBall(&bo_ball2_obj);
@@ -740,6 +791,14 @@ void bo_Draw(void)
 
 void bo_Step(void)
 {
+    if ( bo_no_reflection_cnt >= 3 )
+    {
+      bo_no_reflection_cnt-=3;
+    }
+    else
+    {
+      bo_no_reflection_cnt=0;
+    }
     switch(bo_step_state)
     {
       case BO_STATE_INTRO:

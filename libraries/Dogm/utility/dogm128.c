@@ -44,7 +44,6 @@
 
 #include <avr/interrupt.h>
 #include <avr/io.h>
-#include <wiring.h>	/* arduino pinMode */
 #include <util/delay.h>
 
 
