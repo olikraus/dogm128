@@ -262,7 +262,7 @@ void loop() {
   } while( dogm.next() );
   
   // do some delay so that the LCD can display the character
-  delay(120);
+  dog_delay(120);
   
   // character movement
   walk_cycle++;

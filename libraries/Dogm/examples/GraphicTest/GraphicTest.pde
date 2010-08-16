@@ -121,7 +121,7 @@ void loop() {
       case 3: page3(); break;
     }
   } while( dogm.next() );
-  delay(1000);
+  dog_delay(1000);
   page++;
   if ( page == 4 )
     page = 0;

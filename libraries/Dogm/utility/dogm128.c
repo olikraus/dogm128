@@ -45,6 +45,7 @@
 #include <avr/interrupt.h>
 #include <avr/io.h>
 #include <wiring.h>	/* arduino pinMode */
+#include <util/delay.h>
 
 
 unsigned char dog_page_buffer[DOG_PAGE_WIDTH];
@@ -125,9 +126,31 @@ void dog_data_mode(void)
   digitalWrite(dog_spi_pin_a0, HIGH);
 }
 
-void dog_delay(unsigned short val)
+/*
+  Delay by the provided number of milliseconds.
+  Thus, a 16 bit value will allow a delay of 0..65 seconds
+  Makes use of the _delay_loop_2
+  
+  _delay_loop_2 will do a delay of n * 4 prozessor cycles.
+  with f = F_CPU cycles per second,
+  n = f / (1000 * 4 )
+  with f = 16000000 the result is 4000
+  with f = 1000000 the result is 250
+  
+  the millisec loop, gcc requires the following overhead:
+  - movev 1
+  - subwi 2x2
+  - bne i 2
+  ==> 7 cycles
+*/
+void dog_delay(uint16_t val)
 {
-  delay(val);
+  /* old version did a call to the arduino lib: delay(val); */
+  while( val != 0 )
+  {
+    _delay_loop_2( (F_CPU / 4000 ) -7);
+    val--;
+  }
 }
 
 void dog_init_display(void)
