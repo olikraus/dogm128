@@ -37,7 +37,7 @@ void loop() {
   do{
     bo_Draw();
   } while( dogm.next() );
-  delay(1);
+  dog_delay(1);
   sensorValue = analogRead(sensorPin);
   bo_SetX(sensorValue>>2);
   bo_Step();  

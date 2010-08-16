@@ -196,5 +196,5 @@ void loop() {
     draw_star_list();
   } while( dogm.next() );
   move_star_list();
-  delay(100);
+  dog_delay(100);
 }

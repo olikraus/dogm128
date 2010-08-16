@@ -63,5 +63,5 @@ void loop() {
     dogm.setXY(0,h*3+3);
     dogm.print("+-*/#-!$%&(){}[]");
   } while( dogm.next() );
-  delay(1000);
+  dog_delay(1000);
 }
