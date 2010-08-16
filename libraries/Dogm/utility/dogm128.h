@@ -111,7 +111,6 @@ extern "C" {
 
 extern unsigned char dog_page_buffer[DOG_PAGE_WIDTH];
 
-extern unsigned char dog_spi_pin_a0;
 extern uint8_t dog_min_y;
 extern uint8_t dog_max_y;
 
@@ -132,6 +131,17 @@ void dog_set_inverse(uint8_t val);
 
 void dog_StartPage(void);
 uint8_t dog_NextPage(void);
+
+/* --- dogmspi.c --- */
+extern uint8_t dog_spi_pin_a0;
+
+void dog_spi_init(void);
+unsigned char dog_spi_out(unsigned char data);
+void dog_spi_enable_client(void);
+void dog_spi_disable_client(void);
+void dog_cmd_mode(void);
+void dog_data_mode(void);
+
 
 /* --- set/clr functions --- */
 

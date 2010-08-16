@@ -65,67 +65,6 @@ uint8_t dog_max_y = DOG_PAGE_HEIGHT-1;
 
 
 
-unsigned char dog_spi_pin_a0 = PIN_A0_DEFAULT;
-
-void dog_init_spi(void)
-{
-  pinMode(PIN_SCK, OUTPUT);
-  pinMode(PIN_MOSI, OUTPUT);
-  //pinMode(PIN_MISO, INPUT); 
-  pinMode(PIN_SS, OUTPUT);
-  pinMode(dog_spi_pin_a0, OUTPUT);
-  
-  /*
-    SPR1 SPR0
-	0	0		fclk/4
-	0	1		fclk/16
-	1	0		fclk/64
-	1	1		fclk/128
-  */
-  SPCR = 0;
-  SPCR =  (1<<SPE) | (1<<MSTR)|(0<<SPR1)|(0<<SPR0)|(0<<CPOL)|(0<<CPHA);
-  /*
-  {
-  unsigned char x;
-    x = SPSR;
-    x= SPDR;
-  }
-  */
-}
-
-unsigned char dog_spi_out(unsigned char data)
-{
-  
-  /* unsigned char x = 100; */
-  /* send data */
-  SPDR = data;
-  /* wait for transmission */
-  while (!(SPSR & (1<<SPIF))) 
-    ;
-  /* clear the SPIF flag by reading SPDR */
-  return  SPDR;
-}
-
-void dog_spi_enable_client(void)
-{
-        digitalWrite(PIN_SS, LOW);  
-}
-
-void dog_spi_disable_client(void)
-{
-        digitalWrite(PIN_SS, HIGH);
-}
-
-void dog_cmd_mode(void)
-{
-  digitalWrite(dog_spi_pin_a0, LOW);
-}
-
-void dog_data_mode(void)
-{
-  digitalWrite(dog_spi_pin_a0, HIGH);
-}
-
 /*
   Delay by the provided number of milliseconds.
   Thus, a 16 bit value will allow a delay of 0..65 seconds
@@ -223,7 +162,7 @@ void dog_init(unsigned short pin_a0)
   dog_delay(50);			/* initial delay */
   dog_spi_pin_a0 = pin_a0;
   dog_delay(10);
-  dog_init_spi();
+  dog_spi_init();
   dog_init_display();
 }
 
