@@ -40,10 +40,83 @@
 
 #include <avr/interrupt.h>
 #include <avr/io.h>
-#include <wiring.h>	/* arduino pinMode */
 #include <util/delay.h>
 
 uint8_t dog_spi_pin_a0 = PIN_A0_DEFAULT;
+
+#ifdef DOG_SPI_USI
+/* dog_spi_pin_a0 is ignored, instead, port and pins are hard coded */
+#define DOG_SPI_SCL_DDR DDRB
+#define DOG_SPI_SCL_PORT PORTB
+#define DOG_SPI_SCL_PIN 2
+
+#define DOG_SPI_MOSI_DDR DDRB
+#define DOG_SPI_MOSI_PORT PORTB
+#define DOG_SPI_MOSI_PIN 0
+
+#define DOG_SPI_CS_DDR DDRB
+#define DOG_SPI_CS_PORT PORTB
+#define DOG_SPI_CS_PIN 3
+
+#define DOG_SPI_A0_DDR DDRB
+#define DOG_SPI_A0_PORT PORTB
+#define DOG_SPI_A0_PIN 4
+
+void dog_spi_init(void)
+{
+  /* setup port directions */
+  DOG_SPI_CS_DDR |= _BV(DOG_SPI_CS_PIN);
+  DOG_SPI_MOSI_DDR |= _BV(DOG_SPI_MOSI_PIN);
+  DOG_SPI_A0_DDR |= _BV(DOG_SPI_A0_PIN);
+  DOG_SPI_SCL_DDR |= _BV(DOG_SPI_SCL_PIN);
+}
+unsigned char dog_spi_out(unsigned char data)
+{
+  uint8_t i = 8;
+  /* output the data */
+  USIDR = data;
+  do
+  {
+    /* generate edge at the clock pin, edge types depends of the current pin state */
+    /* slave should now sample the data */
+    USICR = _BV(USIWM0) | _BV(USITC)
+    /* output next bit and toggle the clock pin again*/
+    USICR = _BV(USIWM0) | _BV(USICLK) | _BV(USITC)
+    i--;
+  } while( i != 0 );
+  
+  return USIDR;
+}
+
+void dog_spi_enable_client(void)
+{
+  /* before the slave is enabled, esure that the clk pin has a logical zero */
+  DOG_SPI_SCL_PORT &= ~_BV(DOG_SPI_SCL_PIN);
+  
+  /* now enable the SPI slave */
+  DOG_SPI_CS_PORT &= ~_BV(DOG_SPI_CS_PIN);
+}
+
+void dog_spi_disable_client(void)
+{
+  /* disable the client (write a logical zero on the CS line) */
+  DOG_SPI_CS_PORT |= _BV(DOG_SPI_CS_PIN);
+}
+
+void dog_cmd_mode(void)
+{
+  DOG_SPI_A0_PORT &= ~_BV(DOG_SPI_A0_PIN);
+}
+
+void dog_data_mode(void)
+{
+  DOG_SPI_A0_PORT |= _BV(DOG_SPI_A0_PIN);
+}
+
+
+#else
+
+#include <wiring.h>	/* arduino pinMode */
 
 void dog_spi_init(void)
 {
@@ -104,3 +177,4 @@ void dog_data_mode(void)
   digitalWrite(dog_spi_pin_a0, HIGH);
 }
 
+#endif
