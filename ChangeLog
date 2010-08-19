@@ -15,7 +15,7 @@ dogm128 ChangeLog
 	* Added GraphicsTest.pde
 2010-07-18	v1.02	Oliver Kraus <olikrau@gmail.com>
 	* removed unrequired file
-2010-xx-xx	v1.03	Oliver Kraus <olikrau@gmail.com>
+2010-08-19	v1.03	Oliver Kraus <olikrau@gmail.com>
 	* Code update: Use DOG_WIDTH if required
 	* Support for DOGM132 and DOGS102
 	* New levels 4 & 5 for Breakorino
