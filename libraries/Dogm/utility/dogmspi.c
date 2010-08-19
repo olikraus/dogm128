@@ -45,6 +45,13 @@
 uint8_t dog_spi_pin_a0 = PIN_A0_DEFAULT;
 
 #ifdef DOG_SPI_USI
+
+/*=======================================================================*/
+/* USI Interface */
+/*=======================================================================*/
+
+/* NOT TESTED, DO NOT USE THIS CODE */
+
 /* dog_spi_pin_a0 is ignored, instead, port and pins are hard coded */
 #define DOG_SPI_SCL_DDR DDRB
 #define DOG_SPI_SCL_PORT PORTB
@@ -115,6 +122,10 @@ void dog_data_mode(void)
 
 
 #else
+
+/*=======================================================================*/
+/* Arduino SPI */
+/*=======================================================================*/
 
 #include <wiring.h>	/* arduino pinMode */
 
