@@ -53,21 +53,21 @@ uint8_t dog_spi_pin_a0 = PIN_A0_DEFAULT;
 /* NOT TESTED, DO NOT USE THIS CODE */
 
 /* dog_spi_pin_a0 is ignored, instead, port and pins are hard coded */
-#define DOG_SPI_SCL_DDR DDRB
-#define DOG_SPI_SCL_PORT PORTB
-#define DOG_SPI_SCL_PIN 2
+#define DOG_SPI_SCL_DDR DDRA
+#define DOG_SPI_SCL_PORT PORTA
+#define DOG_SPI_SCL_PIN 4
 
-#define DOG_SPI_MOSI_DDR DDRB
-#define DOG_SPI_MOSI_PORT PORTB
-#define DOG_SPI_MOSI_PIN 0
+#define DOG_SPI_MOSI_DDR DDRA
+#define DOG_SPI_MOSI_PORT PORTA
+#define DOG_SPI_MOSI_PIN 5
 
 #define DOG_SPI_CS_DDR DDRB
 #define DOG_SPI_CS_PORT PORTB
-#define DOG_SPI_CS_PIN 3
+#define DOG_SPI_CS_PIN 0
 
 #define DOG_SPI_A0_DDR DDRB
 #define DOG_SPI_A0_PORT PORTB
-#define DOG_SPI_A0_PIN 4
+#define DOG_SPI_A0_PIN 1
 
 void dog_spi_init(void)
 {
@@ -77,6 +77,7 @@ void dog_spi_init(void)
   DOG_SPI_A0_DDR |= _BV(DOG_SPI_A0_PIN);
   DOG_SPI_SCL_DDR |= _BV(DOG_SPI_SCL_PIN);
 }
+
 unsigned char dog_spi_out(unsigned char data)
 {
   uint8_t i = 8;
@@ -86,12 +87,13 @@ unsigned char dog_spi_out(unsigned char data)
   {
     /* generate edge at the clock pin, edge types depends of the current pin state */
     /* slave should now sample the data */
-    USICR = _BV(USIWM0) | _BV(USITC)
+    dog_delay(1);
+    USICR = _BV(USIWM0) | _BV(USITC);
     /* output next bit and toggle the clock pin again*/
-    USICR = _BV(USIWM0) | _BV(USICLK) | _BV(USITC)
+    dog_delay(1);
+    USICR = _BV(USIWM0) | _BV(USICLK) | _BV(USITC);
     i--;
-  } while( i != 0 );
-  
+  } while( i != 0 );  
   return USIDR;
 }
 

@@ -28,7 +28,7 @@
 #ifndef _DOGM128_H
 #define _DOGM128_H
 
-#define DOGM128_HW	/* uncomment for the DOGM128 display */
+//#define DOGM128_HW	/* uncomment for the DOGM128 display */
 //#define DOGS102_HW		/* uncomment for the DOGS102 display */
 //#define DOGM132_HW	/* uncomment for the DOGM132 display */
 
