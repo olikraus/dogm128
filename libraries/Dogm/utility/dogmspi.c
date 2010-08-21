@@ -81,16 +81,15 @@ void dog_spi_init(void)
 unsigned char dog_spi_out(unsigned char data)
 {
   uint8_t i = 8;
+  /* the SCL level is set during dog_spi_enable_client() */
   /* output the data */
   USIDR = data;
   do
   {
     /* generate edge at the clock pin, edge types depends of the current pin state */
     /* slave should now sample the data */
-    dog_delay(1);
     USICR = _BV(USIWM0) | _BV(USITC);
     /* output next bit and toggle the clock pin again*/
-    dog_delay(1);
     USICR = _BV(USIWM0) | _BV(USICLK) | _BV(USITC);
     i--;
   } while( i != 0 );  
@@ -101,6 +100,7 @@ void dog_spi_enable_client(void)
 {
   /* before the slave is enabled, esure that the clk pin has a logical zero */
   DOG_SPI_SCL_PORT &= ~_BV(DOG_SPI_SCL_PIN);
+  //DOG_SPI_SCL_PORT |= _BV(DOG_SPI_SCL_PIN);
   
   /* now enable the SPI slave */
   DOG_SPI_CS_PORT &= ~_BV(DOG_SPI_CS_PIN);

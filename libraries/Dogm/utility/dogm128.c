@@ -158,9 +158,8 @@ void dog_init_display(void)
 
 void dog_init(unsigned short pin_a0)
 {
-  dog_delay(50);			/* initial delay */
+  dog_delay(60);			/* initial delay */
   dog_spi_pin_a0 = pin_a0;
-  dog_delay(10);
   dog_spi_init();
   dog_init_display();
 }

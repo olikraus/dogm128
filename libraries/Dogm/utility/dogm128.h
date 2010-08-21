@@ -223,6 +223,11 @@ void bo_Draw(void);
 void bo_Step(void);
 void bo_SetX(uint8_t pos);
 
+/* --- walk --- */
+
+void walk_Draw(void);
+void walk_Step(void);
+
 
 #ifdef __cplusplus
 }
