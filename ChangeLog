@@ -2,9 +2,9 @@
 dogm128 ChangeLog
 
 
-2010-02-13	v1.00	Oliver Kraus <olikrau@gmail.com>
+2010-02-13	v1.00	Oliver Kraus <olikraus@gmail.com>
 	* First release
-2010-07-17	v1.01	Oliver Kraus <olikrau@gmail.com>
+2010-07-17	v1.01	Oliver Kraus <olikraus@gmail.com>
 	* Fixed compiler warnings
 	* Fixed a bug in Breakorino
 	* Implemented getStrWidth Function (issue 13)
@@ -13,9 +13,9 @@ dogm128 ChangeLog
 	* Less flash ROM required (functions put into individual files)
 	* Fixed bug in drawArc (w0 > w1)
 	* Added GraphicsTest.pde
-2010-07-18	v1.02	Oliver Kraus <olikrau@gmail.com>
+2010-07-18	v1.02	Oliver Kraus <olikraus@gmail.com>
 	* removed unrequired file
-2010-08-19	v1.03	Oliver Kraus <olikrau@gmail.com>
+2010-08-19	v1.03	Oliver Kraus <olikraus@gmail.com>
 	* Code update: Use DOG_WIDTH if required
 	* Support for DOGM132 and DOGS102
 	* New levels 4 & 5 for Breakorino
