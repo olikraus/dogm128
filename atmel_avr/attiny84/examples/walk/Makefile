@@ -47,7 +47,7 @@ TARGETNAME = walk
 MCU:=attiny84
 F_CPU:=8000000
 SRC = walkmain.c
-DOGDIR = ../../../libraries/Dogm/utility/
+DOGDIR = ../../../../libraries/Dogm/utility/
 DOGDEFS = -DDOG_SPI_USI -DDOGM132_HW
 
 #================================================

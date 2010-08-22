@@ -47,7 +47,7 @@ TARGETNAME = graphic_test
 MCU:=attiny84
 F_CPU:=8000000
 SRC = graphic_test.c
-DOGDIR = ../../../libraries/Dogm/utility/
+DOGDIR = ../../../../libraries/Dogm/utility/
 DOGDEFS = -DDOG_SPI_USI -DDOGM132_HW
 
 #================================================
