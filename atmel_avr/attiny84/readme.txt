@@ -11,4 +11,13 @@ Requirements and assumptions:
 - avrdude
 - AVR ISP mkII
 
+Display device:
+All examples use the DOG132 graphics display. This can be changed
+by assigning a different display in the Makefile.
+Supported defines are
+  DOGM128_HW
+  DOGM132_HW
+  DOGS102_HW
+  
+
 
