@@ -57,9 +57,9 @@ uint8_t dog_spi_pin_a0 = PIN_A0_DEFAULT;
 #define DOG_SPI_SCL_PORT PORTA
 #define DOG_SPI_SCL_PIN 4
 
-#define DOG_SPI_MOSI_DDR DDRA
-#define DOG_SPI_MOSI_PORT PORTA
-#define DOG_SPI_MOSI_PIN 5
+#define DOG_SPI_DO_DDR DDRA
+#define DOG_SPI_DO_PORT PORTA
+#define DOG_SPI_DO_PIN 5
 
 #define DOG_SPI_CS_DDR DDRB
 #define DOG_SPI_CS_PORT PORTB
@@ -73,7 +73,7 @@ void dog_spi_init(void)
 {
   /* setup port directions */
   DOG_SPI_CS_DDR |= _BV(DOG_SPI_CS_PIN);
-  DOG_SPI_MOSI_DDR |= _BV(DOG_SPI_MOSI_PIN);
+  DOG_SPI_DO_DDR |= _BV(DOG_SPI_DO_PIN);
   DOG_SPI_A0_DDR |= _BV(DOG_SPI_A0_PIN);
   DOG_SPI_SCL_DDR |= _BV(DOG_SPI_SCL_PIN);
 }
