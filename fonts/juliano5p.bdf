@@ -3,18 +3,21 @@ COMMENT Juliano5p, a free and public domain font, use and share without restrict
 COMMENT This font can be licensed under the terms of the lesser GPL.
 COMMENT This font has been developed by Oliver Kraus as part of the dogm128 library project.
 COMMENT 
-FONT -gbdfed-Unknown-Medium-R-Normal--6-120-96-96-P-100-FontSpecific-0
+FONT -OliKraus-Juliano-Medium-R-Normal--5-120-96-96-P-100-FontSpecific-0
 SIZE 12 96 96
-FONTBOUNDINGBOX 5 6 0 -1
-STARTPROPERTIES 9
+FONTBOUNDINGBOX 5 7 0 -1
+STARTPROPERTIES 12
 POINT_SIZE 120
-PIXEL_SIZE 6
+PIXEL_SIZE 5
 RESOLUTION_X 96
 RESOLUTION_Y 96
 FONT_ASCENT 5
 FONT_DESCENT 1
 AVERAGE_WIDTH 100
 SPACING "P"
+COPYRIGHT "Lesser GPL"
+FAMILY_NAME "Juliano"
+FOUNDRY "OliKraus"
 _GBDFED_INFO "Edited with gbdfed 1.5."
 ENDPROPERTIES
 CHARS 95
@@ -51,12 +54,13 @@ F8
 F8
 50
 ENDCHAR
-STARTCHAR char36
+STARTCHAR $
 ENCODING 36
 SWIDTH 312 0
 DWIDTH 5 0
-BBX 5 6 0 -1
+BBX 5 7 0 -1
 BITMAP
+20
 78
 A0
 70

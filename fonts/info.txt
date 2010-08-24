@@ -1,4 +1,5 @@
 Add BDF font to x11:
 1) bdftopcf
-2) copy to /usr/share/fonts/X11/misc/
+2) sudo copy to /usr/share/fonts/X11/misc/
 3) sudo mkfontdir /usr/share/fonts/X11/misc/ 
+4) xset fp rehash
