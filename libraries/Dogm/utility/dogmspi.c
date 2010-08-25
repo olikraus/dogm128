@@ -50,8 +50,6 @@ uint8_t dog_spi_pin_a0 = PIN_A0_DEFAULT;
 /* USI Interface */
 /*=======================================================================*/
 
-/* NOT TESTED, DO NOT USE THIS CODE */
-
 /* dog_spi_pin_a0 is ignored, instead, port and pins are hard coded */
 #define DOG_SPI_SCL_DDR DDRA
 #define DOG_SPI_SCL_PORT PORTA
@@ -100,7 +98,7 @@ void dog_spi_enable_client(void)
 {
   /* before the slave is enabled, esure that the clk pin has a logical zero */
   DOG_SPI_SCL_PORT &= ~_BV(DOG_SPI_SCL_PIN);
-  //DOG_SPI_SCL_PORT |= _BV(DOG_SPI_SCL_PIN);
+  /* DOG_SPI_SCL_PORT |= _BV(DOG_SPI_SCL_PIN); */
   
   /* now enable the SPI slave */
   DOG_SPI_CS_PORT &= ~_BV(DOG_SPI_CS_PIN);
@@ -135,7 +133,7 @@ void dog_spi_init(void)
 {
   pinMode(PIN_SCK, OUTPUT);
   pinMode(PIN_MOSI, OUTPUT);
-  //pinMode(PIN_MISO, INPUT); 
+  /* pinMode(PIN_MISO, INPUT); */
   pinMode(PIN_SS, OUTPUT);
   pinMode(dog_spi_pin_a0, OUTPUT);
   
