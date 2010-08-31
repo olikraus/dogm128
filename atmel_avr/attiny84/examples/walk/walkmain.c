@@ -60,7 +60,7 @@ int main(void)
 {
   uint16_t adc;
   sys_init();
-  dog_init(0);
+  dog_Init(0);
   
 
   for(;;)

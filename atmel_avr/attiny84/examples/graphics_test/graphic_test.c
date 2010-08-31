@@ -91,7 +91,7 @@ int main(void)
   uint8_t page = 0;
   system_init();
   dog_Delay(2000);  
-  dog_init(0);
+  dog_Init(0);
 
   for(;;)
   {

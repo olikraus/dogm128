@@ -77,7 +77,7 @@ void loop() {
 int main(void)
 {
   system_init();
-  dog_init(0);
+  dog_Init(0);
 
   for(;;)
   {

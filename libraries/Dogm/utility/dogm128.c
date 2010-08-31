@@ -156,7 +156,7 @@ void dog_init_display(void)
   dog_spi_disable_client();
 }
 
-void dog_init(unsigned short pin_a0)
+void dog_Init(unsigned short pin_a0)
 {
   dog_Delay(60);			/* initial delay */
   dog_spi_pin_a0 = pin_a0;
