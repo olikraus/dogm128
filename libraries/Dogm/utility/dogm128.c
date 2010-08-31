@@ -81,7 +81,7 @@ uint8_t dog_max_y = DOG_PAGE_HEIGHT-1;
   - bne i 2
   ==> 7 cycles
 */
-void dog_delay(uint16_t val)
+void dog_Delay(uint16_t val)
 {
   /* old version did a call to the arduino lib: delay(val); */
   while( val != 0 )
@@ -93,11 +93,11 @@ void dog_delay(uint16_t val)
 
 void dog_init_display(void)
 {
-  dog_delay(10);
+  dog_Delay(10);
   dog_spi_disable_client();	/* force reset of the spi subsystem of the ST7565R */
-  dog_delay(10);
+  dog_Delay(10);
   dog_spi_enable_client();
-  dog_delay(10);
+  dog_Delay(10);
   dog_cmd_mode();
   /* mostly taken from the EA dogm description */
 #ifdef DOGM128_HW
@@ -150,15 +150,15 @@ void dog_init_display(void)
 #endif
 
   dog_spi_out(0x0a5);		/* display all points */
-  dog_delay(300);
+  dog_Delay(300);
   dog_spi_out(0x0a4);		/* normal display  */
-  dog_delay(300);
+  dog_Delay(300);
   dog_spi_disable_client();
 }
 
 void dog_init(unsigned short pin_a0)
 {
-  dog_delay(60);			/* initial delay */
+  dog_Delay(60);			/* initial delay */
   dog_spi_pin_a0 = pin_a0;
   dog_spi_init();
   dog_init_display();

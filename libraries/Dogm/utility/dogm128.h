@@ -121,7 +121,7 @@ void dog_cmd_mode(void);
 void dog_data_mode(void);
 
   
-void dog_delay(uint16_t val);				/* delay in milliseconds */
+void dog_Delay(uint16_t val);				/* delay in milliseconds */
 void dog_init(unsigned short pin_a0);
 #define dog_Init(pin) (dog_init(pin))
 void dog_set_contrast(uint8_t val);

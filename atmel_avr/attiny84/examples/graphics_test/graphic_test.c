@@ -90,7 +90,7 @@ int main(void)
 {
   uint8_t page = 0;
   system_init();
-  dog_delay(2000);  
+  dog_Delay(2000);  
   dog_init(0);
 
   for(;;)
@@ -106,7 +106,7 @@ int main(void)
 	case 3: page3(); break;
       }
     } while( dog_NextPage() );
-    dog_delay(1000);
+    dog_Delay(1000);
     page++;
     if ( page == 4 )
       page = 0;

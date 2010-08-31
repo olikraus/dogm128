@@ -74,7 +74,7 @@ int main(void)
     adc >>= 4;
     if ( adc >= 0x0f && adc < 0x30 )
       dog_set_contrast(adc);
-    dog_delay(120);
+    dog_Delay(120);
     walk_Step();
   }  
 }

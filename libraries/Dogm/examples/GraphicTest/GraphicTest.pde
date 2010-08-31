@@ -4,8 +4,23 @@
   
   Test for the dogm128 library
 
-  Written 2010 by Oliver Kraus.
+  (c) 2010 Oliver Kraus (olikraus@gmail.com)
   
+  This file is part of the dogm128 Arduino library.
+
+  The dogm128 Arduino library is free software: you can redistribute it and/or modify
+  it under the terms of the Lesser GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  The dogm128 Arduino library is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  Lesser GNU General Public License for more details.
+
+  You should have received a copy of the Lesser GNU General Public License
+  along with dogm128.  If not, see <http://www.gnu.org/licenses/>.
+
   SCL (SPI Clock)   Pin 13
   SI (MOSI)         Pin 11
   CS (Chip Select)  Pin 10
@@ -121,7 +136,7 @@ void loop() {
       case 3: page3(); break;
     }
   } while( dogm.next() );
-  dog_delay(1000);
+  dog_Delay(1000);
   page++;
   if ( page == 4 )
     page = 0;

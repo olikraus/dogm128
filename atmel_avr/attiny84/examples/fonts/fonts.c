@@ -70,7 +70,7 @@ void loop() {
     dog_DrawStr(0,h*1+3, p, "ABCDEFGHIJKLMNOPQRSTUVWXYZ");
     dog_DrawStr(0,h*3+3, p, "+-*/#-!$%&(){}[]");
   } while( dog_NextPage() );
-  dog_delay(1000);
+  dog_Delay(1000);
 }
 
 

@@ -3,8 +3,23 @@
   Fonts
   
   Show some fonts of the dog128 library.
-  Written by Oliver Kraus.
   
+  (c) 2010 Oliver Kraus (olikraus@gmail.com)
+  
+  This file is part of the dogm128 Arduino library.
+
+  The dogm128 Arduino library is free software: you can redistribute it and/or modify
+  it under the terms of the Lesser GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  The dogm128 Arduino library is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  Lesser GNU General Public License for more details.
+
+  You should have received a copy of the Lesser GNU General Public License
+  along with dogm128.  If not, see <http://www.gnu.org/licenses/>.
   
   
   SCL (SPI Clock)   Pin 13
@@ -63,5 +78,5 @@ void loop() {
     dogm.setXY(0,h*3+3);
     dogm.print("+-*/#-!$%&(){}[]");
   } while( dogm.next() );
-  dog_delay(1000);
+  dog_Delay(1000);
 }
