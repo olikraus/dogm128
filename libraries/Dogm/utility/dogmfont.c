@@ -147,7 +147,7 @@ PGM_P fnt_get_chr(PGM_P  fbuf, unsigned char code)
   return adr;
 }
 
-uint8_t dog_get_char_width(PGM_P font, unsigned char code)
+uint8_t dog_GetCharWidth(PGM_P font, unsigned char code)
 {
   PGM_P adr;
   /* adr = font + FNT_DATA + chr_get_skip_delta(font+FNT_DATA, code - ' '); */
@@ -229,21 +229,21 @@ uint8_t dog_DrawChar(uint8_t x, uint8_t y, PGM_P font, unsigned char code)
   y1 += fnt_get_bbox_height(font);  
   
   if ( (signed char)dog_max_y < y0 )
-    return dog_get_char_width(font, code);
+    return dog_GetCharWidth(font, code);
   if ( (signed char)dog_min_y > y1 )
-    return dog_get_char_width(font, code);
+    return dog_GetCharWidth(font, code);
   
   return dog_char(x,y,font,0,code);
 }
 
 
 
-uint8_t dog_get_str_width(PGM_P font, const char *s)
+uint8_t dog_GetStrWidth(PGM_P font, const char *s)
 {
   uint8_t w = 0;
   while( *s != '\0' )
   {
-    w	+= dog_get_char_width(font, (unsigned char)*s);
+    w	+= dog_GetCharWidth(font, (unsigned char)*s);
     s++;
   }
   return w;
@@ -260,9 +260,9 @@ uint8_t dog_str(uint8_t x, uint8_t y, PGM_P font, uint8_t mode, const char *s)
   
   
   if ( (signed char)dog_max_y < y0 )
-    return dog_get_str_width(font, s);
+    return dog_GetStrWidth(font, s);
   if ( (signed char)dog_min_y > y1 )
-    return dog_get_str_width(font, s);
+    return dog_GetStrWidth(font, s);
   
   while( *s != '\0' )
   {

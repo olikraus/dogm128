@@ -64,7 +64,7 @@ void loop() {
   do {
     x = 0;
     x+=dog_DrawStr(x,h*0+3, p, f);
-    dog_SetBox(0, h*0+3, dog_get_str_width(p,f), h*0+3 );
+    dog_SetBox(0, h*0+3, dog_GetStrWidth(p,f), h*0+3 );
     x+=dog_DrawStr(x,h*0+3, p, ": 0123456789.,;");
     dog_DrawStr(0,h*2+3, p, "abcdefgjijklmnopqrstuvwxyz");
     dog_DrawStr(0,h*1+3, p, "ABCDEFGHIJKLMNOPQRSTUVWXYZ");

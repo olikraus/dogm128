@@ -27,5 +27,7 @@ dogm128 ChangeLog
 	* Renamed dog_init() --> dog_Init()
 	* Renamed dog_set_inverse() --> dog_SetInvertPixelMode()
 	* Renamed dog_set_contrast() --> dog_SetContrast()
+	* Renamed dog_get_char_width() --> dog_GetCharWidth()
+	* Renamed dog_get_str_width() --> dog_GetStrWidth()
 	
 	

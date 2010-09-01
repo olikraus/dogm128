@@ -769,22 +769,22 @@ void bo_Draw(void)
       s16 o = ((dog_sin(((s16)bo_timer)*3))/21);
       u8 w;
       
-      w = dog_get_str_width(BO_F2, s1);
+      w = dog_GetStrWidth(BO_F2, s1);
       dog_DrawStr(BO_FIELD_X0 + (BO_FIELD_PIX_WIDTH-w)/2, 18+o, BO_F2, s1);
       
-      w = dog_get_str_width(BO_F2, s2);
+      w = dog_GetStrWidth(BO_F2, s2);
       dog_DrawStr(BO_FIELD_X0 + (BO_FIELD_PIX_WIDTH-w)/2, 10+o, BO_F2, s2);
     }
     if ( bo_step_state == BO_STATE_LOST )
     {
       const char *s = "Game Over";
-      u8 w = dog_get_str_width(BO_F3, s);
+      u8 w = dog_GetStrWidth(BO_F3, s);
       dog_DrawStr(BO_FIELD_X0 + (BO_FIELD_PIX_WIDTH-w)/2, 10+(bo_timer>>4), BO_F3, s);
     }
     if ( bo_step_state == BO_STATE_COMLETED )
     {
       const char *s = "Completed";
-      u8 w = dog_get_str_width(BO_F3, s);
+      u8 w = dog_GetStrWidth(BO_F3, s);
       dog_DrawStr(BO_FIELD_X0 + (BO_FIELD_PIX_WIDTH-w)/2, 20-(bo_timer>>4), BO_F3, s);
     }
 }

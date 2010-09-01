@@ -197,7 +197,8 @@ void dog_DrawArc(uint8_t mx, uint8_t my, uint8_t r, uint8_t w0, uint8_t w1, uint
 
 
 /* --- font information --- */
-uint8_t dog_get_str_width(PGM_P font, const char *s);
+uint8_t dog_GetCharWidth(PGM_P font, unsigned char code);	/* dogmfont.c */
+uint8_t dog_GetStrWidth(PGM_P font, const char *s); /* dogmfont.c */
 
 uint8_t dog_GetFontBBXHeight(PGM_P buf);
 uint8_t dog_GetFontBBXWidth(PGM_P buf);
