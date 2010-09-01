@@ -1,0 +1,8 @@
+rm -rf examples
+rm -rf lib
+rm dogm128attiny.zip
+cp -R ../../libraries/Dogm/utility .
+mv utility lib
+cp -R ../attiny84/examples .
+find . -name Makefile -exec sed -iold -e "s|DOGDIR = .*|DOGDIR = ../../lib/|" {}  \;
+zip -r dogm128attiny.zip examples lib
