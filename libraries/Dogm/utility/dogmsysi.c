@@ -24,7 +24,7 @@
 
 #include "dogm128.h"
 
-void dog_set_inverse(uint8_t val)
+void dog_SetInvertPixelMode(uint8_t val)
 {
   val &= 1;
   val |= 0x0a6;			/* invert pixel mode */
