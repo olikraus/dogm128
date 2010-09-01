@@ -123,7 +123,7 @@ void dog_data_mode(void);
   
 void dog_Delay(uint16_t val);				/* delay in milliseconds */
 void dog_Init(unsigned short pin_a0);
-void dog_set_contrast(uint8_t val);
+void dog_SetContrast(uint8_t val);			/* values between 0 and 63 allowed, previosly named dog_set_contranst() */
 void dog_SetInvertPixelMode(uint8_t val);	/* previosly named dog_set_inverse() */
 
   

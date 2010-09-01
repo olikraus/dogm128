@@ -26,4 +26,6 @@ dogm128 ChangeLog
 	* Renamed dog_delay() --> dog_Delay() 
 	* Renamed dog_init() --> dog_Init()
 	* Renamed dog_set_inverse() --> dog_SetInvertPixelMode()
+	* Renamed dog_set_contrast() --> dog_SetContrast()
+	
 	

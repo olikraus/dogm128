@@ -24,7 +24,7 @@
 
 #include "dogm128.h"
 
-void dog_set_contrast(uint8_t val)
+void dog_SetContrast(uint8_t val)
 {
   val &= 63;
   dog_spi_enable_client();  
