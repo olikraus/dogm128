@@ -50,30 +50,60 @@ uint8_t dog_spi_pin_a0 = PIN_A0_DEFAULT;
 /* USI Interface */
 /*=======================================================================*/
 
+#define _DOG_SPI_DDR(PCHAR) DDR ## PCHAR
+#define DOG_SPI_DDR(PCHAR) _DOG_SPI_DDR(PCHAR)
+#define _DOG_SPI_PORT(PCHAR) PORT ## PCHAR
+#define DOG_SPI_PORT(PCHAR) _DOG_SPI_PORT(PCHAR)
+
 /* dog_spi_pin_a0 is ignored, instead, port and pins are hard coded */
-#define DOG_SPI_SCL_DDR DDRA
-#define DOG_SPI_SCL_PORT PORTA
+#ifndef DOG_SPI_SCL_PORT
+#define DOG_SPI_SCL_PORT A
+#warning DOG_SPI_SCL_PORT not defined, port A assumed
+#endif
+#ifndef DOG_SPI_SCL_PIN
 #define DOG_SPI_SCL_PIN 4
+#warning DOG_SPI_SCL_PIN not defined, bit 4 assumed
+#endif
 
-#define DOG_SPI_DO_DDR DDRA
-#define DOG_SPI_DO_PORT PORTA
+
+#ifndef DOG_SPI_DO_PORT
+#define DOG_SPI_DO_PORT A
+#warning DOG_SPI_DO_PORT not defined, port A assumed
+#endif 
+
+#ifndef DOG_SPI_DO_PIN
 #define DOG_SPI_DO_PIN 5
+#warning DOG_SPI_DO_PIN not defined, bit 5 assumed
+#endif 
 
-#define DOG_SPI_CS_DDR DDRB
-#define DOG_SPI_CS_PORT PORTB
+#ifndef DOG_SPI_CS_PORT
+#define DOG_SPI_CS_PORT B
+#warning DOG_SPI_CS_PORT not defined, port B assumed
+#endif 
+
+#ifndef DOG_SPI_CS_PIN
 #define DOG_SPI_CS_PIN 0
+#warning DOG_SPI_CS_PIN not defined, bit 0 assumed
+#endif 
 
-#define DOG_SPI_A0_DDR DDRB
-#define DOG_SPI_A0_PORT PORTB
+#ifndef DOG_SPI_A0_PORT
+#define DOG_SPI_A0_PORT B
+#warning DOG_SPI_A0_PORT not defined, port B assumed
+#endif 
+
+#ifndef DOG_SPI_A0_PIN
 #define DOG_SPI_A0_PIN 1
+#warning DOG_SPI_A0_PIN not defined, bit 1 assumed
+#endif 
 
 void dog_spi_init(void)
 {
   /* setup port directions */
-  DOG_SPI_CS_DDR |= _BV(DOG_SPI_CS_PIN);
-  DOG_SPI_DO_DDR |= _BV(DOG_SPI_DO_PIN);
-  DOG_SPI_A0_DDR |= _BV(DOG_SPI_A0_PIN);
-  DOG_SPI_SCL_DDR |= _BV(DOG_SPI_SCL_PIN);
+  DOG_SPI_DDR(DOG_SPI_CS_PORT) |= _BV(DOG_SPI_CS_PIN);
+  DOG_SPI_DDR(DOG_SPI_DO_PORT) |= _BV(DOG_SPI_DO_PIN);
+  DOG_SPI_DDR(DOG_SPI_A0_PORT) |= _BV(DOG_SPI_A0_PIN);
+  /* DOG_SPI_SCL_DDR |= _BV(DOG_SPI_SCL_PIN); */
+  DOG_SPI_DDR(DOG_SPI_SCL_PORT) |= _BV(DOG_SPI_SCL_PIN);
 }
 
 unsigned char dog_spi_out(unsigned char data)
@@ -97,27 +127,26 @@ unsigned char dog_spi_out(unsigned char data)
 void dog_spi_enable_client(void)
 {
   /* before the slave is enabled, esure that the clk pin has a logical zero */
-  DOG_SPI_SCL_PORT &= ~_BV(DOG_SPI_SCL_PIN);
-  /* DOG_SPI_SCL_PORT |= _BV(DOG_SPI_SCL_PIN); */
+  DOG_SPI_PORT(DOG_SPI_SCL_PORT) &= ~_BV(DOG_SPI_SCL_PIN);
   
   /* now enable the SPI slave */
-  DOG_SPI_CS_PORT &= ~_BV(DOG_SPI_CS_PIN);
+  DOG_SPI_PORT(DOG_SPI_CS_PORT) &= ~_BV(DOG_SPI_CS_PIN);
 }
 
 void dog_spi_disable_client(void)
 {
   /* disable the client (write a logical zero on the CS line) */
-  DOG_SPI_CS_PORT |= _BV(DOG_SPI_CS_PIN);
+  DOG_SPI_PORT(DOG_SPI_CS_PORT) |= _BV(DOG_SPI_CS_PIN);
 }
 
 void dog_cmd_mode(void)
 {
-  DOG_SPI_A0_PORT &= ~_BV(DOG_SPI_A0_PIN);
+  DOG_SPI_PORT(DOG_SPI_A0_PORT) &= ~_BV(DOG_SPI_A0_PIN);
 }
 
 void dog_data_mode(void)
 {
-  DOG_SPI_A0_PORT |= _BV(DOG_SPI_A0_PIN);
+  DOG_SPI_PORT(DOG_SPI_A0_PORT) |= _BV(DOG_SPI_A0_PIN);
 }
 
 
