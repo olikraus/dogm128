@@ -48,7 +48,18 @@ MCU:=attiny84
 F_CPU:=8000000
 SRC = graphic_test.c
 DOGDIR = ../../../../libraries/Dogm/utility/
-DOGDEFS = -DDOG_SPI_USI -DDOGM132_HW
+# assume DOGM 132 Hardware (other possible keywords are DOGM128_HW and DOGS102_HW)
+DOGDEFS = -DDOGM132_HW
+# assume USI interface on the target controller, default is Arduino Hardware
+DOGDEFS += -DDOG_SPI_USI
+# assign port and bit for the chip select line of the DOG controller
+DOGDEFS += -DDOG_SPI_CS_PORT=B -DDOG_SPI_CS_PIN=0
+# assign port and bit for the adress line of the DOG controller
+DOGDEFS += -DDOG_SPI_A0_PORT=B -DDOG_SPI_A0_PIN=1
+# assign port and bit for the clock of the DOG controller (this must be the SCL output of the USI interface)
+DOGDEFS += -DDOG_SPI_SCL_PORT=A -DDOG_SPI_SCL_PIN=4
+# assign port and bit for the data line of the DOG controller (this must be the DO output of the USI interface)
+DOGDEFS += -DDOG_SPI_DO_PORT=A -DDOG_SPI_DO_PIN=5
 
 #================================================
 # System/Environment Information
