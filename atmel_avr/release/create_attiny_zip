@@ -4,5 +4,7 @@ rm dogm128attiny.zip
 cp -R ../../libraries/Dogm/utility .
 mv utility lib
 cp -R ../attiny84/examples .
+cp ../../COPYING.LESSER .
+cp ../../ChangeLog .
 find . -name Makefile -exec sed -iold -e "s|DOGDIR = .*|DOGDIR = ../../lib/|" {}  \;
-zip -r dogm128attiny.zip examples lib
+zip -r dogm128attiny.zip examples lib COPYING.LESSER ChangeLog
