@@ -1,5 +1,5 @@
 
-This is the dogm128 library for the Arduino project.
+This is the dogm128 library..
 The dogm128 library is a C/C++ interface to the ST7565R based graphics module.
 Display types DOGM128, DOGM132 and DOGS102 are supported.
 
@@ -7,7 +7,7 @@ Please also visit
   http://code.google.com/p/dogm128/wiki/install
 for install instructions.
 
-Install instructions (short version)
+Install instruction for the Arduino Hardware
 
 Arduino-0018
   
