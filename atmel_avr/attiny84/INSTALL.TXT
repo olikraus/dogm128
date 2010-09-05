@@ -7,7 +7,7 @@ Please also visit
   http://code.google.com/p/dogm128/wiki/install
 for install instructions.
 
-Install instruction for plain Atmel AVR ATTINY controller
+Install instruction for plain Atmel AVR ATTINY microcontroller
 
   1. Setup Environment
       a) GNU C Compiler for Atmel AVR (`sudo apt-get install gcc-avr`)

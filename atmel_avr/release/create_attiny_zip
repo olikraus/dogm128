@@ -1,10 +1,12 @@
 rm -rf examples
 rm -rf lib
-rm dogm128attiny.zip
+rm dogm128_avr.zip
 cp -R ../../libraries/Dogm/utility .
 mv utility lib
 cp -R ../attiny84/examples .
 cp ../../COPYING.LESSER .
+cp ../attiny84/INSTALL.TXT .
 cp ../../ChangeLog .
-find . -name Makefile -exec sed -iold -e "s|DOGDIR = .*|DOGDIR = ../../lib/|" {}  \;
-zip -r dogm128attiny.zip examples lib COPYING.LESSER ChangeLog
+find . -name Makefile -exec sed -iold -e "s|DOGDIR = .*|DOGDIR = ../../lib/|" {}  \;  
+find . -name "Makefile" -execdir make clean \;
+zip -r dogm128_avr.zip examples lib COPYING.LESSER INSTALL.TXT ChangeLog

@@ -22,12 +22,12 @@ dogm128 ChangeLog
 	* Added SPI abstraction layer (dogmspi.c)
 	* More generic delay procedure (dog_delay())
 	* clrHLine, xorHLine
-2010-xx-xx	v1.04	
+2010-09-05	v1.04	
 	* Renamed dog_delay() --> dog_Delay() 
 	* Renamed dog_init() --> dog_Init()
 	* Renamed dog_set_inverse() --> dog_SetInvertPixelMode()
 	* Renamed dog_set_contrast() --> dog_SetContrast()
 	* Renamed dog_get_char_width() --> dog_GetCharWidth()
 	* Renamed dog_get_str_width() --> dog_GetStrWidth()
-	
+	* Port to Atmel AVR ATTINY84 
 	
