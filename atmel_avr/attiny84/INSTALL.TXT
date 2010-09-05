@@ -10,10 +10,10 @@ for install instructions.
 Install instruction for plain Atmel AVR ATTINY controller
 
   1. Setup Environment
-      a) avr-gcc
-      b) avrdude
+      a) GNU C Compiler for Atmel AVR (`sudo apt-get install gcc-avr`)
+      b) Atmel AVR Programmer avrdude (`sudo apt-get install avrdude`)
       c) gnu make
-      d) Programmer for Atmel ISP interface
+      d) Programmer Hardware for Atmel ISP interface (see http://www.atmel.com/products/avr/ or http://en.wikipedia.org/wiki/Atmel_AVR)
   2. Download latest version of dogm128_avr_vX.XX.zip
   3. Extract zip file and change directory to graphics test example
   4. Change the Makefile according to your hardware.
@@ -32,5 +32,12 @@ Install instruction for plain Atmel AVR ATTINY controller
 	  Port and pin of the SCL output line of the Atmel AVR USI interface
       g) DOGDEFS += -DDOG_SPI_DO_PORT=A -DDOG_SPI_DO_PIN=5
 	  Port and pin of the DO output line of the Atmel AVR USI interface
-
- 
+  5. Create hex-file and upload the hexfile to the controller: `make upload` 
+  6. Setup a new project:
+      a) Create a new directory, copy the modified Makefile into the new directory.
+      b) `TARGETNAME = project_name`
+	  Assign the project name.
+      c) `DOGDIR = ../../lib/`
+	  Set the location of the dogm128 library if required.
+      d) `SRC = file1.c file2.c file3.c`
+	  Add list of the c-files of the project.
