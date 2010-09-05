@@ -1,5 +1,5 @@
 
-This is the dogm128 library..
+This is the dogm128 library.
 The dogm128 library is a C/C++ interface to the ST7565R based graphics module.
 Display types DOGM128, DOGM132 and DOGS102 are supported.
 
@@ -7,7 +7,7 @@ Please also visit
   http://code.google.com/p/dogm128/wiki/install
 for install instructions.
 
-Install instruction for plain ATTINY controller
+Install instruction for plain Atmel AVR ATTINY controller
 
   1. Setup Environment
       a) avr-gcc
@@ -18,10 +18,19 @@ Install instruction for plain ATTINY controller
   3. Extract zip file and change directory to graphics test example
   4. Change the Makefile according to your hardware.
       a) Line `MCU:=attiny84`
-	  Add the name of the target device (valid names are listed with the avr-gcc -dumpspec  command)
+	  Add the name of the target device. Valid names are reported with the avr-gcc -dumpspec  command.
+	  MCU names (devices) are also listed here: http://www.nongnu.org/avr-libc/user-manual/index.html
       b) Line `F_CPU:=8000000'
 	  Set the frequency of the target environment. The examples of this library will try to assign maximum speed.
       c) Line `DOGDEFS = -DDOGM132_HW' 
-
+	  Select display (DOGM128_HW, DOGM132_HW or DOGS102_HW)
+      d) DOGDEFS += -DDOG_SPI_CS_PORT=B -DDOG_SPI_CS_PIN=0
+	  I/O port and bit number which is connected to the chip select line of the display.
+      e) DOGDEFS += -DDOG_SPI_A0_PORT=B -DDOG_SPI_A0_PIN=1
+	  I/O port and bit number which is connected to the A0 line of the display.
+      f) DOGDEFS += -DDOG_SPI_SCL_PORT=A -DDOG_SPI_SCL_PIN=4
+	  Port and pin of the SCL output line of the Atmel AVR USI interface
+      g) DOGDEFS += -DDOG_SPI_DO_PORT=A -DDOG_SPI_DO_PIN=5
+	  Port and pin of the DO output line of the Atmel AVR USI interface
 
  
