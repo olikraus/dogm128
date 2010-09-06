@@ -30,4 +30,6 @@ dogm128 ChangeLog
 	* Renamed dog_get_char_width() --> dog_GetCharWidth()
 	* Renamed dog_get_str_width() --> dog_GetStrWidth()
 	* Port to Atmel AVR ATTINY84 
+2010-xx-xx	v1.05
+	* Breakorino bugfix (remember last reflection)
 	
