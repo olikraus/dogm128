@@ -112,6 +112,8 @@ struct _bo_ball
   s16 x1;	/* fixed point 12.4 */
   s16 y0;   /* fixed point 12.4 */
   s16 y1;   /* fixed point 12.4 */
+  s16 lbr_x;	/* last brick reflection */
+  s16 lbr_y;	/* last brick reflection */
   unsigned is_ball_reflection;
   unsigned is_ball_lost;
 };
@@ -193,6 +195,10 @@ void bo_DoBallBrickReflection(bo_ball *b, s16 x, s16 y)
 {
   u8 cnt;
   s16 mx, my;
+  
+  if ( b->lbr_x == x && b->lbr_y == y )
+    return;
+
   /* calculate middle of the ball */
   mx = (b->x0+b->x1)/2;
   my = (b->y0+b->y1)/2;
@@ -219,6 +225,7 @@ void bo_DoBallBrickReflection(bo_ball *b, s16 x, s16 y)
     b->dx = - b->dx;
     b->is_ball_reflection = 1;
   }
+  /*
   bo_DoBallDelta(b);
   cnt = 6;
   while ( bo_IsBallBrickIntersection(b, x, y) != 0 )
@@ -228,6 +235,9 @@ void bo_DoBallBrickReflection(bo_ball *b, s16 x, s16 y)
     cnt--;
     bo_DoBallDelta(b);
   }
+  */
+  b->lbr_x = x;
+  b->lbr_y = y;
 }
 
 /*
@@ -239,6 +249,7 @@ void bo_CheckBrickArea(bo_ball *b)
   s16 gy;
   u8 ix;
   u8 iy;
+  u8 is_reflect = 0;
   gy = BO_AREA_ORIG_Y;
   iy = 0;
   while( iy < BO_AREA_HEIGHT )
@@ -252,42 +263,46 @@ void bo_CheckBrickArea(bo_ball *b)
 	case BO_BRICK_NORMAL:
 	case BO_BRICK_SOLID:
 	case BO_BRICK_NO_REFLECTION:
-	  if ( bo_IsBallBrickIntersection(b, gx, gy) )
-	  {
-	    if ( bo_area[iy][ix] == BO_BRICK_NO_REFLECTION )
-	      bo_no_reflection_cnt = 9*256;
-	    if ( bo_no_reflection_cnt == 0 )
-	      bo_DoBallBrickReflection(b, gx, gy);
-	    bo_player_brick_points++;
-	    if ( bo_area[iy][ix] != BO_BRICK_SOLID )
+	  if ( is_reflect == 0 )
+	    if ( bo_IsBallBrickIntersection(b, gx, gy) )
 	    {
-	      bo_area[iy][ix] = BO_BRICK_CLOSE_START;
+	      if ( bo_area[iy][ix] == BO_BRICK_NO_REFLECTION )
+		bo_no_reflection_cnt = 9*256;
+	      if ( bo_no_reflection_cnt == 0 )
+	      {
+		bo_DoBallBrickReflection(b, gx, gy);
+		is_reflect = 1;
+	      }
+	      bo_player_brick_points++;
+	      if ( bo_area[iy][ix] != BO_BRICK_SOLID )
+	      {
+		bo_area[iy][ix] = BO_BRICK_CLOSE_START;
+	      }
 	    }
-	    
-	    return;
-	  }
 	  break;
 	case BO_BRICK_BALL:
-	  if ( bo_IsBallBrickIntersection(b, gx, gy) )
-	  {
-	    bo_ball *bb;
-	    /* look for lost ball */
-	    if ( bo_ball1_obj.is_ball_lost != 0 )
-	      bb = &bo_ball1_obj;
-	    else if ( bo_ball2_obj.is_ball_lost != 0 )
-	      bb = &bo_ball2_obj;
-	    else if ( bo_ball3_obj.is_ball_lost != 0 )
-	      bb = &bo_ball3_obj;
-	    else
-		bb = NULL;
-	    if ( bb != NULL )
-	      *bb = *b;		/* clone the ball */
-	    /* reflection only applies to the original ball */
-	    bo_DoBallBrickReflection(b, gx, gy);
-	    bo_player_brick_points++;
-	    bo_area[iy][ix] = BO_BRICK_CLOSE_START;
-	    return;
-	  }
+	  if ( is_reflect == 0 )
+	    if ( bo_IsBallBrickIntersection(b, gx, gy) )
+	    {
+	      bo_ball *bb;
+	      /* look for lost ball */
+	      if ( bo_ball1_obj.is_ball_lost != 0 )
+		bb = &bo_ball1_obj;
+	      else if ( bo_ball2_obj.is_ball_lost != 0 )
+		bb = &bo_ball2_obj;
+	      else if ( bo_ball3_obj.is_ball_lost != 0 )
+		bb = &bo_ball3_obj;
+	      else
+		  bb = NULL;
+	      if ( bb != NULL )
+		*bb = *b;		/* clone the ball */
+	      /* reflection only applies to the original ball */
+	      bo_DoBallBrickReflection(b, gx, gy);
+	      is_reflect = 1;
+	      bo_player_brick_points++;
+	      bo_area[iy][ix] = BO_BRICK_CLOSE_START;
+	      return;
+	    }
 	  break;
 	case BO_BRICK_CLOSE_START:
 	  bo_area[iy][ix] = BO_BRICK_CLOSE2;
@@ -329,26 +344,34 @@ void bo_CheckBrickArea(bo_ball *b)
 
 void bo_CheckField(bo_ball *b)
 {
+  u8 is_reflection = 0;
   if ( b->x0 <= 0 )
   {
     b->dx = -b->dx;
-    b->is_ball_reflection = 1;
+    is_reflection = 1;
   }
   if ( b->x1 >= BO_FIELD_WIDTH )
   {
     b->dx = -b->dx;
-    b->is_ball_reflection = 1;
+    is_reflection = 1;
   }
   if ( b->y0 <= 0 )
   {
     b->is_ball_lost = 1;
     b->dy = -b->dy;
-    b->is_ball_reflection = 1;
+    is_reflection = 1;
   }
   if ( b->y1 >= BO_FIELD_HEIGHT )
   {
     b->dy = -b->dy;
+    is_reflection = 1;
+  }
+  if ( is_reflection != 0 )
+  {
     b->is_ball_reflection = 1;
+    /* reset last brick reflection */
+    b->lbr_x = -1;
+    b->lbr_y = -1;
   }
 }
 
@@ -372,7 +395,10 @@ void bo_DoBallPlayerReflection(bo_ball *b, bo_player *p)
   
   if ( b->is_ball_lost )
     return;
-  
+
+  /* reset last brick reflection */
+  b->lbr_x = -1;
+  b->lbr_y = -1;  
   
   /* calculate middle of the ball */
   mx = (b->x0+b->x1)/2;
@@ -558,6 +584,8 @@ void bo_SetupBall(bo_ball *b)
   b->x1 = 5*(1<<BO_FP);
   b->y1 = 5*(1<<BO_FP) + 2*(1<<BO_FP);
   
+  b->lbr_x = -1;
+  b->lbr_y = -1;
   
   b->is_ball_lost = 0;
   b->is_ball_reflection = 0;
