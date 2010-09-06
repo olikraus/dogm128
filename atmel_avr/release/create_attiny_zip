@@ -10,3 +10,4 @@ cp ../../ChangeLog .
 find . -name Makefile -exec sed -iold -e "s|DOGDIR = .*|DOGDIR = ../../lib/|" {}  \;  
 find . -name "Makefile" -execdir make clean \;
 zip -r dogm128_avr.zip examples lib COPYING.LESSER INSTALL.TXT ChangeLog
+zip -d dogm128_avr.zip "*/Makefileold"
