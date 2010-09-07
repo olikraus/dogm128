@@ -26,7 +26,7 @@
 
 #include "dogm128.h"
 
-const signed char dog_sin_tab[65] = {
+const signed char dog_sin_tab[65] PROGMEM = {
   0,2,3,5,6,8,9,11,12,14,16,17,19,20,22,23,24,26,27,29,
   30,32,33,34,36,37,38,39,41,42,43,44,45,46,47,48,49,50,51,52,
   53,54,55,56,56,57,58,59,59,60,60,61,61,62,62,62,63,63,63,64,
@@ -42,20 +42,20 @@ signed char dog_sin(uint8_t w)
   switch(case_w)
   {
     case 0:
-      //result = dog_pgm_read(dog_sin_tab+idx_w);
-      result = dog_sin_tab[idx_w];
+      result = dog_pgm_read(dog_sin_tab+idx_w);
+      //result = dog_sin_tab[idx_w];
       break;
     case 1:
-      //result = dog_pgm_read(dog_sin_tab+64-idx_w);
-      result = dog_sin_tab[64-idx_w];
+      result = dog_pgm_read(dog_sin_tab+64-idx_w);
+      //result = dog_sin_tab[64-idx_w];
       break;
     case 2:
-      //result = -dog_pgm_read(dog_sin_tab+idx_w);
-      result = -dog_sin_tab[idx_w];
+      result = -dog_pgm_read(dog_sin_tab+idx_w);
+      //result = -dog_sin_tab[idx_w];
       break;
     case 3:
-      //result = -dog_pgm_read(dog_sin_tab+64-idx_w);
-      result = -dog_sin_tab[64-idx_w];
+      result = -dog_pgm_read(dog_sin_tab+64-idx_w);
+      //result = -dog_sin_tab[64-idx_w];
       break;
   }
   return result;

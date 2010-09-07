@@ -24,7 +24,11 @@
 
 #include "dogm128.h"
 
+#ifdef DOG_REVERSE
+unsigned char dog_bit_to_mask[8] = { 128, 64, 32, 16, 8, 4, 2, 1 };
+#else
 unsigned char dog_bit_to_mask[8] = { 1, 2, 4, 8, 16, 32, 64, 128 };
+#endif
 
 
 

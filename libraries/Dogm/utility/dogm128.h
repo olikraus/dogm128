@@ -19,14 +19,22 @@
   You should have received a copy of the Lesser GNU General Public License
   along with dogm128.  If not, see <http://www.gnu.org/licenses/>.
 
+  Display Selection
   one of the following constants could be defined:
     DOGM128_HW
     DOGS102_HW
     DOGM132_HW
+    
+  Normal or Revers Display Mode
+    DOG_REVERSE
+    
+    
 */
 
 #ifndef _DOGM128_H
 #define _DOGM128_H
+
+//#define DOG_REVERSE
 
 //#define DOGM128_HW	/* uncomment for the DOGM128 display */
 //#define DOGS102_HW		/* uncomment for the DOGS102 display */

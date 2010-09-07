@@ -26,8 +26,13 @@
 
 /* support function for the vline graphics primitives */
 
-unsigned char dog_mask0[8] = { 0x01, 0x03, 0x07, 0x0f, 0x1f, 0x3f, 0x7f, 0xff };
-unsigned char dog_mask7[8] = { 0xff, 0xfe, 0xfc, 0xf8, 0xf0, 0xe0, 0xc0, 0x80 };
+#ifdef DOG_REVERSE
+static unsigned char dog_mask7[8] PROGMEM = { 0xff, 0x7f, 0x3f, 0x1f, 0x0f, 0x07, 0x03, 0x01 }; 
+static unsigned char dog_mask0[8] PROGMEM = { 0x80, 0xc0, 0xe0, 0xf0, 0xf8, 0xfc, 0xfe, 0xff };
+#else
+static unsigned char dog_mask0[8] PROGMEM = { 0x01, 0x03, 0x07, 0x0f, 0x1f, 0x3f, 0x7f, 0xff };
+static unsigned char dog_mask7[8] PROGMEM = { 0xff, 0xfe, 0xfc, 0xf8, 0xf0, 0xe0, 0xc0, 0x80 };
+#endif
 
 uint8_t dog_get_vline_mask(uint8_t y1, uint8_t y2)
 {
@@ -44,7 +49,7 @@ uint8_t dog_get_vline_mask(uint8_t y1, uint8_t y2)
       tmp = y2;
       tmp &= (unsigned char)7;
       /* bits, starting at bit-position 0 */
-      tmp = dog_mask0[tmp];
+      tmp = dog_pgm_read(dog_mask0+tmp);
     }
   }
   else
@@ -54,7 +59,7 @@ uint8_t dog_get_vline_mask(uint8_t y1, uint8_t y2)
       /* bits, ending at bit-position 7 */
       tmp = y1;
       tmp &= (unsigned char)7;
-      tmp = dog_mask7[tmp];
+      tmp = dog_pgm_read(dog_mask7+tmp);
     }
     else
     {
@@ -62,10 +67,10 @@ uint8_t dog_get_vline_mask(uint8_t y1, uint8_t y2)
       uint8_t t2;
       tmp = y1;
       tmp &= (unsigned char)7;
-      tmp = dog_mask7[tmp];
+      tmp = dog_pgm_read(dog_mask7+tmp);
       t2 = y2;
       t2 &= (unsigned char)7;
-      t2= dog_mask0[t2];
+      t2= dog_pgm_read(dog_mask0+t2);
       tmp &= t2;
     }
   }

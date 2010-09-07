@@ -32,4 +32,6 @@ dogm128 ChangeLog
 	* Port to Atmel AVR ATTINY84 
 2010-xx-xx	v1.05
 	* Breakorino bugfix (remember last reflection)
+        * Display orientation: DOG_REVERSE
+	* Put some tables into flashrom --> reduced RAM usage
 	

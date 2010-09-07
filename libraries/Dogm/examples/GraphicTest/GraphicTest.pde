@@ -126,6 +126,7 @@ void page3()
 }
 
 uint8_t page = 0;
+uint8_t is_invert = 0;
 void loop() {
   dogm.start();
   do {
@@ -139,5 +140,10 @@ void loop() {
   dog_Delay(1000);
   page++;
   if ( page == 4 )
+  {
     page = 0;
+    is_invert++;
+    is_invert &= 1;
+    dog_SetInvertPixelMode(is_invert);
+  }
 }

@@ -165,7 +165,7 @@ void dog_Init(unsigned short pin_a0)
 }
 
 
-void dog_transfer_page(void)
+static void dog_transfer_page(void)
 {
   uint8_t idx;
 
@@ -182,13 +182,22 @@ void dog_transfer_page(void)
   /* send a complete page */
   
   dog_data_mode();
-  
+
+#ifdef DOG_REVERSE
+  idx = 0;
+  while( idx != DOG_PAGE_WIDTH )
+  {
+    idx++;
+    dog_spi_out(dog_page_buffer[idx]); 
+  }
+#else
   idx = DOG_PAGE_WIDTH;
   while( idx != 0 )
   {
     idx--;
     dog_spi_out(dog_page_buffer[idx]); 
   }
+#endif
 
   /* disable com interface of the ST7565R */
 
@@ -209,7 +218,11 @@ void dog_ClearPage(void)
 
 void dog_StartPage(void)
 {
+#ifdef DOG_REVERSE
+  dog_curr_page = DOG_PAGE_CNT - 1;
+#else
   dog_curr_page = 0;
+#endif
   dog_min_y = 0;
   dog_max_y = DOG_PAGE_HEIGHT-1;
   dog_ClearPage();
@@ -219,14 +232,26 @@ uint8_t dog_NextPage(void)
 {
   dog_transfer_page();
   dog_ClearPage();
+  
+#ifdef DOG_REVERSE
+  if ( dog_curr_page == 0 )
+      return 0;
+  dog_curr_page--;
+#else
   dog_curr_page++;
   if ( dog_curr_page >= DOG_PAGE_CNT )
       return 0;
-  
+#endif  
+ 
+/*  
   dog_min_y = DOG_PAGE_HEIGHT;
   dog_min_y *= dog_curr_page;
   dog_max_y = dog_min_y;
   dog_max_y += DOG_PAGE_HEIGHT-1;
+*/
+  
+  dog_min_y += DOG_PAGE_HEIGHT;
+  dog_max_y += DOG_PAGE_HEIGHT;
   return 1;
 }
 
