@@ -213,7 +213,9 @@ uint8_t dog_GetFontBBXWidth(PGM_P buf);
 uint8_t dog_GetFontBBXDescent(PGM_P buf);
   
 uint8_t dog_DrawChar(uint8_t x, uint8_t y, PGM_P font, unsigned char code); /* dogmfont.c */
+uint8_t dog_DrawRotChar(uint8_t x, uint8_t y, uint8_t rot, PGM_P font, unsigned char code);
 uint8_t dog_DrawStr(uint8_t x, uint8_t y, PGM_P font, const char *s);	/* dogmfont.c */
+uint8_t dog_DrawRotStr(uint8_t x, uint8_t y, uint8_t rot, PGM_P font, const char *s);
 
 /* --- math --- */
 

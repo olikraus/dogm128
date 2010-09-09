@@ -42,6 +42,7 @@ void setup() {
 void all_page()
 {
     dogm.setFont(font_5x8);
+    dogm.setRot(0);
   
     // draw a cross at the DOGS x-boundary
     dogm.setVLine(101,0, 3);
@@ -125,6 +126,27 @@ void page3()
     dogm.drawArc(53, 40, 14, 192, 64); 
 }
 
+void page4()
+{
+    all_page();
+    dogm.setFont(font_5x8);
+    dogm.setXY(64,32);
+    dogm.setRot(0);
+    dogm.drawStr("-ABCa");
+    dogm.drawStr("bc");
+    dogm.setXY(64,32);
+    dogm.setRot(1);
+    dogm.drawStr("-ABCa");
+    dogm.drawStr("bc");
+    dogm.setXY(64,32);
+    dogm.setRot(2);
+    dogm.drawStr("-ABCa");
+    dogm.drawStr("bc");
+    dogm.setXY(64,32);
+    dogm.setRot(3);
+    dogm.drawStr("-ABCa");
+    dogm.drawStr("bc");
+}
 uint8_t page = 0;
 uint8_t is_invert = 0;
 void loop() {
@@ -135,11 +157,12 @@ void loop() {
       case 1: page1(); break;
       case 2: page2(); break;
       case 3: page3(); break;
+      case 4: page4(); break;
     }
   } while( dogm.next() );
-  dog_Delay(1000);
+  dog_Delay(1500);
   page++;
-  if ( page == 4 )
+  if ( page == 5 )
   {
     page = 0;
     is_invert++;

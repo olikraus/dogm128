@@ -12,6 +12,7 @@ void Dogm::Init(void)
 
 Dogm::Dogm(uint8_t pin_a0)
 {
+  rot = 0;
   size = 0;
   tx = 0;
   ty = 0;
@@ -30,4 +31,31 @@ void Dogm::start(void)
   dog_StartPage();
 }
 
+void Dogm::xy_char_correction(uint8_t len)
+{
+  switch( rot )
+  {
+    default:
+      tx += len;
+      break;
+    case 1:
+      ty += len;
+      break;
+    case 2:
+      tx -= len;
+      break;
+    case 3:
+      ty -= len;
+      break;
+  }
+}
+
+void Dogm::drawChar(uint8_t c) 
+{
+  xy_char_correction(dog_DrawRotChar(tx, ty, rot, fptr, c));  
+}
+void Dogm::drawStr(const char *s) 
+{ 
+  xy_char_correction(dog_DrawRotStr(tx, ty, rot, fptr, s));
+}
 

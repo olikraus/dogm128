@@ -10,8 +10,10 @@ class Dogm : public Print {
     uint8_t a0Pin;
     uint8_t is_req_init;	// if call to Init() is required
     uint8_t size;
+    uint8_t rot;
     PGM_P fptr;
     void Init(void);
+    void xy_char_correction(uint8_t);
   public:
     // text cursor position
     uint8_t tx, ty;
@@ -50,8 +52,10 @@ class Dogm : public Print {
     /* Font */
     void setFont(PGM_P font) { fptr = font; }
     void setXY(uint8_t x, uint8_t y) { tx = x; ty = y; }
-    void drawChar(uint8_t c) { tx += dog_DrawChar(tx, ty, fptr, c); }
-    void drawStr(const char *s) { tx += dog_DrawStr(tx, ty, fptr, s); }
+    void setRot(uint8_t rotation) { rot = rotation; }
+    
+    void drawChar(uint8_t c);
+    void drawStr(const char *s);
     uint8_t getStrWidth(const char *s) { return dog_GetStrWidth(fptr, s); }
     void write(uint8_t c) { tx += dog_DrawChar(tx, ty, fptr, c); }
 

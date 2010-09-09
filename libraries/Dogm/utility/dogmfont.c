@@ -111,7 +111,7 @@ static unsigned char chr_get_pixel(PGM_P buf, unsigned char x, unsigned char y )
 }
 
 
-unsigned short chr_get_skip_delta(PGM_P cbuf, unsigned char skip_cnt)
+static unsigned short chr_get_skip_delta(PGM_P cbuf, unsigned char skip_cnt)
 {
   unsigned short pos = 0;
   unsigned char len;
@@ -155,13 +155,13 @@ uint8_t dog_GetCharWidth(PGM_P font, unsigned char code)
   return chr_get_width_P(adr);
 }
 
-uint8_t dog_char(uint8_t x, uint8_t y, PGM_P font, uint8_t mode, unsigned char code)
+uint8_t dog_char(uint8_t x, uint8_t y, PGM_P font, uint8_t mode, uint8_t rot, unsigned char code)
 {
   PGM_P cbuf = fnt_get_chr(font, code);
   unsigned char ascent_area, descent_area;
   unsigned char  i, j;
-  uint8_t tmp_y;
-  uint8_t tmp_x;
+  uint8_t tmp_y, r_y;
+  uint8_t tmp_x, r_x;
   uint8_t height,width;
 
   if ( chr_get_len_P(cbuf) == 0 )
@@ -188,8 +188,8 @@ uint8_t dog_char(uint8_t x, uint8_t y, PGM_P font, uint8_t mode, unsigned char c
   
   
   /*tmp_y = y + chr_get_height(cbuf) - chr_get_descent(cbuf) ;*/
-  tmp_y = y;
-  tmp_y += height;
+  /*tmp_y = y; will be added later*/
+  tmp_y = height;
   tmp_y -= chr_get_descent_P(cbuf);
 
   /* char goes from tmp_y to tmp_y-height-1 and x .. x + width -1*/
@@ -203,11 +203,35 @@ uint8_t dog_char(uint8_t x, uint8_t y, PGM_P font, uint8_t mode, unsigned char c
 
   for( i = height; i > 0; i-- )
   {
-    tmp_x = x;
+    tmp_x = 0;
     for( j = 0; j < width; j++ )
     {
       if ( chr_get_pixel(cbuf, j, i-1 ) > 0 )
-	dog_SetPixel(tmp_x, tmp_y);
+      {
+	switch( rot )
+	{
+	  default:
+	    r_x = tmp_x;
+	    r_y = tmp_y;
+	    break;
+	  case 1:
+	    r_x = -tmp_y;
+	    r_y = tmp_x;
+	    break;
+	  case 2:
+	    r_x = -tmp_x;
+	    r_y = -tmp_y;
+	    break;
+	  case 3:
+	    r_x = tmp_y;
+	    r_y = -tmp_x;
+	    break;
+	}
+	
+	r_x += x;
+	r_y += y;
+	dog_SetPixel(r_x, r_y);
+      }
       /*
       else
 	dog_ClrPixel(tmp_x, tmp_y);
@@ -220,20 +244,27 @@ uint8_t dog_char(uint8_t x, uint8_t y, PGM_P font, uint8_t mode, unsigned char c
   return width;
 }
 
-uint8_t dog_DrawChar(uint8_t x, uint8_t y, PGM_P font, unsigned char code)
+uint8_t dog_DrawRotChar(uint8_t x, uint8_t y, uint8_t rot, PGM_P font, unsigned char code)
 {
   signed char y0, y1;
-  y0 = y;
-  y0 -= fnt_get_bbox_descent(font);  
-  y1 = y0;
-  y1 += fnt_get_bbox_height(font);  
+  if ( rot == 0 )
+  {
+    y0 = y;
+    y0 -= fnt_get_bbox_descent(font);  
+    y1 = y0;
+    y1 += fnt_get_bbox_height(font);  
   
-  if ( (signed char)dog_max_y < y0 )
-    return dog_GetCharWidth(font, code);
-  if ( (signed char)dog_min_y > y1 )
-    return dog_GetCharWidth(font, code);
-  
-  return dog_char(x,y,font,0,code);
+    if ( (signed char)dog_max_y < y0 )
+      return dog_GetCharWidth(font, code);
+    if ( (signed char)dog_min_y > y1 )
+      return dog_GetCharWidth(font, code);
+  }
+  return dog_char(x,y,font,0,rot,code);
+}
+
+uint8_t dog_DrawChar(uint8_t x, uint8_t y, PGM_P font, unsigned char code)
+{
+  return dog_DrawRotChar(x, y, 0, font, code);
 }
 
 
@@ -249,32 +280,56 @@ uint8_t dog_GetStrWidth(PGM_P font, const char *s)
   return w;
 }
 
-uint8_t dog_str(uint8_t x, uint8_t y, PGM_P font, uint8_t mode, const char *s)
+uint8_t dog_str(uint8_t x, uint8_t y, uint8_t rot, PGM_P font, uint8_t mode, const char *s)
 {
   uint8_t d = 0;
+  uint8_t d_sum = 0;
   signed char y0, y1;
-  y0 = y;
-  y0 -= fnt_get_bbox_descent(font);  
-  y1 = y0;
-  y1 += fnt_get_bbox_height(font);
   
+  if ( rot == 0 )
+  {
+    y0 = y;
+    y0 -= fnt_get_bbox_descent(font);  
+    y1 = y0;
+    y1 += fnt_get_bbox_height(font);
   
-  if ( (signed char)dog_max_y < y0 )
-    return dog_GetStrWidth(font, s);
-  if ( (signed char)dog_min_y > y1 )
-    return dog_GetStrWidth(font, s);
+    if ( (signed char)dog_max_y < y0 )
+      return dog_GetStrWidth(font, s);
+    if ( (signed char)dog_min_y > y1 )
+      return dog_GetStrWidth(font, s);
+  }
   
   while( *s != '\0' )
   {
-    d += dog_char(x+d,y,font, mode, (unsigned char)*s);
+    d = dog_char(x,y,font, mode, rot, (unsigned char)*s);
+    switch(rot)
+    {
+      default:
+	x += d;
+	break;
+      case 1:
+	y += d;
+	break;
+      case 2:
+	x -= d;
+	break;
+      case 3:
+	y -= d;
+	break;
+    }
+    d_sum += d;
     s++;
   }
-  return d;
+  return d_sum;
 }
 
 uint8_t dog_DrawStr(uint8_t x, uint8_t y, PGM_P font, const char *s)
 {
-  return dog_str(x,y,font,0,s);
+  return dog_str(x,y,0, font,0,s);
 }
 
+uint8_t dog_DrawRotStr(uint8_t x, uint8_t y, uint8_t rot, PGM_P font, const char *s)
+{
+  return dog_str(x,y,rot, font,0,s);
+}
 
