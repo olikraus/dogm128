@@ -134,18 +134,22 @@ void page4()
     dogm.setRot(0);
     dogm.drawStr("-ABCa");
     dogm.drawStr("bc");
+    dogm.drawChar('d');
     dogm.setXY(64,32);
     dogm.setRot(1);
     dogm.drawStr("-ABCa");
     dogm.drawStr("bc");
+    dogm.drawChar('d');
     dogm.setXY(64,32);
     dogm.setRot(2);
     dogm.drawStr("-ABCa");
     dogm.drawStr("bc");
+    dogm.drawChar('d');
     dogm.setXY(64,32);
     dogm.setRot(3);
     dogm.drawStr("-ABCa");
     dogm.drawStr("bc");
+    dogm.drawChar('d');
 }
 uint8_t page = 0;
 uint8_t is_invert = 0;
