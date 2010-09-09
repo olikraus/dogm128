@@ -91,7 +91,7 @@ void dog_Delay(uint16_t val)
   }
 }
 
-void dog_init_display(void)
+static void dog_init_display(void)
 {
   dog_Delay(10);
   dog_spi_disable_client();	/* force reset of the spi subsystem of the ST7565R */
@@ -209,11 +209,12 @@ static void dog_transfer_page(void)
 /* page buffer functions */
 /*==============================================================*/
 
-void dog_ClearPage(void)
+static void dog_ClearPage(void)
 {
   uint8_t i;
   for( i = 0; i < DOG_PAGE_WIDTH; i++ )
     dog_page_buffer[i] = 0;
+
 }
 
 void dog_StartPage(void)
