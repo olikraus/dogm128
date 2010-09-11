@@ -35,4 +35,4 @@ dogm128 ChangeLog
         * Display orientation: DOG_REVERSE
 	* Put some tables into flashrom, marked some functions as static --> reduced RAM/ROM usage
 	* Chars and strings: Rotation by 0, 90, 180 or 270 degree
-	
+	* Bugfix: dog_SetVLine (Issue 55)
