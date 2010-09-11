@@ -28,8 +28,6 @@
 void dog_SetVLine(uint8_t x, uint8_t y1, uint8_t y2)
 {
   unsigned char *ptr;
-  if ( x >= 128 )
-    return;
   if ( y2 < dog_min_y )
     return;
   if ( y1 > dog_max_y )
