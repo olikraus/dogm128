@@ -78,6 +78,20 @@ void page3(void)
     dog_DrawArc(53, 40, 14, 192, 64, 1); 
 }
 
+void page4(void)
+{
+    all_page();
+    dog_DrawPoint(0,0, 1);
+    dog_DrawRStr(0, 0, 0, font_5x8, "Text r=0");
+    dog_DrawPoint(50,5, 1);
+    dog_DrawRStr(50, 5, 1, font_5x8, "T r=1");
+    dog_DrawPoint(80,20, 1);
+    dog_DrawRStr(80, 20, 2, font_5x8, "T r=2");
+    dog_DrawPoint(90,25, 1);
+    dog_DrawRStr(90, 25, 3, font_5x8, "T r=3");
+  
+}
+
 void system_init(void)
 {
   /* select minimal prescaler (max system speed) */
@@ -104,11 +118,12 @@ int main(void)
 	case 1: page1(); break;
 	case 2: page2(); break;
 	case 3: page3(); break;
+	case 4: page4(); break;
       }
     } while( dog_NextPage() );
-    dog_Delay(1000);
+    dog_Delay(1500);
     page++;
-    if ( page == 4 )
+    if ( page == 5 )
       page = 0;
   }  
 }

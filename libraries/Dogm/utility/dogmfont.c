@@ -155,7 +155,7 @@ uint8_t dog_GetCharWidth(PGM_P font, unsigned char code)
   return chr_get_width_P(adr);
 }
 
-uint8_t dog_char(uint8_t x, uint8_t y, PGM_P font, uint8_t mode, uint8_t rot, unsigned char code)
+static uint8_t dog_char(uint8_t x, uint8_t y, PGM_P font, uint8_t mode, uint8_t rot, unsigned char code)
 {
   PGM_P cbuf = fnt_get_chr(font, code);
   unsigned char ascent_area, descent_area;
@@ -244,7 +244,7 @@ uint8_t dog_char(uint8_t x, uint8_t y, PGM_P font, uint8_t mode, uint8_t rot, un
   return width;
 }
 
-uint8_t dog_DrawRotChar(uint8_t x, uint8_t y, uint8_t rot, PGM_P font, unsigned char code)
+uint8_t dog_DrawRChar(uint8_t x, uint8_t y, uint8_t rot, PGM_P font, unsigned char code)
 {
   signed char y0, y1;
   if ( rot == 0 )
@@ -264,10 +264,8 @@ uint8_t dog_DrawRotChar(uint8_t x, uint8_t y, uint8_t rot, PGM_P font, unsigned 
 
 uint8_t dog_DrawChar(uint8_t x, uint8_t y, PGM_P font, unsigned char code)
 {
-  return dog_DrawRotChar(x, y, 0, font, code);
+  return dog_DrawRChar(x, y, 0, font, code);
 }
-
-
 
 uint8_t dog_GetStrWidth(PGM_P font, const char *s)
 {
@@ -280,7 +278,7 @@ uint8_t dog_GetStrWidth(PGM_P font, const char *s)
   return w;
 }
 
-uint8_t dog_str(uint8_t x, uint8_t y, uint8_t rot, PGM_P font, uint8_t mode, const char *s)
+static uint8_t dog_str(uint8_t x, uint8_t y, uint8_t rot, PGM_P font, uint8_t mode, const char *s)
 {
   uint8_t d = 0;
   uint8_t d_sum = 0;
@@ -328,7 +326,7 @@ uint8_t dog_DrawStr(uint8_t x, uint8_t y, PGM_P font, const char *s)
   return dog_str(x,y,0, font,0,s);
 }
 
-uint8_t dog_DrawRotStr(uint8_t x, uint8_t y, uint8_t rot, PGM_P font, const char *s)
+uint8_t dog_DrawRStr(uint8_t x, uint8_t y, uint8_t rot, PGM_P font, const char *s)
 {
   return dog_str(x,y,rot, font,0,s);
 }

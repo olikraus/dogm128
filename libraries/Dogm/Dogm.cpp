@@ -52,10 +52,10 @@ void Dogm::xy_char_correction(uint8_t len)
 
 void Dogm::drawChar(uint8_t c) 
 {
-  xy_char_correction(dog_DrawRotChar(tx, ty, rot, fptr, c));  
+  xy_char_correction(dog_DrawRChar(tx, ty, rot, fptr, c));  
 }
 void Dogm::drawStr(const char *s) 
 { 
-  xy_char_correction(dog_DrawRotStr(tx, ty, rot, fptr, s));
+  xy_char_correction(dog_DrawRStr(tx, ty, rot, fptr, s));
 }
 
