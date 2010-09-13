@@ -36,3 +36,5 @@ dogm128 ChangeLog
 	* Put some tables into flashrom, marked some functions as static --> reduced RAM/ROM usage
 	* Chars and strings: Rotation by 0, 90, 180 or 270 degree
 	* Bugfix: dog_SetVLine (Issue 55)
+	* New example game: SpaceTrash
+	
