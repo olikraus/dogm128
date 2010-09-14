@@ -292,6 +292,17 @@ const char st_bitmap_gadget[] PROGMEM =
 /*================================================================*/
 /* forward definitions */
 /*================================================================*/
+uint8_t st_rnd(void) __attribute__ ((noinline));
+static st_obj *st_GetObj(uint8_t objnr) __attribute__ ((noinline));
+uint8_t st_GetMissleMask(uint8_t objnr);
+uint8_t st_GetHitMask(uint8_t objnr);
+int8_t st_FindObj(uint8_t ot) __attribute__ ((noinline));
+void st_ClrObjs(void) __attribute__ ((noinline));
+int8_t st_NewObj(void) __attribute__ ((noinline));
+uint8_t st_CntObj(uint8_t ot);
+uint8_t st_CalcXY(uint8_t objnr);
+
+
 void st_InitTrash(uint8_t x, uint8_t y, int8_t dir);
 void st_NewGadget(uint8_t x, uint8_t y);
 void st_NewPlayerMissle(uint8_t x, uint8_t y);
@@ -311,7 +322,6 @@ uint8_t st_rnd(void)
 /*	
   for the specified index number, return the object
 */
-static st_obj *st_GetObj(uint8_t objnr) __attribute__ ((noinline));
 static st_obj *st_GetObj(uint8_t objnr)
 {
   return st_objects+objnr;
@@ -569,38 +579,13 @@ void st_DrawBBOX(uint8_t objnr)
   
   //dog_SetBox(st_cbbox_x0, st_cbbox_y0, st_cbbox_x1, st_cbbox_y1);
 
-  
+  /*
   if ( o->ot == ST_OT_PLAYER )
   {
     dog_DrawStr(0, 26, font_4x6, dog_itoa(st_cbbox_y0));
     dog_DrawStr(10, 26, font_4x6, dog_itoa(st_cbbox_y1));
   }
-  /*
-  x0 = 0;
-  y0 = 0;
-  x1 = DOG_WIDTH-1;
-  y1 = DOG_HEIGHT-1;
-  
-  if ( st_bbox_x0 > 0  )
-      x0 = st_bbox_x0;
-  if ( st_bbox_y0 > 0  )
-      y0 = st_bbox_y0;
-  if ( st_bbox_x1 < ST_AREA_WIDTH-1  )
-      x1 = st_bbox_x1;
-  if ( st_bbox_y1 < ST_AREA_HEIGHT-1  )
-      y1 = st_bbox_y1;
-
-#ifndef  __unix__
-  if ( st_bbox_x0 >= 0 )
-    dog_SetVLine(st_bbox_x0, y0, y1);
-  if ( st_bbox_x1 <= ST_AREA_WIDTH-1 )
-    dog_SetVLine(st_bbox_x1, y0, y1);
-  if ( st_bbox_y0 >= 0 )
-    dog_SetHLine(x0, x1, st_bbox_y0);
-  if ( st_bbox_y1 <= ST_AREA_HEIGHT-1 )
-    dog_SetHLine(x0, x1, st_bbox_y1);
-#endif
-*/
+  */
 }
 
 void st_DrawFilledBox(uint8_t objnr)
