@@ -300,19 +300,23 @@ int8_t st_FindObj(uint8_t ot) __attribute__ ((noinline));
 void st_ClrObjs(void) __attribute__ ((noinline));
 int8_t st_NewObj(void) __attribute__ ((noinline));
 uint8_t st_CntObj(uint8_t ot);
-uint8_t st_CalcXY(uint8_t objnr);
+uint8_t st_CalcXY(st_obj *o) __attribute__ ((noinline));
+void st_SetXY(st_obj *o, uint8_t x, uint8_t y) __attribute__ ((noinline));
 
+void st_FireStep(void) __attribute__ ((noinline));
 
 void st_InitTrash(uint8_t x, uint8_t y, int8_t dir);
 void st_NewGadget(uint8_t x, uint8_t y);
-void st_NewPlayerMissle(uint8_t x, uint8_t y);
+void st_NewPlayerMissle(uint8_t x, uint8_t y) ;
 void st_NewTrashDust(uint8_t x, uint8_t y, int ot);
+void st_NewTrashDustAreaArgs(int16_t x, int16_t y, int ot); 
 void st_SetupPlayer(uint8_t objnr, uint8_t ot);
 
 
 /*================================================================*/
 /* utility functions */
 /*================================================================*/
+
 
 uint8_t st_rnd(void)
 {
@@ -404,15 +408,21 @@ uint8_t st_CntObj(uint8_t ot)
 
 /*
   calculate the pixel coordinates of the reference point of an object
-  return 0, if the reference point is invalid
+  return rhe x value
 */
 uint8_t st_px_x, st_px_y; /* pixel within area */
-uint8_t st_CalcXY(uint8_t objnr)
+uint8_t st_CalcXY(st_obj *o)
 {
-  st_obj *o = st_GetObj(objnr);
-  st_px_x = o->x>>ST_FP;
+  //st_obj *o = st_GetObj(objnr);
   st_px_y = o->y>>ST_FP;
-  return 1;
+  st_px_x = o->x>>ST_FP;
+  return st_px_x;
+}
+
+void st_SetXY(st_obj *o, uint8_t x, uint8_t y)
+{
+  o->x = ((int16_t)x) << ST_FP;
+  o->y = ((int16_t)y) << ST_FP;
 }
 
 /*
@@ -642,8 +652,11 @@ void st_DrawObj(uint8_t objnr)
       break;
     case ST_DRAW_BACKSLASH:
       {
-	uint8_t x = (o->x>>ST_FP);
-	uint8_t y = (o->y>>ST_FP);
+	uint8_t x;
+	uint8_t y;
+	x = st_CalcXY(o);
+	y = st_px_y;
+
 	dog_SetPixel(x,y);
 	x++; y--;
 	dog_SetPixel(x,y);
@@ -653,8 +666,11 @@ void st_DrawObj(uint8_t objnr)
      break;
     case ST_DRAW_SLASH:
       {
-	uint8_t x = (o->x>>ST_FP);
-	uint8_t y = (o->y>>ST_FP);
+	uint8_t x;
+	uint8_t y;
+	x = st_CalcXY(o);
+	y = st_px_y;
+	
 	dog_SetPixel(x,y);
 	x++; y++;
 	dog_SetPixel(x,y);
@@ -702,20 +718,20 @@ void st_Destroy(uint8_t objnr)
 	if ( nr >= 0 )
 	  st_SetupPlayer(nr, ST_OT_PLAYER2);
       }
-      st_NewTrashDust(o->x>>ST_FP, o->y>>ST_FP, ST_OT_DUST_PY);
-      st_NewTrashDust(o->x>>ST_FP, o->y>>ST_FP, ST_OT_DUST_NY);
+      st_NewTrashDustAreaArgs(o->x, o->y, ST_OT_DUST_PY);
+      st_NewTrashDustAreaArgs(o->x, o->y, ST_OT_DUST_NY);
       o->ot = ST_OT_GADGET_IMPLODE;
       o->tmp = 0;
       break;
     case ST_DESTROY_TO_DUST:
-      st_NewTrashDust(o->x>>ST_FP, o->y>>ST_FP, ST_OT_DUST_PY);
-      st_NewTrashDust(o->x>>ST_FP, o->y>>ST_FP, ST_OT_DUST_NY);
+      st_NewTrashDustAreaArgs(o->x, o->y, ST_OT_DUST_PY);
+      st_NewTrashDustAreaArgs(o->x, o->y, ST_OT_DUST_NY);
       o->ot = ST_OT_TRASH_IMPLODE;
       o->tmp = 0;
       break;
     case ST_DESTROY_BIG_TRASH:
-      st_NewTrashDust(o->x>>ST_FP, o->y>>ST_FP, ST_OT_DUST_PY);
-      st_NewTrashDust(o->x>>ST_FP, o->y>>ST_FP, ST_OT_DUST_NY);
+      st_NewTrashDustAreaArgs(o->x, o->y, ST_OT_DUST_PY);
+      st_NewTrashDustAreaArgs(o->x, o->y, ST_OT_DUST_NY);
       st_InitTrash((o->x>>ST_FP)-1, (o->y>>ST_FP)+3, 2+(st_rnd()&3));
       st_InitTrash((o->x>>ST_FP)-2, (o->y>>ST_FP)-3, -2-(st_rnd()&3));
       st_Disappear(objnr);
@@ -726,7 +742,8 @@ void st_Destroy(uint8_t objnr)
       o->tmp = 0;
       break;
     case ST_DESTROY_PLAYER_GADGETS:
-      o->ot = ST_OT_PLAYER;
+      /* o->ot = ST_OT_PLAYER; */
+      st_SetupPlayer(objnr, ST_OT_PLAYER);
       break;
   }
 }
@@ -789,22 +806,18 @@ uint8_t st_IsHit(uint8_t objnr, uint8_t x, uint8_t y, uint8_t missle_mask)
 uint8_t st_fire_player = 0;
 uint8_t st_fire_period = 51;
 
-uint8_t st_fire_fast = 0;
 void st_FireStep(void)
 {
   st_fire_player++;
-  st_fire_fast++;
   if ( st_fire_player >= st_fire_period )
     st_fire_player = 0;
-  if ( st_fire_fast >= 31 )
-    st_fire_fast = 0;
 }
 
 void st_Fire(uint8_t objnr)
 {
   st_obj *o = st_GetObj(objnr);
-  
-  st_FireStep();
+  uint8_t x;
+  uint8_t y;
   
   switch(dog_pgm_read(&(st_object_types[o->ot].fire_fn)))
   {
@@ -814,27 +827,30 @@ void st_Fire(uint8_t objnr)
       if ( st_fire_player == 0 )
       {
 	/* create missle at st_px_x and st_px_y */
-	st_CalcXY(objnr);
-	st_NewPlayerMissle(st_px_x , st_px_y );
+	x = st_CalcXY(o);
+	y = st_px_y;
+	st_NewPlayerMissle(x , y );
       }
       break;
     case ST_FIRE_PLAYER2:
       if ( st_fire_player == 0 )
       {
 	/* create missle at st_px_x and st_px_y */
-	st_CalcXY(objnr);
-	st_NewPlayerMissle(st_px_x , st_px_y );
-	st_NewPlayerMissle(st_px_x , st_px_y+4 );
+	x = st_CalcXY(o);
+	y = st_px_y;
+	st_NewPlayerMissle(x , y );
+	st_NewPlayerMissle(x , y+4 );
       }
       break;
     case ST_FIRE_PLAYER3:
       if ( st_fire_player == 0 )
       {
 	/* create missle at st_px_x and st_px_y */
-	st_CalcXY(objnr);
-	st_NewPlayerMissle(st_px_x , st_px_y );
-	st_NewPlayerMissle(st_px_x , st_px_y+4 );
-	st_NewPlayerMissle(st_px_x , st_px_y-4 );
+	x = st_CalcXY(o);
+	y = st_px_y;
+	st_NewPlayerMissle(x , y );
+	st_NewPlayerMissle(x , y+4 );
+	st_NewPlayerMissle(x , y-4 );
       }
       break;
   }
@@ -854,10 +870,11 @@ void st_NewGadget(uint8_t x, uint8_t y)
   if ( objnr < 0 )
     return;
   o = st_GetObj(objnr);
+  st_SetXY(o, x, y);
   o->ot = ST_OT_GADGET;
   o->tmp = 8;
-  o->x = (x)<<ST_FP;
-  o->y = (y)<<ST_FP;
+  //o->x = (x)<<ST_FP;
+  //o->y = (y)<<ST_FP;
   o->x0 = -3;
   o->x1 = 1;
   o->y0 = -2;
@@ -896,8 +913,9 @@ void st_InitTrash(uint8_t x, uint8_t y, int8_t dir)
   {
     o->tmp = dir;
   }
-  o->x = (x)<<ST_FP;
-  o->y = (y)<<ST_FP;
+  st_SetXY(o, x, y);
+  //o->x = (x)<<ST_FP;
+  //o->y = (y)<<ST_FP;
   o->x0 = -3;
   o->x1 = 1;
   o->y0 = -2;
@@ -926,13 +944,20 @@ void st_NewTrashDust(uint8_t x, uint8_t y, int ot)
     return;
   o = st_GetObj(objnr);
   o->ot = ot;
-  o->x = (x)<<ST_FP;
-  o->y = (y)<<ST_FP;
+  st_SetXY(o, x, y);
+  //o->x = (x)<<ST_FP;
+  //o->y = (y)<<ST_FP;
   o->x0 = 0;
   o->x1 = 0;
   o->y0 = -2;
   o->y1 = 2;
 }
+
+void st_NewTrashDustAreaArgs(int16_t x, int16_t y, int ot)
+{
+  st_NewTrashDust(x>>ST_FP, y>>ST_FP, ot);
+}
+
 
 void st_NewWall(void)
 {
@@ -975,8 +1000,9 @@ void st_NewPlayerMissle(uint8_t x, uint8_t y)
     return;
   o = st_GetObj(objnr);
   o->ot = 3;
-  o->x = x<<ST_FP;
-  o->y = y<<ST_FP;
+  st_SetXY(o, x, y);
+  //o->x = x<<ST_FP;
+  //o->y = y<<ST_FP;
   o->x0 = -3;
   o->x1 = 1;
   o->y0 = 0;
@@ -1029,12 +1055,16 @@ void st_InitDeltaWall(void)
   uint8_t i;
   uint8_t cnt = 0;
   uint8_t max_x = 0;
+  uint8_t max_l;
   
   uint8_t min_dist_for_new = 40;
   uint8_t my_difficulty = st_difficulty;
   
   if ( st_difficulty >= 2 )
   {
+    
+    max_l = ST_AREA_WIDTH;
+    max_l -= min_dist_for_new;
     
     if ( my_difficulty > 30 )
       my_difficulty = 30;
@@ -1050,7 +1080,7 @@ void st_InitDeltaWall(void)
       }
     }    
     /* if ( cnt < upper_trash_limit ) */
-    if ( max_x < ST_AREA_WIDTH - min_dist_for_new ) 
+    if ( max_x < max_l ) 
     {
       st_NewWall();
     }
@@ -1063,6 +1093,7 @@ void st_InitDeltaTrash(void)
   uint8_t i;
   uint8_t cnt = 0;
   uint8_t max_x = 0;
+  uint8_t max_l;
   
   uint8_t upper_trash_limit = ST_OBJ_CNT-7;
   uint8_t min_dist_for_new = 20;
@@ -1081,8 +1112,12 @@ void st_InitDeltaTrash(void)
 	max_x = (st_objects[i].x>>ST_FP);
     }
   }
+  
+  max_l = ST_AREA_WIDTH;
+  max_l -= min_dist_for_new;
+  
   if ( cnt < upper_trash_limit )
-    if ( max_x < ST_AREA_WIDTH-min_dist_for_new ) 
+    if ( max_x < max_l ) 
     {
       if (  (st_difficulty >= 3)  && ((st_rnd() & 7) == 0) )
 	st_NewGadget(ST_AREA_WIDTH-1, rand() & (ST_AREA_HEIGHT-1));
@@ -1211,7 +1246,7 @@ void st_StepInGame(uint8_t player_pos)
   {
     missle_mask = st_GetMissleMask(i);
     if ( missle_mask != 0 )						/* should we apply missle handling? */
-      if ( st_CalcXY(i) != 0 )						/* yes: calculate pixel reference point (st_px_x, st_px_y) */
+      if ( st_CalcXY(st_objects+i) != 0 )						/* yes: calculate pixel reference point (st_px_x, st_px_y) */
 	for( j = 0; j < ST_OBJ_CNT; j++ )			/* has any other object been hit? */
 	  if ( i != j )							/* except missle itself... */
 	    if ( st_IsHit(j, st_px_x, st_px_y, missle_mask) != 0 )		/* let the member function decide */
@@ -1219,6 +1254,10 @@ void st_StepInGame(uint8_t player_pos)
 	      st_Destroy(i);
 	    }
   }
+  
+  /* handle fire counter */
+  st_FireStep();
+  
   /* fire */
   for( i = 0; i < ST_OBJ_CNT; i++ )
     st_Fire(i);
