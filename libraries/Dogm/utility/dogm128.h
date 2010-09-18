@@ -240,6 +240,11 @@ void bo_SetX(uint8_t pos);
 void walk_Draw(void);
 void walk_Step(void);
 
+/* --- spacetrash --- */
+
+void st_Draw(void);
+void st_Step(uint8_t player_pos);
+
 
 #ifdef __cplusplus
 }
