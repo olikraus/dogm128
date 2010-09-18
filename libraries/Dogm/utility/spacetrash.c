@@ -175,7 +175,13 @@ st_ot st_object_types[] PROGMEM =
 /* list of all objects on the screen */
 /*================================================================*/
 
+/* use AVR RAMEND constant to derive the number of allowed objects */
+
+#if RAMEND < 0x300 
 #define ST_OBJ_CNT 25
+#else
+#define ST_OBJ_CNT 45
+#endif 
 
 st_obj st_objects[ST_OBJ_CNT];
 
@@ -577,7 +583,7 @@ void st_Move(uint8_t objnr)
 
 void st_DrawBBOX(uint8_t objnr)
 {
-  st_obj *o = st_GetObj(objnr);
+  /*st_obj *o = st_GetObj(objnr);*/
   st_CalcBBOX(objnr);
   if ( st_ClipBBOX() == 0 )
     return;
@@ -599,15 +605,16 @@ void st_DrawBBOX(uint8_t objnr)
   */
 }
 
+#ifdef FN_IS_NOT_IN_USE
 void st_DrawFilledBox(uint8_t objnr)
 {
-  st_obj *o = st_GetObj(objnr);
   st_CalcBBOX(objnr);
   if ( st_ClipBBOX() == 0 )
     return;
   /* st_cbbox_x0, st_cbbox_y0, st_cbbox_x1, st_cbbox_y1; */
   dog_SetBox(st_cbbox_x0, st_cbbox_y0, st_cbbox_x1, st_cbbox_y1);
 }
+#endif
 
 void st_DrawBitmap(uint8_t objnr, PGM_P bm, uint8_t w, uint8_t h)
 {
