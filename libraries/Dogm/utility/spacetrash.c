@@ -7,7 +7,7 @@
 
   (c) 2010 Oliver Kraus (olikraus@gmail.com)
   
-  This file is part of the dogm128 Arduino library.
+  This file is part of the dogm128 library.
 
   The dogm128 library is free software: you can redistribute it and/or modify
   it under the terms of the Lesser GNU General Public License as published by
@@ -138,7 +138,7 @@ st_ot st_object_types[] PROGMEM =
     /* 0: empty object type */
     { 0, 0,  0, ST_DRAW_NONE, ST_MOVE_NONE, ST_DESTROY_DISAPPEAR, ST_IS_HIT_NONE, ST_FIRE_NONE },
     /* 1: wall, player will be destroyed */
-    { 2, 1, 20, ST_DRAW_BBOX, ST_MOVE_WALL, ST_DESTROY_DISAPPEAR, ST_IS_HIT_WALL, ST_FIRE_NONE },
+    { 2, 1, 30, ST_DRAW_BBOX, ST_MOVE_WALL, ST_DESTROY_DISAPPEAR, ST_IS_HIT_WALL, ST_FIRE_NONE },
     /* ST_OT_BIG_TRASH (2) */
     { 2, 1,  0, ST_DRAW_BIG_TRASH, ST_MOVE_X_SLOW, ST_DESTROY_BIG_TRASH, ST_IS_HIT_BBOX, ST_FIRE_NONE },
     /* 3: simple space ship (player) missle */
@@ -162,7 +162,7 @@ st_ot st_object_types[] PROGMEM =
     /* ST_OT_GADGET (12): adds enhancements */
     { 0, 1,  0, ST_DRAW_GADGET, ST_MOVE_X_FAST, ST_DESTROY_GADGET, ST_IS_HIT_BBOX, ST_FIRE_NONE },
     /* ST_OT_GADGET_IMPLODE (13) */
-    { 0, 0, 10, ST_DRAW_GADGET, ST_MOVE_IMPLODE, ST_DESTROY_NONE, ST_IS_HIT_NONE, ST_FIRE_NONE },
+    { 0, 0, 20, ST_DRAW_GADGET, ST_MOVE_IMPLODE, ST_DESTROY_NONE, ST_IS_HIT_NONE, ST_FIRE_NONE },
     /* ST_OT_DUST_NXPY (14): Last part of trash  */
     { 0, 0,  0, ST_DRAW_BACKSLASH, ST_MOVE_NXPY, ST_DESTROY_NONE, ST_IS_HIT_NONE, ST_FIRE_NONE },
     /* ST_OT_DUST_NXNY (15): Last part of trash  */
