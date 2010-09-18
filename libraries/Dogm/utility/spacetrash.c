@@ -120,6 +120,7 @@ typedef struct _st_obj_struct st_obj;
 
 #define ST_OT_WALL_SOLID 1
 #define ST_OT_BIG_TRASH 2
+#define ST_OT_MISSLE 3
 #define ST_OT_TRASH1 4
 #define ST_OT_PLAYER 5
 #define ST_OT_DUST_PY 6
@@ -999,11 +1000,11 @@ void st_NewPlayerMissle(uint8_t x, uint8_t y)
   if ( objnr < 0 )
     return;
   o = st_GetObj(objnr);
-  o->ot = 3;
+  o->ot = ST_OT_MISSLE;
   st_SetXY(o, x, y);
   //o->x = x<<ST_FP;
   //o->y = y<<ST_FP;
-  o->x0 = -3;
+  o->x0 = -4;
   o->x1 = 1;
   o->y0 = 0;
   o->y1 = 0;
