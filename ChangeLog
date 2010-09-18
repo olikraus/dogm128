@@ -30,7 +30,7 @@ dogm128 ChangeLog
 	* Renamed dog_get_char_width() --> dog_GetCharWidth()
 	* Renamed dog_get_str_width() --> dog_GetStrWidth()
 	* Port to Atmel AVR ATTINY84 
-2010-xx-xx	v1.05
+2010-09-18	v1.05
 	* Breakorino bugfix (remember last reflection)
         * Display orientation: DOG_REVERSE
 	* Put some tables into flashrom, marked some functions as static --> reduced RAM/ROM usage
