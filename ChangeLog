@@ -37,4 +37,7 @@ dogm128 ChangeLog
 	* Chars and strings: Rotation by 0, 90, 180 or 270 degree
 	* Bugfix: dog_SetVLine (Issue 55)
 	* New example game: SpaceTrash
+2010-09-18	v1.06
+	* DrawArc: Multiplication fails for sizeof(int)==1 --> fixed
+	
 	

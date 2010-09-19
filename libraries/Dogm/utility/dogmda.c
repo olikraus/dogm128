@@ -65,13 +65,13 @@ void dog_DrawArc(uint8_t mx, uint8_t my, uint8_t r, uint8_t w0, uint8_t w1, uint
   l = (uint8_t)(((((unsigned short)r * dw) >> 7) * (unsigned short)201)>>7) ;
   
   
-  x1 = mx+((r*dog_cos(w0)) >> 6);
-  y1 = my+((r*dog_sin(w0)) >> 6);
+  x1 = mx+(((int16_t)r*(int16_t)dog_cos(w0)) >> 6);
+  y1 = my+(((int16_t)r*(int16_t)dog_sin(w0)) >> 6);
   for ( i = 1; i <= l; i++ )
   {
     w = ((unsigned short)dw*(unsigned short)i )/(unsigned short)l + w0;
-    x2 = mx+((r*dog_cos(w)) >> 6);
-    y2 = my+((r*dog_sin(w)) >> 6);
+    x2 = mx+(((int16_t)r*(int16_t)dog_cos(w)) >> 6);
+    y2 = my+(((int16_t)r*(int16_t)dog_sin(w)) >> 6);
     dog_DrawLine(x1,y1,x2,y2,size);
     x1 = x2;
     y1 = y2;
