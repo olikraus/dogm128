@@ -22,7 +22,7 @@ dogm128 ChangeLog
 	* Added SPI abstraction layer (dogmspi.c)
 	* More generic delay procedure (dog_delay())
 	* clrHLine, xorHLine
-2010-09-05	v1.04	
+2010-09-05	v1.04	Oliver Kraus <olikraus@gmail.com>
 	* Renamed dog_delay() --> dog_Delay() 
 	* Renamed dog_init() --> dog_Init()
 	* Renamed dog_set_inverse() --> dog_SetInvertPixelMode()
@@ -30,14 +30,14 @@ dogm128 ChangeLog
 	* Renamed dog_get_char_width() --> dog_GetCharWidth()
 	* Renamed dog_get_str_width() --> dog_GetStrWidth()
 	* Port to Atmel AVR ATTINY84 
-2010-09-18	v1.05
+2010-09-18	v1.05	Oliver Kraus <olikraus@gmail.com>
 	* Breakorino bugfix (remember last reflection)
         * Display orientation: DOG_REVERSE
 	* Put some tables into flashrom, marked some functions as static --> reduced RAM/ROM usage
 	* Chars and strings: Rotation by 0, 90, 180 or 270 degree
 	* Bugfix: dog_SetVLine (Issue 55)
 	* New example game: SpaceTrash
-2010-09-18	v1.06
+2010-09-18	v1.06	Oliver Kraus <olikraus@gmail.com>
 	* DrawArc: Multiplication fails for sizeof(int)==1 --> fixed
 	
 	
