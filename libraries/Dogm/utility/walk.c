@@ -5,14 +5,14 @@
   
   (c) 2010 Oliver Kraus (olikraus@gmail.com)
   
-  This file is part of the dogm128 Arduino library.
+  This file is part of the dogm128 library.
 
-  The dogm128 Arduino library is free software: you can redistribute it and/or modify
+  The dogm128 library is free software: you can redistribute it and/or modify
   it under the terms of the Lesser GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
-  The dogm128 Arduino library is distributed in the hope that it will be useful,
+  The dogm128 library is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   Lesser GNU General Public License for more details.
@@ -25,7 +25,7 @@
 #include "dogm128.h"
 
 // the bitmap contains 7 pictures each with a size of 10x12 pixel
-const char bitmaps[] PROGMEM = {
+const dog_pgm_uint8_t bitmaps[] = {
 /*
 0000000000000000  
 0000111000000000

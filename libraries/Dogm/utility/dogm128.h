@@ -4,14 +4,14 @@
 
   (c) 2010 Oliver Kraus (olikraus@gmail.com)
   
-  This file is part of the dogm128 Arduino library.
+  This file is part of the dogm128 library.
 
-  The dogm128 Arduino library is free software: you can redistribute it and/or modify
+  The dogm128 library is free software: you can redistribute it and/or modify
   it under the terms of the Lesser GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
-  The dogm128 Arduino library is distributed in the hope that it will be useful,
+  The dogm128 library is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   Lesser GNU General Public License for more details.
@@ -58,20 +58,17 @@
 #undef DOGS102_HW
 #endif
 
-
 #include <stdint.h>
-#include <avr/pgmspace.h>
+#include "dogmpgm.h"
 #include "dogmfont.h"
+
+
+/* the following code will be removed
+#include <avr/pgmspace.h>
 
 #ifndef PGM_P
 #define PGM_P const char *
 #endif
-
-#define PIN_SCK   13
-#define PIN_MISO  12
-#define PIN_MOSI  11
-#define PIN_SS    10
-#define PIN_A0_DEFAULT     6
 
 #ifdef PROGMEM
 #define dog_pgm_read_w(adr) pgm_read_word_near(adr)
@@ -84,8 +81,25 @@
 #ifndef PROGMEM
 #define PROGMEM
 #endif
+*/
 
+/* the following code should be removed */
+/*
+#ifdef PROGMEM
+#define dog_pgm_read_w(adr) pgm_read_word_near(adr)
+#define dog_pgm_read(adr) pgm_read_byte_near(adr)
+#else
+#define dog_pgm_read_w(adr) (*(const int16_t *)(adr))
+#define dog_pgm_read(adr) (*(const char *)(adr)) 
+#endif
+*/
 
+/* it should be checked if these defines are still required */
+#define PIN_SCK   13
+#define PIN_MISO  12
+#define PIN_MOSI  11
+#define PIN_SS    10
+#define PIN_A0_DEFAULT     6
 
 
 /* hight of a page for all supported DOG devices */ 
@@ -183,9 +197,9 @@ void dog_XorBox(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2);	/* dogmxb.c */
 /* the bitmap must contain (w+7)/8 bytes, each byte is interpreted as bitmap pattern */
 /* most significant bit of the byte in the pattern is on the left */
 void dog_SetHBitmap(uint8_t x, uint8_t y, const unsigned char *bitmap, uint8_t w); /* v1.01, dogmsm.c */
-void dog_SetHBitmapP(uint8_t x, uint8_t y, PGM_P bitmap, uint8_t w); /* v1.01, dogmsmp.c */
+void dog_SetHBitmapP(uint8_t x, uint8_t y, DOG_PGM_P bitmap, uint8_t w); /* v1.01, dogmsmp.c */
 void dog_SetBitmap(uint8_t x, uint8_t y, const unsigned char *bitmap, uint8_t w, uint8_t h); /* v1.01, dogmsm.c */
-void dog_SetBitmapP(uint8_t x, uint8_t y, PGM_P bitmap, uint8_t w, uint8_t h); /* v1.01, dogmsmp.c */
+void dog_SetBitmapP(uint8_t x, uint8_t y, DOG_PGM_P bitmap, uint8_t w, uint8_t h); /* v1.01, dogmsmp.c */
 
 /* --- draw functions --- */
 /*
@@ -205,17 +219,17 @@ void dog_DrawArc(uint8_t mx, uint8_t my, uint8_t r, uint8_t w0, uint8_t w1, uint
 
 
 /* --- font information --- */
-uint8_t dog_GetCharWidth(PGM_P font, unsigned char code);	/* dogmfont.c */
-uint8_t dog_GetStrWidth(PGM_P font, const char *s); /* dogmfont.c */
+uint8_t dog_GetCharWidth(DOG_PGM_P font, unsigned char code);	/* dogmfont.c */
+uint8_t dog_GetStrWidth(DOG_PGM_P font, const char *s); /* dogmfont.c */
 
-uint8_t dog_GetFontBBXHeight(PGM_P buf);
-uint8_t dog_GetFontBBXWidth(PGM_P buf);
-uint8_t dog_GetFontBBXDescent(PGM_P buf);
+uint8_t dog_GetFontBBXHeight(DOG_PGM_P buf);
+uint8_t dog_GetFontBBXWidth(DOG_PGM_P buf);
+uint8_t dog_GetFontBBXDescent(DOG_PGM_P buf);
   
-uint8_t dog_DrawChar(uint8_t x, uint8_t y, PGM_P font, unsigned char code); /* dogmfont.c */
-uint8_t dog_DrawRChar(uint8_t x, uint8_t y, uint8_t rot, PGM_P font, unsigned char code);
-uint8_t dog_DrawStr(uint8_t x, uint8_t y, PGM_P font, const char *s);	/* dogmfont.c */
-uint8_t dog_DrawRStr(uint8_t x, uint8_t y, uint8_t rot, PGM_P font, const char *s);
+uint8_t dog_DrawChar(uint8_t x, uint8_t y, DOG_PGM_P font, unsigned char code); /* dogmfont.c */
+uint8_t dog_DrawRChar(uint8_t x, uint8_t y, uint8_t rot, DOG_PGM_P font, unsigned char code);
+uint8_t dog_DrawStr(uint8_t x, uint8_t y, DOG_PGM_P font, const char *s);	/* dogmfont.c */
+uint8_t dog_DrawRStr(uint8_t x, uint8_t y, uint8_t rot, DOG_PGM_P font, const char *s);
 
 /* --- math --- */
 

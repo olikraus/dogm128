@@ -1,6 +1,6 @@
 
 #
-# Arduino 0018 Makefile
+# Arduino 0019 Makefile
 #
 # written by olikraus@gmail.com
 #
@@ -40,7 +40,7 @@ BOARD:=atmega328
 AVR_TOOLS_PATH:=/usr/bin/
 
 # Install path of the arduino software. Requires a '/' at the end.
-ARDUINO_PATH:=/home/kraus/prg/arduino-0018/
+ARDUINO_PATH:=/home/kraus/prg/arduino-0019/
 
 # Install path for avrdude. Requires a '/' at the end. Can be empty if avrdude is in the search path.
 AVRDUDE_PATH:= 

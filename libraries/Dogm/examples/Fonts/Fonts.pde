@@ -44,8 +44,8 @@ int font_select = 0;
 
 
 void loop() {
-  char *f;
-  PGM_P p;
+  const char *f;
+  DOG_PGM_P p;
   unsigned char h;
   
   switch(font_select) {

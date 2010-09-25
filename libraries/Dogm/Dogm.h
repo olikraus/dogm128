@@ -11,7 +11,7 @@ class Dogm : public Print {
     uint8_t is_req_init;	// if call to Init() is required
     uint8_t size;
     uint8_t rot;
-    PGM_P fptr;
+    DOG_PGM_P fptr;
     void Init(void);
     void xy_char_correction(uint8_t);
   public:
@@ -45,12 +45,12 @@ class Dogm : public Print {
 
     /* Bitmap */
     void setHBitmap(uint8_t x, uint8_t y, const unsigned char *bitmap, uint8_t w) { dog_SetHBitmap(x,y,bitmap,w); }/* v1.01 */
-    void setHBitmapP(uint8_t x, uint8_t y, PGM_P bitmap, uint8_t w) { dog_SetHBitmapP(x,y,bitmap,w); }/* v1.01 */
+    void setHBitmapP(uint8_t x, uint8_t y, DOG_PGM_P bitmap, uint8_t w) { dog_SetHBitmapP(x,y,bitmap,w); }/* v1.01 */
     void setBitmap(uint8_t x, uint8_t y, const unsigned char *bitmap, uint8_t w, uint8_t h) { dog_SetBitmap(x,y,bitmap,w,h); } /* v1.01 */
-    void setBitmapP(uint8_t x, uint8_t y, PGM_P bitmap, uint8_t w, uint8_t h) { dog_SetBitmapP(x,y,bitmap,w,h); } /* v1.01 */
+    void setBitmapP(uint8_t x, uint8_t y, DOG_PGM_P bitmap, uint8_t w, uint8_t h) { dog_SetBitmapP(x,y,bitmap,w,h); } /* v1.01 */
     
     /* Font */
-    void setFont(PGM_P font) { fptr = font; }
+    void setFont(DOG_PGM_P font) { fptr = font; }
     void setXY(uint8_t x, uint8_t y) { tx = x; ty = y; }
     void setRot(uint8_t rotation) { rot = rotation; }
     

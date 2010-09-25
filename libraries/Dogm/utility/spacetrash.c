@@ -1,7 +1,7 @@
 /*
   spacetrash.c
   
-  A game, which runs on the DOGM132.
+  A game, which runs on the DOGM132 (and all other displays).
   < 512 Bytes RAM
   < 8K Bytes FlashROM
 
@@ -25,7 +25,6 @@
 */
 
 #include "dogm128.h"
-#include <stdint.h>
 
 /*
 #define DOG_HEIGHT 32
@@ -222,7 +221,7 @@ uint16_t st_to_diff_cnt = 0;
 /* bitmaps */
 /*================================================================*/
 
-const char st_bitmap_player1[] PROGMEM = 
+const dog_pgm_uint8_t st_bitmap_player1[] = 
 { 
   /* 01100000 */ 0x060,
   /* 11111000 */ 0x0f8,
@@ -231,7 +230,7 @@ const char st_bitmap_player1[] PROGMEM =
   /* 01100000 */ 0x060
 };
 
-const char st_bitmap_player2[] PROGMEM = 
+const dog_pgm_uint8_t st_bitmap_player2[] = 
 {   
   /* 01100000 */ 0x060,
   /* 01111100 */ 0x078,
@@ -243,7 +242,7 @@ const char st_bitmap_player2[] PROGMEM =
   /* 01100000 */ 0x060
 };
 
-const char st_bitmap_player3[] PROGMEM = 
+const dog_pgm_uint8_t st_bitmap_player3[] = 
 {   
   /* 01100000 */ 0x060,
   /* 01111100 */ 0x078,
@@ -258,7 +257,7 @@ const char st_bitmap_player3[] PROGMEM =
   /* 01100000 */ 0x060
  };
 
-const char st_bitmap_trash_5x5_1[] PROGMEM = 
+const dog_pgm_uint8_t st_bitmap_trash_5x5_1[] = 
 { 
   /* 01110000 */ 0x070,
   /* 11110000 */ 0x0f0,
@@ -267,7 +266,7 @@ const char st_bitmap_trash_5x5_1[] PROGMEM =
   /* 00110000 */ 0x030,
 };
 
-const char st_bitmap_trash_5x5_2[] PROGMEM = 
+const dog_pgm_uint8_t st_bitmap_trash_5x5_2[] = 
 { 
   /* 00110000 */ 0x030,
   /* 11111000 */ 0x0f8,
@@ -276,7 +275,7 @@ const char st_bitmap_trash_5x5_2[] PROGMEM =
   /* 01110000 */ 0x070,
 };
 
-const char st_bitmap_trash_7x7[] PROGMEM = 
+const dog_pgm_uint8_t st_bitmap_trash_7x7[] = 
 {
   /* 00111000 */ 0x038,
   /* 01111100 */ 0x07c,
@@ -287,7 +286,7 @@ const char st_bitmap_trash_7x7[] PROGMEM =
   /* 01111000 */ 0x078,
 };
 
-const char st_bitmap_gadget[] PROGMEM = 
+const dog_pgm_uint8_t st_bitmap_gadget[] = 
 { 
   /* 01110000 */ 0x070,
   /* 11011000 */ 0x0d8,
@@ -299,18 +298,18 @@ const char st_bitmap_gadget[] PROGMEM =
 /*================================================================*/
 /* forward definitions */
 /*================================================================*/
-uint8_t st_rnd(void) __attribute__ ((noinline));
-static st_obj *st_GetObj(uint8_t objnr) __attribute__ ((noinline));
+uint8_t st_rnd(void) DOG_ATTR_FN_INLINE;
+static st_obj *st_GetObj(uint8_t objnr) DOG_ATTR_FN_INLINE;
 uint8_t st_GetMissleMask(uint8_t objnr);
 uint8_t st_GetHitMask(uint8_t objnr);
-int8_t st_FindObj(uint8_t ot) __attribute__ ((noinline));
-void st_ClrObjs(void) __attribute__ ((noinline));
-int8_t st_NewObj(void) __attribute__ ((noinline));
+int8_t st_FindObj(uint8_t ot) DOG_ATTR_FN_INLINE;
+void st_ClrObjs(void) DOG_ATTR_FN_INLINE;
+int8_t st_NewObj(void) DOG_ATTR_FN_INLINE;
 uint8_t st_CntObj(uint8_t ot);
-uint8_t st_CalcXY(st_obj *o) __attribute__ ((noinline));
-void st_SetXY(st_obj *o, uint8_t x, uint8_t y) __attribute__ ((noinline));
+uint8_t st_CalcXY(st_obj *o) DOG_ATTR_FN_INLINE;
+void st_SetXY(st_obj *o, uint8_t x, uint8_t y) DOG_ATTR_FN_INLINE;
 
-void st_FireStep(void) __attribute__ ((noinline));
+void st_FireStep(void) DOG_ATTR_FN_INLINE;
 
 void st_InitTrash(uint8_t x, uint8_t y, int8_t dir);
 void st_NewGadget(uint8_t x, uint8_t y);
@@ -616,7 +615,7 @@ void st_DrawFilledBox(uint8_t objnr)
 }
 #endif
 
-void st_DrawBitmap(uint8_t objnr, PGM_P bm, uint8_t w, uint8_t h)
+void st_DrawBitmap(uint8_t objnr, DOG_PGM_P bm, uint8_t w, uint8_t h)
 {
   /* st_obj *o = st_GetObj(objnr); */
   st_CalcBBOX(objnr);

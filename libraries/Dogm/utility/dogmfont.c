@@ -4,14 +4,14 @@
 
   (c) 2010 Oliver Kraus (olikraus@gmail.com)
   
-  This file is part of the dogm128 Arduino library.
+  This file is part of the dogm128 library.
 
-  The dogm128 Arduino library is free software: you can redistribute it and/or modify
+  The dogm128 library is free software: you can redistribute it and/or modify
   it under the terms of the Lesser GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
-  The dogm128 Arduino library is distributed in the hope that it will be useful,
+  The dogm128 library is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   Lesser GNU General Public License for more details.
@@ -30,8 +30,8 @@
 /*
   FONT
   offset	size
-  0		word	capital A index
-  2		word	small a index
+  0		word	capital A index, low byte first
+  2		word	small a index, low byte first
   4		byte		bbox width
   5		byte		bbox height
   6		byte		bbox descent
@@ -64,8 +64,10 @@
 
 */
 
-#define fnt_get_bbox_capital_a(buf) (dog_pgm_read_w((buf)+0))
-#define fnt_get_bbox_small_a(buf) (dog_pgm_read_w((buf)+2))
+uint16_t dog_font_pgm_read_word(DOG_PGM_P buf) DOG_ATTR_FN_INLINE;
+
+#define fnt_get_bbox_capital_a(buf) (dog_font_pgm_read_word((buf)+0))
+#define fnt_get_bbox_small_a(buf) (dog_font_pgm_read_word((buf)+2))
 #define fnt_get_bbox_width(buf) (dog_pgm_read((buf)+4))
 #define fnt_get_bbox_height(buf) (dog_pgm_read((buf)+5))
 #define fnt_get_bbox_descent(buf) (dog_pgm_read((buf)+6))
@@ -78,22 +80,31 @@
 #define chr_get_height_P(buf) ((unsigned char)(dog_pgm_read((buf)+2)))
 #define CHR_DATA 3
 
-uint8_t dog_GetFontBBXHeight(PGM_P buf)
+uint16_t dog_font_pgm_read_word(DOG_PGM_P buf)
+{
+  uint16_t result;
+  result = dog_pgm_read(buf+1);
+  result <<=8;
+  result |= dog_pgm_read(buf);
+  return result;
+}
+
+uint8_t dog_GetFontBBXHeight(DOG_PGM_P buf)
 {
   return fnt_get_bbox_height(buf);
 }
 
-uint8_t dog_GetFontBBXWidth(PGM_P buf)
+uint8_t dog_GetFontBBXWidth(DOG_PGM_P buf)
 {
   return fnt_get_bbox_width(buf);
 }
 
-uint8_t dog_GetFontBBXDescent(PGM_P buf)
+uint8_t dog_GetFontBBXDescent(DOG_PGM_P buf)
 {
   return fnt_get_bbox_descent(buf);
 }
 
-static unsigned char chr_get_pixel(PGM_P buf, unsigned char x, unsigned char y )
+static unsigned char chr_get_pixel(DOG_PGM_P buf, unsigned char x, unsigned char y )
 {
   unsigned char bytes_per_line, index;
   /* bytes_per_line = ((unsigned char)chr_get_width(buf)+(unsigned char)7) >> 3; */
@@ -111,7 +122,7 @@ static unsigned char chr_get_pixel(PGM_P buf, unsigned char x, unsigned char y )
 }
 
 
-static unsigned short chr_get_skip_delta(PGM_P cbuf, unsigned char skip_cnt)
+static unsigned short chr_get_skip_delta(DOG_PGM_P cbuf, unsigned char skip_cnt)
 {
   unsigned short pos = 0;
   unsigned char len;
@@ -126,9 +137,9 @@ static unsigned short chr_get_skip_delta(PGM_P cbuf, unsigned char skip_cnt)
   return pos;
 }
 
-PGM_P fnt_get_chr(PGM_P  fbuf, unsigned char code)
+DOG_PGM_P fnt_get_chr(DOG_PGM_P  fbuf, unsigned char code)
 {
-  PGM_P adr;
+  DOG_PGM_P adr;
 
   if ( code >= 'a' )
   {
@@ -147,17 +158,17 @@ PGM_P fnt_get_chr(PGM_P  fbuf, unsigned char code)
   return adr;
 }
 
-uint8_t dog_GetCharWidth(PGM_P font, unsigned char code)
+uint8_t dog_GetCharWidth(DOG_PGM_P font, unsigned char code)
 {
-  PGM_P adr;
+  DOG_PGM_P adr;
   /* adr = font + FNT_DATA + chr_get_skip_delta(font+FNT_DATA, code - ' '); */
   adr = fnt_get_chr(font, code);
   return chr_get_width_P(adr);
 }
 
-static uint8_t dog_char(uint8_t x, uint8_t y, PGM_P font, uint8_t mode, uint8_t rot, unsigned char code)
+static uint8_t dog_char(uint8_t x, uint8_t y, DOG_PGM_P font, uint8_t mode, uint8_t rot, unsigned char code)
 {
-  PGM_P cbuf = fnt_get_chr(font, code);
+  DOG_PGM_P cbuf = fnt_get_chr(font, code);
   unsigned char ascent_area, descent_area;
   unsigned char  i, j;
   uint8_t tmp_y, r_y;
@@ -244,7 +255,7 @@ static uint8_t dog_char(uint8_t x, uint8_t y, PGM_P font, uint8_t mode, uint8_t 
   return width;
 }
 
-uint8_t dog_DrawRChar(uint8_t x, uint8_t y, uint8_t rot, PGM_P font, unsigned char code)
+uint8_t dog_DrawRChar(uint8_t x, uint8_t y, uint8_t rot, DOG_PGM_P font, unsigned char code)
 {
   signed char y0, y1;
   if ( rot == 0 )
@@ -262,12 +273,12 @@ uint8_t dog_DrawRChar(uint8_t x, uint8_t y, uint8_t rot, PGM_P font, unsigned ch
   return dog_char(x,y,font,0,rot,code);
 }
 
-uint8_t dog_DrawChar(uint8_t x, uint8_t y, PGM_P font, unsigned char code)
+uint8_t dog_DrawChar(uint8_t x, uint8_t y, DOG_PGM_P font, unsigned char code)
 {
   return dog_DrawRChar(x, y, 0, font, code);
 }
 
-uint8_t dog_GetStrWidth(PGM_P font, const char *s)
+uint8_t dog_GetStrWidth(DOG_PGM_P font, const char *s)
 {
   uint8_t w = 0;
   while( *s != '\0' )
@@ -278,7 +289,7 @@ uint8_t dog_GetStrWidth(PGM_P font, const char *s)
   return w;
 }
 
-static uint8_t dog_str(uint8_t x, uint8_t y, uint8_t rot, PGM_P font, uint8_t mode, const char *s)
+static uint8_t dog_str(uint8_t x, uint8_t y, uint8_t rot, DOG_PGM_P font, uint8_t mode, const char *s)
 {
   uint8_t d = 0;
   uint8_t d_sum = 0;
@@ -321,12 +332,12 @@ static uint8_t dog_str(uint8_t x, uint8_t y, uint8_t rot, PGM_P font, uint8_t mo
   return d_sum;
 }
 
-uint8_t dog_DrawStr(uint8_t x, uint8_t y, PGM_P font, const char *s)
+uint8_t dog_DrawStr(uint8_t x, uint8_t y, DOG_PGM_P font, const char *s)
 {
   return dog_str(x,y,0, font,0,s);
 }
 
-uint8_t dog_DrawRStr(uint8_t x, uint8_t y, uint8_t rot, PGM_P font, const char *s)
+uint8_t dog_DrawRStr(uint8_t x, uint8_t y, uint8_t rot, DOG_PGM_P font, const char *s)
 {
   return dog_str(x,y,rot, font,0,s);
 }

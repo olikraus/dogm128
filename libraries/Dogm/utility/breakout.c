@@ -193,7 +193,7 @@ u8 bo_IsBallBrickIntersection(bo_ball *b, s16 x, s16 y)
 */
 void bo_DoBallBrickReflection(bo_ball *b, s16 x, s16 y)
 {
-  u8 cnt;
+  /* u8 cnt; */
   s16 mx, my;
   
   if ( b->lbr_x == x && b->lbr_y == y )

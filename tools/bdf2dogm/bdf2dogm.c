@@ -8,14 +8,14 @@
 
   
 
-  This file is part of the dogm128 Arduino library.
+  This file is part of the dogm128 library.
 
-  The dogm128 Arduino library is free software: you can redistribute it and/or modify
+  The dogm128 library is free software: you can redistribute it and/or modify
   it under the terms of the Lesser GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
-  The dogm128 Arduino library is distributed in the hope that it will be useful,
+  The dogm128 library is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   Lesser GNU General Public License for more details.
@@ -31,6 +31,11 @@
   - there are some limitations (e.g versus font size) and bdf2dogm will abort if these limitations are broken
   - there a some simplifications with overlapping chars (e.g. 'f' from helvR08) DWIDTH is increased to BBX width + BBX x
 
+  ChangeLog
+  
+  2010-09-25 Oliver Kraus
+    * changes due to the new prog-mem abstraction layer in the dogm128 library
+    
 */
 #define DEBUG								
 
@@ -358,17 +363,23 @@ void write_font_file(const char *filename, const char *fontname)
     fprintf(fp, "/*\n");
     fprintf(fp, "  FONT %s\n", bdf_FONT);
     fprintf(fp, "  COPYRIGHT %s\n", bdf_COPYRIGHT);
+    fprintf(fp, "  Converted by bdf2dogm\n");
     fprintf(fp, "  Use\n");
-    fprintf(fp, "      extern const char %s[] PROGMEM;\n", fontname);
+    fprintf(fp, "      extern const dog_pgm_uint8_t %s[];\n", fontname);
     fprintf(fp, "  to declare the font.\n");
     fprintf(fp, "*/\n");
+    
+    /*
     fprintf(fp, "#include <avr/pgmspace.h>\n");
-
     fprintf(fp, "#ifndef PROGMEM\n");
     fprintf(fp, "#define PROGMEM\n");
     fprintf(fp, "#endif\n");
-    
     fprintf(fp, "const char %s[%d] PROGMEM = {\n  ", fontname, font_buf_len);
+    */
+
+    fprintf(fp, "#include \"dogmpgm.h\"\n");
+    fprintf(fp, "const dog_pgm_uint8_t %s[%d] = {\n  ", fontname, font_buf_len);
+    
     for( i = 0;i < font_buf_len; i++ )
     {
       fprintf(fp, "0x%02x", font_buf[i]);

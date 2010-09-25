@@ -5,14 +5,14 @@
   (c) 2010 Oliver Kraus (olikraus@gmail.com)
   
 
-  This file is part of the dogm128 Arduino library.
+  This file is part of the dogm128 library.
 
-  The dogm128 Arduino library is free software: you can redistribute it and/or modify
+  The dogm128 library is free software: you can redistribute it and/or modify
   it under the terms of the Lesser GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
-  The dogm128 Arduino library is distributed in the hope that it will be useful,
+  The dogm128 library is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   Lesser GNU General Public License for more details.
@@ -26,25 +26,27 @@
 #ifndef _DOGMFONTS_H
 #define _DOGMFONTS_H
 
+#include "dogmpgm.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 
-/* public domain X11 fonts */
-extern const char font_4x6[] PROGMEM;
-extern const char font_5x7[] PROGMEM;
-extern const char font_5x8[] PROGMEM;
-extern const char font_6x9[] PROGMEM;
-extern const char font_6x10[] PROGMEM;
-extern const char font_6x12[] PROGMEM;
-extern const char font_6x13[] PROGMEM;
-extern const char font_7x13[] PROGMEM;
-extern const char font_7x14[] PROGMEM;
-extern const char font_8x13[] PROGMEM;
-extern const char font_8x16[] PROGMEM;
-extern const char font_9x15[] PROGMEM;
-extern const char font_9x18[] PROGMEM;
+ /* public domain X11 fonts */
+extern const dog_pgm_uint8_t font_4x6[];
+extern const dog_pgm_uint8_t font_5x7[];
+extern const dog_pgm_uint8_t font_5x8[];
+extern const dog_pgm_uint8_t font_6x9[];
+extern const dog_pgm_uint8_t font_6x10[];
+extern const dog_pgm_uint8_t font_6x12[];
+extern const dog_pgm_uint8_t font_6x13[];
+extern const dog_pgm_uint8_t font_7x13[];
+extern const dog_pgm_uint8_t font_7x14[];
+extern const dog_pgm_uint8_t font_8x13[];
+extern const dog_pgm_uint8_t font_8x16[];
+extern const dog_pgm_uint8_t font_9x15[];
+extern const dog_pgm_uint8_t font_9x18[];
 
 
 #ifdef __cplusplus
