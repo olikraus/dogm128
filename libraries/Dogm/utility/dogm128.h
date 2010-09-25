@@ -58,7 +58,6 @@
 #undef DOGS102_HW
 #endif
 
-#include <stdint.h>
 #include "dogmpgm.h"
 #include "dogmfont.h"
 

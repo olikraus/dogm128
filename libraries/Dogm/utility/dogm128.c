@@ -32,8 +32,13 @@
       --> CPHA = 0 and CPOL = 0
     ST7565R reads  MSB first 
       --> DORD = 0
-      
+  
+  __AVR__
   /usr/lib/avr/include/avr/pgmspace.h
+
+  Note: 
+  The Microchip PIC Port currently is valid for the MPLAB C18 only.
+    
 
 */
 
@@ -42,9 +47,14 @@
 #include <string.h>
 #include "dogm128.h"
 
+#if defined(__AVR__)
 #include <avr/interrupt.h>
 #include <avr/io.h>
 #include <util/delay.h>
+#elif defined(__18CXX)
+#include <delays.h>
+#else
+#endif
 
 
 unsigned char dog_page_buffer[DOG_PAGE_WIDTH];
@@ -81,6 +91,7 @@ uint8_t dog_max_y = DOG_PAGE_HEIGHT-1;
   - bne i 2
   ==> 7 cycles
 */
+#if defined(__AVR__)
 void dog_Delay(uint16_t val)
 {
   /* old version did a call to the arduino lib: delay(val); */
@@ -90,6 +101,24 @@ void dog_Delay(uint16_t val)
     val--;
   }
 }
+#elif defined(__18CXX)
+
+#define GetSystemClock()		(64000000ul)      // Hz
+#define GetInstructionClock()	(GetSystemClock()/4)
+
+void dog_Delay(uint16_t val)
+{
+	unsigned int _iTemp = (val);
+	while(_iTemp--)		
+		Delay1KTCYx((GetInstructionClock()+999999)/1000000);
+}
+#else
+void dog_Delay(uint16_t val)
+{
+	/* do not know how to delay... */
+}
+#endif
+
 
 static void dog_init_display(void)
 {

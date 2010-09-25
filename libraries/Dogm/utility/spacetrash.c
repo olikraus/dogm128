@@ -133,7 +133,7 @@ typedef struct _st_obj_struct st_obj;
 #define ST_OT_DUST_NXPY 14
 #define ST_OT_DUST_NXNY 15
 
-st_ot st_object_types[] PROGMEM =
+DOG_ROM st_ot st_object_types[] DOG_PROGMEM =
 {
     /* 0: empty object type */
     { 0, 0,  0, ST_DRAW_NONE, ST_MOVE_NONE, ST_DESTROY_DISAPPEAR, ST_IS_HIT_NONE, ST_FIRE_NONE },

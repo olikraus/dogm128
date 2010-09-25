@@ -38,13 +38,14 @@
 
 #include "dogm128.h"
 
-#include <avr/interrupt.h>
-#include <avr/io.h>
-#include <util/delay.h>
 
 uint8_t dog_spi_pin_a0 = PIN_A0_DEFAULT;
 
-#ifdef DOG_SPI_USI
+#if defined(DOG_SPI_USI)
+
+#include <avr/interrupt.h>
+#include <avr/io.h>
+#include <util/delay.h>
 
 /*=======================================================================*/
 /* USI Interface */
@@ -150,12 +151,90 @@ void dog_data_mode(void)
 }
 
 
+#elif defined(__18CXX)
+
+/*=======================================================================*/
+/* Microchip PIC18 SPI */
+/*=======================================================================*/
+#include <p18cxxx.h>
+
+#define LCD_A0_TRIS		(TRISCbits.TRISC1)
+#define LCD_A0_IO		(LATCbits.LATC1)
+#define LCD_CS_TRIS		(TRISCbits.TRISC2)
+#define LCD_CS_IO		(LATCbits.LATC2)
+
+#define LCD_CLK_TRIS	(TRISCbits.TRISC3)
+#define LCD_SDO_TRIS	(TRISCbits.TRISC5)
+#define LCD_SDI_TRIS	(TRISCbits.TRISC4) // remove it!!!!
+#define LCD_SPI_IF		(PIR1bits.SSPIF)
+#define LCD_SSPBUF		(SSPBUF)
+#define LCD_SPICON1		(SSPCON1)
+#define LCD_SPICON1bits	(SSPCON1bits)
+#define LCD_SPICON2		(SSPCON2)
+#define LCD_SPISTAT		(SSPSTAT)
+#define LCD_SPISTATbits	(SSPSTATbits)
+#define LCD_SPI_ON_BIT  (LCD_SPICON1bits.SSPEN)
+#define WaitForDataByte()   do{while(!LCD_SPI_IF); LCD_SPI_IF = 0;}while(0)
+
+
+void dog_spi_init(void)
+{
+	LCD_CS_IO=1;
+	LCD_A0_IO=1;
+
+	LCD_A0_TRIS=0;
+	LCD_CS_TRIS =0;
+
+	LCD_CLK_TRIS =0;
+	LCD_SDO_TRIS =0;
+	LCD_SDI_TRIS =1;
+
+	SSPSTAT=0x40;
+	SSPCON1=0x21;
+
+	PIR1bits.SSPIF=0;
+}
+
+unsigned char dog_spi_out(unsigned char data)
+{
+  		volatile uint8_t vDummy;
+		LCD_SSPBUF=data;
+		//     while (LCD_SPISTATbits.SPITBF == 1);
+		WaitForDataByte();
+		//LCD_SPI_IF=0;
+		vDummy = LCD_SSPBUF;
+
+}
+
+void dog_spi_enable_client(void)
+{
+LCD_CS_IO=0;
+}
+
+void dog_spi_disable_client(void)
+{
+  LCD_CS_IO=1;
+}
+
+void dog_cmd_mode(void)
+{
+  LCD_A0_IO=0;
+}
+
+void dog_data_mode(void)
+{
+  LCD_A0_IO=1;
+}
+
 #else
 
 /*=======================================================================*/
 /* Arduino SPI */
 /*=======================================================================*/
 
+#include <avr/interrupt.h>
+#include <avr/io.h>
+#include <util/delay.h>
 #include <wiring.h>	/* arduino pinMode */
 
 void dog_spi_init(void)
@@ -218,3 +297,4 @@ void dog_data_mode(void)
 }
 
 #endif
+

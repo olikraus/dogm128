@@ -38,34 +38,43 @@
 #ifndef _DOGMROM_H
 #define _DOGMROM_H
 
-#include <stdint.h>
-
 /*========================================================
   ATMEL AVR 
 */
 #if defined(__AVR__)
+#include <stdint.h>
 #include <avr/pgmspace.h>
 typedef uint8_t PROGMEM dog_pgm_uint8_t;
 #define dog_pgm_read(adr) pgm_read_byte_near(adr)
 #define DOG_ATTR_FN_INLINE __attribute__ ((noinline))
-
+#define DOG_PROGMEM PROGMEM
+#define DOG_ROM
 
 /*========================================================
   MICROCHIP PIC18  
 */
 #elif defined(__18CXX)
+typedef signed char int8_t;
+typedef unsigned char uint8_t;
+typedef signed int int16_t;
+typedef unsigned int uint16_t;
 typedef uint8_t rom dog_pgm_uint8_t;
 #define dog_pgm_read(adr) (*(const dog_pgm_uint8_t *)(adr)) 
 #define DOG_ATTR_FN_INLINE
+#define DOG_PROGMEM
+#define DOG_ROM rom
 
 
 /*========================================================
   Fallback: Standard C
 */
 #else
+#include <stdint.h>
 typedef uint8_t dog_pgm_uint8_t;
 #define dog_pgm_read(adr) (*(const dog_pgm_uint8_t *)(adr)) 
 #define DOG_ATTR_FN_INLINE
+#define DOG_PROGMEM
+#define DOG_ROM
 #endif
 
 /*========================================================
