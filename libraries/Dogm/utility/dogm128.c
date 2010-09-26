@@ -216,8 +216,8 @@ static void dog_transfer_page(void)
   idx = 0;
   while( idx != DOG_PAGE_WIDTH )
   {
-    idx++;
     dog_spi_out(dog_page_buffer[idx]); 
+    idx++;
   }
 #else
   idx = DOG_PAGE_WIDTH;

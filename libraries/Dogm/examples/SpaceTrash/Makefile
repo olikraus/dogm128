@@ -131,7 +131,7 @@ AVRDUDE = avrdude
 # use "make -p -f/dev/null" to see the default rules and definitions
 
 # Build C and C++ flags. Include path information must be placed here
-COMMON_FLAGS = -DF_CPU=$(F_CPU) -mmcu=$(MCU) 
+COMMON_FLAGS = -DF_CPU=$(F_CPU) -mmcu=$(MCU)
 # COMMON_FLAGS += -gdwarf-2
 COMMON_FLAGS += -Os
 COMMON_FLAGS += -Wall -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
