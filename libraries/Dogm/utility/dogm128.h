@@ -61,45 +61,7 @@
 #include "dogmpgm.h"
 #include "dogmfont.h"
 
-
-/* the following code will be removed
-#include <avr/pgmspace.h>
-
-#ifndef PGM_P
-#define PGM_P const char *
-#endif
-
-#ifdef PROGMEM
-#define dog_pgm_read_w(adr) pgm_read_word_near(adr)
-#define dog_pgm_read(adr) pgm_read_byte_near(adr)
-#else
-#define dog_pgm_read_w(adr) (*(const int16_t *)(adr))
-#define dog_pgm_read(adr) (*(const char *)(adr)) 
-#endif
-
-#ifndef PROGMEM
-#define PROGMEM
-#endif
-*/
-
-/* the following code should be removed */
-/*
-#ifdef PROGMEM
-#define dog_pgm_read_w(adr) pgm_read_word_near(adr)
-#define dog_pgm_read(adr) pgm_read_byte_near(adr)
-#else
-#define dog_pgm_read_w(adr) (*(const int16_t *)(adr))
-#define dog_pgm_read(adr) (*(const char *)(adr)) 
-#endif
-*/
-
-/* it should be checked if these defines are still required */
-#define PIN_SCK   13
-#define PIN_MISO  12
-#define PIN_MOSI  11
-#define PIN_SS    10
-#define PIN_A0_DEFAULT     6
-
+/* Arduino Pin assignments have been moved to dogmspi.c */
 
 /* hight of a page for all supported DOG devices */ 
 #define DOG_PAGE_HEIGHT 8

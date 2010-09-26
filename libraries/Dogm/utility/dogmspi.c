@@ -39,17 +39,24 @@
 #include "dogm128.h"
 
 
+/* pin assignment for arduino, should be moved down */
+#define PIN_SCK   13
+#define PIN_MISO  12
+#define PIN_MOSI  11
+#define PIN_SS    10
+#define PIN_A0_DEFAULT     6
+
 uint8_t dog_spi_pin_a0 = PIN_A0_DEFAULT;
 
 #if defined(DOG_SPI_USI)
 
-#include <avr/interrupt.h>
-#include <avr/io.h>
-#include <util/delay.h>
-
 /*=======================================================================*/
 /* USI Interface */
 /*=======================================================================*/
+
+#include <avr/interrupt.h>
+#include <avr/io.h>
+#include <util/delay.h>
 
 #define _DOG_SPI_DDR(PCHAR) DDR ## PCHAR
 #define DOG_SPI_DDR(PCHAR) _DOG_SPI_DDR(PCHAR)
@@ -231,6 +238,7 @@ void dog_data_mode(void)
 /*=======================================================================*/
 /* Arduino SPI */
 /*=======================================================================*/
+
 
 #include <avr/interrupt.h>
 #include <avr/io.h>
