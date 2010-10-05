@@ -28,6 +28,7 @@
 # Board (and prozessor) information: see $(ARDUINO_PATH)hardware/arduino/boards.txt
 # Some examples:
 #	BOARD		DESCRIPTION
+#	uno			Arduino Uno
 #	atmega328	Arduino Duemilanove or Nano w/ ATmega328
 #	diecimila		Arduino Diecimila, Duemilanove, or Nano w/ ATmega168
 #	mega		Arduino Mega
@@ -40,7 +41,7 @@ BOARD:=atmega328
 AVR_TOOLS_PATH:=/usr/bin/
 
 # Install path of the arduino software. Requires a '/' at the end.
-ARDUINO_PATH:=/home/kraus/prg/arduino-0019/
+ARDUINO_PATH:=/home/kraus/prg/arduino-0021/
 
 # Install path for avrdude. Requires a '/' at the end. Can be empty if avrdude is in the search path.
 AVRDUDE_PATH:= 
@@ -131,7 +132,7 @@ AVRDUDE = avrdude
 # use "make -p -f/dev/null" to see the default rules and definitions
 
 # Build C and C++ flags. Include path information must be placed here
-COMMON_FLAGS = -DF_CPU=$(F_CPU) -mmcu=$(MCU)
+COMMON_FLAGS = -DF_CPU=$(F_CPU) -mmcu=$(MCU) 
 # COMMON_FLAGS += -gdwarf-2
 COMMON_FLAGS += -Os
 COMMON_FLAGS += -Wall -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
