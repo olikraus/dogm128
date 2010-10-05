@@ -57,10 +57,6 @@ void sys_init(void)
 #endif
 }
 
-void st_Draw(void);
-void st_Step(uint8_t player_pos);
-
-
 int main(void)
 {
   uint16_t adc;
@@ -77,7 +73,7 @@ int main(void)
     adc = sys_adc();
     adc >>= 2;
     dog_Delay(10);
-    st_Step(adc);
+    st_Step(adc, 1, 0);
   }  
 }
 

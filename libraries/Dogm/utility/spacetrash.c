@@ -309,7 +309,7 @@ uint8_t st_CntObj(uint8_t ot);
 uint8_t st_CalcXY(st_obj *o) DOG_ATTR_FN_INLINE;
 void st_SetXY(st_obj *o, uint8_t x, uint8_t y) DOG_ATTR_FN_INLINE;
 
-void st_FireStep(void) DOG_ATTR_FN_INLINE;
+void st_FireStep(uint8_t is_auto_fire, uint8_t is_fire) DOG_ATTR_FN_INLINE;
 
 void st_InitTrash(uint8_t x, uint8_t y, int8_t dir);
 void st_NewGadget(uint8_t x, uint8_t y);
@@ -812,12 +812,37 @@ uint8_t st_IsHit(uint8_t objnr, uint8_t x, uint8_t y, uint8_t missle_mask)
 /* update all fire counters */
 uint8_t st_fire_player = 0;
 uint8_t st_fire_period = 51;
+uint8_t st_manual_fire_delay = 20;
+uint8_t st_is_fire_last_value = 0;
 
-void st_FireStep(void)
+/*
+  is_auto_fire == 1
+    is_fire will be ignored, autofire enabled
+  is_auto_fire == 0
+    a transition from 1 to 0 on the is_fire variable will issue a missle
+*/
+void st_FireStep(uint8_t is_auto_fire, uint8_t is_fire)
 {
-  st_fire_player++;
-  if ( st_fire_player >= st_fire_period )
-    st_fire_player = 0;
+  if ( is_auto_fire != 0 )
+  {
+    st_fire_player++;
+    if ( st_fire_player >= st_fire_period )
+      st_fire_player = 0;
+  }
+  else
+  {
+    if ( st_fire_player < st_manual_fire_delay )
+    {
+      st_fire_player++;
+    }
+    else
+    {
+      if ( st_is_fire_last_value == 0 )
+	if ( is_fire != 0 )
+	  st_fire_player = 0;
+    }
+    st_is_fire_last_value = is_fire;
+  }
 }
 
 void st_Fire(uint8_t objnr)
@@ -1224,7 +1249,7 @@ void st_Setup(void)
 /*
   player_pos: 0..255
 */
-void st_StepInGame(uint8_t player_pos)
+void st_StepInGame(uint8_t player_pos, uint8_t is_auto_fire, uint8_t is_fire)
 {
   uint8_t i, j;
   uint8_t missle_mask;
@@ -1263,7 +1288,7 @@ void st_StepInGame(uint8_t player_pos)
   }
   
   /* handle fire counter */
-  st_FireStep();
+  st_FireStep(is_auto_fire, is_fire);
   
   /* fire */
   for( i = 0; i < ST_OBJ_CNT; i++ )
@@ -1287,7 +1312,7 @@ void st_StepInGame(uint8_t player_pos)
     st_player_points_delayed++;
 }
   
-void st_Step(uint8_t player_pos)
+void st_Step(uint8_t player_pos, uint8_t is_auto_fire, uint8_t is_fire)
 {
   switch(st_state)
   {
@@ -1304,7 +1329,7 @@ void st_Step(uint8_t player_pos)
       }
       break;
     case ST_STATE_GAME:
-      st_StepInGame(player_pos);
+      st_StepInGame(player_pos, is_auto_fire, is_fire);
       break;
     case ST_STATE_END:
       st_to_diff_cnt = DOG_WIDTH-10;		/* reuse st_to_diff_cnt */

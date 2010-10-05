@@ -218,7 +218,8 @@ void walk_Step(void);
 /* --- spacetrash --- */
 
 void st_Draw(void);
-void st_Step(uint8_t player_pos);
+void st_Step(uint8_t player_pos, uint8_t is_auto_fire, uint8_t is_fire);
+
 
 
 #ifdef __cplusplus
