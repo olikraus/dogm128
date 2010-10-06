@@ -85,7 +85,7 @@ void uiStep(void) {
     int sensorValue;
     // assume, that no keypad is used and derive the location from analog input
     sensorValue = analogRead(sensorPin);
-    sensorValue >>= 3;
+    sensorValue >>= 2;
     playerLocation = sensorValue;
     // now check if some keys are pressed
     if ( digitalRead(uiKeyLeftPin) == LOW )
