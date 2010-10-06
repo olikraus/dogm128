@@ -29,7 +29,15 @@
   CS (Chip Select)  Pin 10
 
   Note: MISO (Pin 12) is not used, but can not be reused as generic I/O
-  
+
+  User Interface:
+    Analog Potentiometer: 
+      Assign pin number to variable "sensorPin". Default is analog pin 0.
+    Digital Input:
+      Assign up button pin to variable uiKeyUpPin. Default is DOGS102 Shield
+      Assign down button pin to variable uiKeyDownPin. Default is DOGS102 Shield
+      Assign fire button pin to variable uiKeyFirePin. Default is DOGS102 Shield
+
 */
 
 #include <Dogm.h>
