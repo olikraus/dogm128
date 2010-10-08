@@ -23,6 +23,10 @@ class Dogm : public Print {
     void start(void);
     uint8_t next(void) { return dog_NextPage(); }
     
+    void setContrast(uint8_t val);
+    void setInvertPixelMode(uint8_t val);
+
+    
     void setPixel(uint8_t x, uint8_t y) { dog_SetPixel(x, y); }
     void clrPixel(uint8_t x, uint8_t y) { dog_ClrPixel(x, y); }
     void xorPixel(uint8_t x, uint8_t y) { dog_XorPixel(x,y); }	/* v1.01 */

@@ -31,6 +31,23 @@ void Dogm::start(void)
   dog_StartPage();
 }
 
+// values between 0 and 63 allowed
+void Dogm::setContrast(uint8_t val)
+{
+  if ( is_req_init )
+    Init();
+  dog_SetContrast(val);
+}
+
+void Dogm::setInvertPixelMode(uint8_t val)
+{
+  if ( is_req_init )
+    Init();
+  dog_SetInvertPixelMode(val);
+}
+
+
+
 void Dogm::xy_char_correction(uint8_t len)
 {
   switch( rot )

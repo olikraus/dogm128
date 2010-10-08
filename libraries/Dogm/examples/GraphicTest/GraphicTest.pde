@@ -171,6 +171,6 @@ void loop() {
     page = 0;
     is_invert++;
     is_invert &= 1;
-    dog_SetInvertPixelMode(is_invert);
+    dogm.setInvertPixelMode(is_invert);
   }
 }
