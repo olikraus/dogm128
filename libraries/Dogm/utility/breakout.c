@@ -25,7 +25,7 @@
 
 */
 
-#define BO_BUILD "v1.03"
+#define BO_BUILD "v1.04"
 
 
 #include <stdio.h>
@@ -737,7 +737,7 @@ void draw_field(u8 level)
   dog_SetVLine(BO_FIELD_X1-1, BO_FIELD_Y0, BO_FIELD_Y1);
   x = dog_DrawStr(4, 57, BO_F1, dog_itoa(bo_remaining_bricks));
   /* dog_DrawStr(x+2, 57, BO_F1, "left"); */
-  x = dog_DrawStr(25, 57, BO_F1, "level");
+  x = dog_DrawStrP(25, 57, BO_F1, DOG_PSTR("level"));
   dog_DrawStr(x+2+25, 57, BO_F1, dog_itoa(level+1));
 
   if ( bo_no_reflection_cnt > 0 )
@@ -791,28 +791,28 @@ void bo_Draw(void)
     draw_field(bo_level);
     if ( bo_step_state == BO_STATE_INTRO1 )
     {
-      const char *s1 = "Breakorino";
-      const char *s2 = BO_BUILD;
+      DOG_PSTR_P s1 = DOG_PSTR("Breakorino");
+      DOG_PSTR_P s2 = DOG_PSTR(BO_BUILD);
       s16 o = ((dog_sin(((s16)bo_timer)*3))/21);
       u8 w;
       
-      w = dog_GetStrWidth(BO_F2, s1);
-      dog_DrawStr(BO_FIELD_X0 + (BO_FIELD_PIX_WIDTH-w)/2, 18+o, BO_F2, s1);
+      w = dog_GetStrWidthP(BO_F2, s1);
+      dog_DrawStrP(BO_FIELD_X0 + (BO_FIELD_PIX_WIDTH-w)/2, 18+o, BO_F2, s1);
       
-      w = dog_GetStrWidth(BO_F2, s2);
-      dog_DrawStr(BO_FIELD_X0 + (BO_FIELD_PIX_WIDTH-w)/2, 10+o, BO_F2, s2);
+      w = dog_GetStrWidthP(BO_F2, s2);
+      dog_DrawStrP(BO_FIELD_X0 + (BO_FIELD_PIX_WIDTH-w)/2, 10+o, BO_F2, s2);
     }
     if ( bo_step_state == BO_STATE_LOST )
     {
-      const char *s = "Game Over";
-      u8 w = dog_GetStrWidth(BO_F3, s);
-      dog_DrawStr(BO_FIELD_X0 + (BO_FIELD_PIX_WIDTH-w)/2, 10+(bo_timer>>4), BO_F3, s);
+      DOG_PSTR_P s = DOG_PSTR("Game Over");
+      u8 w = dog_GetStrWidthP(BO_F3, s);
+      dog_DrawStrP(BO_FIELD_X0 + (BO_FIELD_PIX_WIDTH-w)/2, 10+(bo_timer>>4), BO_F3, s);
     }
     if ( bo_step_state == BO_STATE_COMLETED )
     {
-      const char *s = "Completed";
-      u8 w = dog_GetStrWidth(BO_F3, s);
-      dog_DrawStr(BO_FIELD_X0 + (BO_FIELD_PIX_WIDTH-w)/2, 20-(bo_timer>>4), BO_F3, s);
+      DOG_PSTR_P s = DOG_PSTR("Completed");
+      u8 w = dog_GetStrWidthP(BO_F3, s);
+      dog_DrawStrP(BO_FIELD_X0 + (BO_FIELD_PIX_WIDTH-w)/2, 20-(bo_timer>>4), BO_F3, s);
     }
 }
 
