@@ -180,8 +180,20 @@ void dog_DrawArc(uint8_t mx, uint8_t my, uint8_t r, uint8_t w0, uint8_t w1, uint
 
 
 /* --- font information --- */
+
+/* start: internal definitions. Do not call or use these definitions directly */
+uint16_t dog_font_pgm_read_word(DOG_PGM_P buf) DOG_ATTR_FN_INLINE;
+uint8_t dog_char(uint8_t x, uint8_t y, DOG_PGM_P font, uint8_t mode, uint8_t rot, unsigned char code);
+#define fnt_get_bbox_capital_a(buf) (dog_font_pgm_read_word((buf)+0))
+#define fnt_get_bbox_small_a(buf) (dog_font_pgm_read_word((buf)+2))
+#define fnt_get_bbox_width(buf) (dog_pgm_read((buf)+4))
+#define fnt_get_bbox_height(buf) (dog_pgm_read((buf)+5))
+#define fnt_get_bbox_descent(buf) (dog_pgm_read((buf)+6))
+#define FNT_DATA 7
+/* end: internal definitions */
+
+
 uint8_t dog_GetCharWidth(DOG_PGM_P font, unsigned char code);	/* dogmfont.c */
-uint8_t dog_GetStrWidth(DOG_PGM_P font, const char *s); /* dogmfont.c */
 
 uint8_t dog_GetFontBBXHeight(DOG_PGM_P buf);
 uint8_t dog_GetFontBBXWidth(DOG_PGM_P buf);
@@ -189,8 +201,15 @@ uint8_t dog_GetFontBBXDescent(DOG_PGM_P buf);
   
 uint8_t dog_DrawChar(uint8_t x, uint8_t y, DOG_PGM_P font, unsigned char code); /* dogmfont.c */
 uint8_t dog_DrawRChar(uint8_t x, uint8_t y, uint8_t rot, DOG_PGM_P font, unsigned char code);
-uint8_t dog_DrawStr(uint8_t x, uint8_t y, DOG_PGM_P font, const char *s);	/* dogmfont.c */
+
+uint8_t dog_GetStrWidth(DOG_PGM_P font, const char *s); /* dogmds.c */
+uint8_t dog_DrawStr(uint8_t x, uint8_t y, DOG_PGM_P font, const char *s);	/* dogmds.c */
 uint8_t dog_DrawRStr(uint8_t x, uint8_t y, uint8_t rot, DOG_PGM_P font, const char *s);
+
+uint8_t dog_GetStrWidthP(DOG_PGM_P font, DOG_PSTR_P s); /* dogmdsp.c */
+uint8_t dog_DrawStrP(uint8_t x, uint8_t y, DOG_PGM_P font, DOG_PSTR_P s); /* dogmdsp.c */
+uint8_t dog_DrawRStrP(uint8_t x, uint8_t y, uint8_t rot, DOG_PGM_P font, DOG_PSTR_P s);
+
 
 /* --- math --- */
 

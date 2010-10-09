@@ -47,7 +47,7 @@ void page0(void)
     all_page();
     //dog_SetFont(font_5x8);
     //dog_SetXY(20,10);
-    dog_DrawStr(20, 10, font_5x8, "Set Test");
+    dog_DrawStrP(20, 10, font_5x8, DOG_PSTR("Set Test"));
     dog_SetBox(5,20,DOG_WIDTH-5,43);
     dog_SetVLine(80,0, 63);
     dog_SetHLine(0,DOG_WIDTH-1, 2);
@@ -59,7 +59,7 @@ void page0(void)
 void page1(void)
 {
     all_page();
-    dog_DrawStr(20, 10, font_5x8, "Clr Test");
+    dog_DrawStrP(20, 10, font_5x8, DOG_PSTR("Clr Test"));
     dog_SetBox(5,20,DOG_WIDTH-5,43);
     dog_ClrBox(20,30,30,40);
     dog_ClrVLine(80,0, 63);
@@ -75,7 +75,7 @@ void page1(void)
 void page2(void)
 {
     all_page();
-    dog_DrawStr(20, 16, font_5x8, "Xor Test");
+    dog_DrawStrP(20, 16, font_5x8, DOG_PSTR("Xor Test"));
     dog_XorBox(5,20,90,43);
     dog_XorVLine(80,0, 63);
     dog_XorPixel(10, 27);
@@ -90,7 +90,7 @@ void page2(void)
 void page3(void)
 {
     all_page();
-    dog_DrawStr(2, 24, font_5x8, "Draw Test");
+    dog_DrawStrP(2, 24, font_5x8, DOG_PSTR("Draw Test"));
     dog_DrawLine(0,0,127,20, 1);
     dog_DrawLine(0,1,127,30, 1);
     dog_DrawLine(0,2,127,40, 0);
@@ -106,14 +106,31 @@ void page4(void)
 {
     all_page();
     dog_DrawPoint(0,0, 1);
-    dog_DrawRStr(0, 0, 0, font_5x8, "Text r=0");
+    dog_DrawRStrP(0, 0, 0, font_5x8, DOG_PSTR("Text r=0"));
     dog_DrawPoint(50,5, 1);
-    dog_DrawRStr(50, 5, 1, font_5x8, "T r=1");
+    dog_DrawRStrP(50, 5, 1, font_5x8, DOG_PSTR("T r=1"));
     dog_DrawPoint(80,20, 1);
-    dog_DrawRStr(80, 20, 2, font_5x8, "T r=2");
+    dog_DrawRStrP(80, 20, 2, font_5x8, DOG_PSTR("T r=2"));
     dog_DrawPoint(90,25, 1);
-    dog_DrawRStr(90, 25, 3, font_5x8, "T r=3");
+    dog_DrawRStrP(90, 25, 3, font_5x8, DOG_PSTR("T r=3"));
+}
+
+void page5(void)
+{
+  char s_buf[4];
+  char *s_ram = s_buf;
+  DOG_PSTR_P s_rom;
+  s_buf[0] = 'R';
+  s_buf[1] = 'A';
+  s_buf[2] = 'M';
+  s_buf[3] = '\0';
+  s_rom = DOG_PSTR("ROM");
+
+  all_page();
+  dog_DrawStrP(20, 10, font_5x8, DOG_PSTR("RAM/ROM Test"));
   
+  dog_DrawStr(10, 1, font_5x8, s_ram);
+  dog_DrawStrP(50, 1, font_5x8, s_rom);
 }
 
 void system_init(void)
@@ -145,11 +162,13 @@ int main(void)
 	case 2: page2(); break;
 	case 3: page3(); break;
 	case 4: page4(); break;
+	case 5: page5(); break;
       }
     } while( dog_NextPage() );
     dog_Delay(1500);
     page++;
-    if ( page == 5 )
+    if ( page == 6 )
       page = 0;
   }  
 }
+

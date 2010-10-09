@@ -64,14 +64,6 @@
 
 */
 
-uint16_t dog_font_pgm_read_word(DOG_PGM_P buf) DOG_ATTR_FN_INLINE;
-
-#define fnt_get_bbox_capital_a(buf) (dog_font_pgm_read_word((buf)+0))
-#define fnt_get_bbox_small_a(buf) (dog_font_pgm_read_word((buf)+2))
-#define fnt_get_bbox_width(buf) (dog_pgm_read((buf)+4))
-#define fnt_get_bbox_height(buf) (dog_pgm_read((buf)+5))
-#define fnt_get_bbox_descent(buf) (dog_pgm_read((buf)+6))
-#define FNT_DATA 7
 
 
 #define chr_get_len_P(buf) ((unsigned char)(dog_pgm_read((buf)+0)))
@@ -166,7 +158,7 @@ uint8_t dog_GetCharWidth(DOG_PGM_P font, unsigned char code)
   return chr_get_width_P(adr);
 }
 
-static uint8_t dog_char(uint8_t x, uint8_t y, DOG_PGM_P font, uint8_t mode, uint8_t rot, unsigned char code)
+uint8_t dog_char(uint8_t x, uint8_t y, DOG_PGM_P font, uint8_t mode, uint8_t rot, unsigned char code)
 {
   DOG_PGM_P cbuf = fnt_get_chr(font, code);
   unsigned char ascent_area, descent_area;
@@ -278,67 +270,5 @@ uint8_t dog_DrawChar(uint8_t x, uint8_t y, DOG_PGM_P font, unsigned char code)
   return dog_DrawRChar(x, y, 0, font, code);
 }
 
-uint8_t dog_GetStrWidth(DOG_PGM_P font, const char *s)
-{
-  uint8_t w = 0;
-  while( *s != '\0' )
-  {
-    w	+= dog_GetCharWidth(font, (unsigned char)*s);
-    s++;
-  }
-  return w;
-}
 
-static uint8_t dog_str(uint8_t x, uint8_t y, uint8_t rot, DOG_PGM_P font, uint8_t mode, const char *s)
-{
-  uint8_t d = 0;
-  uint8_t d_sum = 0;
-  signed char y0, y1;
-  
-  if ( rot == 0 )
-  {
-    y0 = y;
-    y0 -= fnt_get_bbox_descent(font);  
-    y1 = y0;
-    y1 += fnt_get_bbox_height(font);
-  
-    if ( (signed char)dog_max_y < y0 )
-      return dog_GetStrWidth(font, s);
-    if ( (signed char)dog_min_y > y1 )
-      return dog_GetStrWidth(font, s);
-  }
-  
-  while( *s != '\0' )
-  {
-    d = dog_char(x,y,font, mode, rot, (unsigned char)*s);
-    switch(rot)
-    {
-      default:
-	x += d;
-	break;
-      case 1:
-	y += d;
-	break;
-      case 2:
-	x -= d;
-	break;
-      case 3:
-	y -= d;
-	break;
-    }
-    d_sum += d;
-    s++;
-  }
-  return d_sum;
-}
-
-uint8_t dog_DrawStr(uint8_t x, uint8_t y, DOG_PGM_P font, const char *s)
-{
-  return dog_str(x,y,0, font,0,s);
-}
-
-uint8_t dog_DrawRStr(uint8_t x, uint8_t y, uint8_t rot, DOG_PGM_P font, const char *s)
-{
-  return dog_str(x,y,rot, font,0,s);
-}
 

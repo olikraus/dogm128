@@ -1206,7 +1206,8 @@ void st_Draw(void)
   {
     case ST_STATE_PREPARE:
     case ST_STATE_IPREPARE:
-      dog_DrawStr(0, (DOG_HEIGHT-6)/2, font_4x6, "SpaceTrash");
+      //dog_DrawStr(0, (DOG_HEIGHT-6)/2, font_4x6, "SpaceTrash");
+      dog_DrawStrP(0, (DOG_HEIGHT-6)/2, font_4x6, DOG_PSTR("SpaceTrash"));
       dog_SetHLine(DOG_WIDTH-st_to_diff_cnt-10, DOG_WIDTH-st_to_diff_cnt, (DOG_HEIGHT-6)/2-1);
       break;
     case ST_STATE_GAME:
@@ -1214,7 +1215,8 @@ void st_Draw(void)
       break;
     case ST_STATE_END:
     case ST_STATE_IEND:
-      dog_DrawStr(0, (DOG_HEIGHT-6)/2, font_4x6, "Game Over");
+      //dog_DrawStr(0, (DOG_HEIGHT-6)/2, font_4x6, "Game Over");
+      dog_DrawStrP(0, (DOG_HEIGHT-6)/2, font_4x6, DOG_PSTR("Game Over"));
       dog_DrawStr(50, (DOG_HEIGHT-6)/2, font_4x6, dog_itoa(st_player_points));
       dog_DrawStr(75, (DOG_HEIGHT-6)/2, font_4x6, dog_itoa(st_highscore));
       dog_SetHLine(st_to_diff_cnt, st_to_diff_cnt+10, (DOG_HEIGHT-6)/2-1);
