@@ -33,10 +33,12 @@
     
   dog_pgm_read(adr)
     return a value from flash rom, returns uint8_t
+    
+  see also http://code.google.com/p/dogm128/wiki/
 */
 
-#ifndef _DOGMROM_H
-#define _DOGMROM_H
+#ifndef _DOGMPGM_H
+#define _DOGMPGM_H
 
 /*========================================================
   ATMEL AVR 
@@ -82,5 +84,5 @@ typedef uint8_t dog_pgm_uint8_t;
 */
 #define DOG_PGM_P const dog_pgm_uint8_t *
 
-#endif /* _DOGMROM_H */
+#endif /* _DOGMPGM_H */
 
