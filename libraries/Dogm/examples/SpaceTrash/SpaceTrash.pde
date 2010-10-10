@@ -27,8 +27,12 @@
   SCL (SPI Clock)   Pin 13
   SI (MOSI)         Pin 11
   CS (Chip Select)  Pin 10
-
-  Note: MISO (Pin 12) is not used, but can not be reused as generic I/O
+  MISO (Pin 12) is not used, but can not be reused as generic I/O
+  
+  Note:
+    1) Set correct display hardware in Dogm/utility/dogm128.h
+    2) Set top/bottom view (DOG_REVERSE) in Dogm/utility/dogm128.h
+    See also: http://code.google.com/p/dogm128/wiki/install 
 
   User Interface:
     Analog Potentiometer: 

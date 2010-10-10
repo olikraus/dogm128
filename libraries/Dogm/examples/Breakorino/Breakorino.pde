@@ -6,14 +6,14 @@
 
   (c) 2010 Oliver Kraus (olikraus@gmail.com)
   
-  This file is part of the dogm128 Arduino library.
+  This file is part of the dogm128 library.
 
-  The dogm128 Arduino library is free software: you can redistribute it and/or modify
+  The dogm128 library is free software: you can redistribute it and/or modify
   it under the terms of the Lesser GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
-  The dogm128 Arduino library is distributed in the hope that it will be useful,
+  The dogm128 library is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   Lesser GNU General Public License for more details.
@@ -25,9 +25,13 @@
   SCL (SPI Clock)   Pin 13
   SI (MOSI)         Pin 11
   CS (Chip Select)  Pin 10
-
-  Note: MISO (Pin 12) is not used, but can not be reused as generic I/O
+  MISO (Pin 12) is not used, but can not be reused as generic I/O
   
+  Note:
+    1) Set correct display hardware in Dogm/utility/dogm128.h
+    2) Set top/bottom view (DOG_REVERSE) in Dogm/utility/dogm128.h
+    See also: http://code.google.com/p/dogm128/wiki/install 
+    
   User Interface:
     Analog Potentiometer: 
       Assign pin number to variable "sensorPin". Default is analog pin 0.
