@@ -57,12 +57,12 @@ typedef int16_t s16;
 #define BO_AREA_HEIGHT 3
 
 #ifdef DOGS102_HW
-#define BO_BRICK_WIDTH (10<<BO_FP)
+#define BO_BRICK_WIDTH ((s16)10<<BO_FP)
 #else
-#define BO_BRICK_WIDTH (12<<BO_FP)
+#define BO_BRICK_WIDTH ((s16)12<<BO_FP)
 #endif
 
-#define BO_BRICK_HEIGHT (4<<BO_FP)
+#define BO_BRICK_HEIGHT ((s16)4<<BO_FP)
 
 /*
   DOGM128:
@@ -70,10 +70,10 @@ typedef int16_t s16;
     
 */
 
-#define BO_AREA_UNIT_X (BO_BRICK_WIDTH+(4<<BO_FP))
-#define BO_AREA_UNIT_Y (BO_BRICK_HEIGHT+(4<<BO_FP))
-#define BO_AREA_ORIG_X (2<<BO_FP)
-#define BO_AREA_ORIG_Y (32<<BO_FP)
+#define BO_AREA_UNIT_X (BO_BRICK_WIDTH+((s16)4<<BO_FP))
+#define BO_AREA_UNIT_Y (BO_BRICK_HEIGHT+((s16)4<<BO_FP))
+#define BO_AREA_ORIG_X ((s16)2<<BO_FP)
+#define BO_AREA_ORIG_Y ((s16)32<<BO_FP)
 
 /* dimensions of the overall game field (BO_FP units) */
 #define BO_FIELD_WIDTH (BO_AREA_ORIG_X + BO_AREA_UNIT_X * BO_AREA_WIDTH)
@@ -82,10 +82,10 @@ typedef int16_t s16;
 /* pixel values */
 #define BO_FIELD_X0 2
 #define BO_FIELD_Y0 2
-#define BO_FIELD_X1 (BO_FIELD_X0+((BO_FIELD_WIDTH)>>BO_FP))
-#define BO_FIELD_Y1 (BO_FIELD_Y0+((BO_FIELD_HEIGHT)>>BO_FP))
-#define BO_FIELD_PIX_WIDTH ((BO_FIELD_WIDTH)>>BO_FP)
-#define BO_FIELD_PIX_HEIGHT ((BO_FIELD_HEIGHT)>>BO_FP)
+#define BO_FIELD_X1 ((u8)(BO_FIELD_X0+((BO_FIELD_WIDTH)>>BO_FP)))
+#define BO_FIELD_Y1 ((u8)(BO_FIELD_Y0+((BO_FIELD_HEIGHT)>>BO_FP)))
+#define BO_FIELD_PIX_WIDTH ((u8)((BO_FIELD_WIDTH)>>BO_FP))
+#define BO_FIELD_PIX_HEIGHT ((u8)((BO_FIELD_HEIGHT)>>BO_FP))
 
 /* brick states */
 #define BO_BRICK_NONE 0
@@ -599,13 +599,13 @@ void bo_SetPlayerPos(bo_player *p, u8 pos)
   tmp = (u8)(((u16)tmp*(u16)pos)/255);
   p->x0 = ((s16)tmp) << BO_FP;
   p->x1 = p->x0 + p->w;
-  p->y0 = 1 << BO_FP;
-  p->y1 = 3 << BO_FP;
+  p->y0 = (s16)1 << BO_FP;
+  p->y1 = (s16)3 << BO_FP;
 }
 
 void bo_SetupPlayer(bo_player *p)
 {
-  p->w = 22*(1<<BO_FP);
+  p->w = (s16)22*(s16)(1<<BO_FP);
   bo_SetPlayerPos(p, 128);
 }
 
