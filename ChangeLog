@@ -37,7 +37,13 @@ dogm128 ChangeLog
 	* Chars and strings: Rotation by 0, 90, 180 or 270 degree
 	* Bugfix: dog_SetVLine (Issue 55)
 	* New example game: SpaceTrash
-2010-09-18	v1.06	Oliver Kraus <olikraus@gmail.com>
-	* DrawArc: Multiplication fails for sizeof(int)==1 --> fixed
-	
+2010-10-10	v1.06	Oliver Kraus <olikraus@gmail.com>
+	* Bugfix DrawArc: Multiplication fails for sizeof(int)==1 --> fixed
+	* Bugfix DOG_REVERSE: Fixed an "off by one" bug
+	* setContrast, setInvertPixelMode: Available in C++ interface
+	* Support for DOGS102 Shield
+	* dog_GetStrWidthP, dog_DrawStrP, dog_DrawRStrP: Support for
+	    strings located in flash ROM area (C interface).
+	* Introduced flash rom abstraction layer
+	* Tested with Arduino UNO and Arduino 0021 IDE
 	
