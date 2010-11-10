@@ -46,4 +46,6 @@ dogm128 ChangeLog
 	    strings located in flash ROM area (C interface).
 	* Introduced flash rom abstraction layer
 	* Tested with Arduino UNO and Arduino 0021 IDE
+2010-xx-xx	v1.07	Oliver Kraus <olikraus@gmail.com>
+	* DOGM132-Shield fully supported by SpaceTrash.pde
 	
