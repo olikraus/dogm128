@@ -41,6 +41,12 @@
       Assign up button pin to variable uiKeyUpPin. Default is DOGS102 Shield
       Assign down button pin to variable uiKeyDownPin. Default is DOGS102 Shield
       Assign fire button pin to variable uiKeyFirePin. Default is DOGS102 Shield
+	  Remember to define DOGS102_HW
+    additionally another button set can be define
+      Assign up button pin to variable uiKeyUpPin2. Default is DOGM132 Shield
+      Assign down button pin to variable uiKeyDownPin2. Default is DOGM132 Shield
+      Assign fire button pin to variable uiKeyFirePin2. Default is DOGM132 Shield
+	  Remember to define DOGM132_HW and DOG_REVERSE
 
 */
 
@@ -50,11 +56,18 @@
 int a0Pin = 9;      // address line a0 for the dogm module
 uint16_t sensorPin = 0;  // analog input
 
-// configuration values
+// generic configuration values
+uint8_t uiIncrement = 2;
+
+// DOGS102 configuration values
 uint8_t uiKeyUpPin = 5;
 uint8_t uiKeyDownPin = 3;
 uint8_t uiKeyFirePin = 4;
-uint8_t uiIncrement = 2;
+
+// DOGM132 configuration values
+uint8_t uiKeyUpPin2 = 7;
+uint8_t uiKeyDownPin2 = 3;
+uint8_t uiKeyFirePin2 = 2;
 
 // output values
 uint8_t shipLocation = 0;
@@ -72,12 +85,22 @@ Dogm dogm(a0Pin);
 // setup the user interface
 void uiSetup(void) {
   // configure input keys 
+  
   pinMode(uiKeyUpPin, INPUT);           // set pin to input
   digitalWrite(uiKeyUpPin, HIGH);       // turn on pullup resistors
   pinMode(uiKeyDownPin, INPUT);           // set pin to input
   digitalWrite(uiKeyDownPin, HIGH);       // turn on pullup resistors
   pinMode(uiKeyFirePin, INPUT);           // set pin to input
   digitalWrite(uiKeyFirePin, HIGH);       // turn on pullup resistors
+
+  pinMode(uiKeyUpPin2, INPUT);           // set pin to input
+  digitalWrite(uiKeyUpPin2, HIGH);       // turn on pullup resistors
+  pinMode(uiKeyDownPin2, INPUT);           // set pin to input
+  digitalWrite(uiKeyDownPin2, HIGH);       // turn on pullup resistors
+  pinMode(uiKeyFirePin2, INPUT);           // set pin to input
+  digitalWrite(uiKeyFirePin2, HIGH);       // turn on pullup resistors
+  
+  
   // configure internal variables
   isKeyPad = 0;
   // assign some (more or less) useful values to the output variables
@@ -100,18 +123,24 @@ void uiStep(void) {
       isKeyPad = 1;
     if ( digitalRead(uiKeyFirePin) == LOW )
       isKeyPad = 1;
+    if ( digitalRead(uiKeyUpPin2) == LOW )
+      isKeyPad = 1;
+    if ( digitalRead(uiKeyDownPin2) == LOW )
+      isKeyPad = 1;
+    if ( digitalRead(uiKeyFirePin2) == LOW )
+      isKeyPad = 1;
   }
   if ( isKeyPad != 0 )
   {
     isAutoFire = 0;
-    if ( digitalRead(uiKeyUpPin) == LOW )
+    if ( digitalRead(uiKeyUpPin) == LOW || digitalRead(uiKeyUpPin2) == LOW )
       if ( shipLocation <= 255 -  uiIncrement )
 	shipLocation += uiIncrement;
-    if ( digitalRead(uiKeyDownPin) == LOW )
+    if ( digitalRead(uiKeyDownPin) == LOW || digitalRead(uiKeyDownPin2) == LOW )
       if ( shipLocation >= 0+  uiIncrement )
 	shipLocation -= uiIncrement;
     isFire = 0;
-    if ( digitalRead(uiKeyFirePin) == LOW )
+    if ( digitalRead(uiKeyFirePin) == LOW || digitalRead(uiKeyFirePin2) == LOW )
       isFire = 1;
   }
 }
