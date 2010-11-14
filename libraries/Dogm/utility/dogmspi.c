@@ -30,6 +30,17 @@
       --> DORD = 0
       
   /usr/lib/avr/include/avr/pgmspace.h
+  
+  
+  This file is controlled by the following defines:
+  
+  DOG_SPI_USI
+    --> ATTINY 
+  DOG_SPI_ATMEGA
+    --> ATMEGA
+  nothing defined
+    --> Arduino
+
 
 */
 
@@ -153,6 +164,136 @@ void dog_data_mode(void)
 {
   DOG_SPI_PORT(DOG_SPI_A0_PORT) |= _BV(DOG_SPI_A0_PIN);
 }
+
+#elif defined(DOG_SPI_ATMEGA)
+
+/*=======================================================================*/
+/* SPI Interface of ATMEGA */
+/*=======================================================================*/
+
+#include <avr/interrupt.h>
+#include <avr/io.h>
+#include <util/delay.h>
+
+#define _DOG_SPI_DDR(PCHAR) DDR ## PCHAR
+#define DOG_SPI_DDR(PCHAR) _DOG_SPI_DDR(PCHAR)
+#define _DOG_SPI_PORT(PCHAR) PORT ## PCHAR
+#define DOG_SPI_PORT(PCHAR) _DOG_SPI_PORT(PCHAR)
+
+/* dog_spi_pin_a0 is ignored, instead, port and pins are hard coded */
+#ifndef DOG_SPI_SCL_PORT
+#define DOG_SPI_SCL_PORT B
+#warning DOG_SPI_SCL_PORT not defined, port B assumed
+#endif
+#ifndef DOG_SPI_SCL_PIN
+#define DOG_SPI_SCL_PIN 5
+#warning DOG_SPI_SCL_PIN not defined, bit 5 assumed
+#endif
+
+
+#ifndef DOG_SPI_MOSI_PORT
+#define DOG_SPI_MOSI_PORT B
+#warning DOG_SPI_MOSI_PORT not defined, port B assumed
+#endif 
+
+#ifndef DOG_SPI_MOSI_PIN
+#define DOG_SPI_MOSI_PIN 3
+#warning DOG_SPI_MOSI_PIN not defined, bit 3 assumed
+#endif 
+
+#ifndef DOG_SPI_CS_PORT
+#define DOG_SPI_CS_PORT B
+#warning DOG_SPI_CS_PORT not defined, port B assumed
+#endif 
+
+#ifndef DOG_SPI_CS_PIN
+#define DOG_SPI_CS_PIN 0
+#warning DOG_SPI_CS_PIN not defined, bit 0 assumed
+#endif 
+
+#ifndef DOG_SPI_A0_PORT
+#define DOG_SPI_A0_PORT B
+#warning DOG_SPI_A0_PORT not defined, port B assumed
+#endif 
+
+#ifndef DOG_SPI_A0_PIN
+#define DOG_SPI_A0_PIN 1
+#warning DOG_SPI_A0_PIN not defined, bit 1 assumed
+#endif 
+
+#ifndef DOG_SPI_SS_PORT
+#define DOG_SPI_SS_PORT B
+#warning DOG_SPI_SS_PORT not defined, port B assumed
+#endif 
+
+#ifndef DOG_SPI_SS_PIN
+#define DOG_SPI_SS_PIN 2
+#warning DOG_SPI_SS_PIN not defined, bit 2 assumed
+#endif 
+
+void dog_spi_init(void)
+{
+  /* NOTE: SS Pin must be set to output, otherwise the SPI system might assume a collision */
+  
+  /* setup port directions */
+  DOG_SPI_DDR(DOG_SPI_CS_PORT) |= _BV(DOG_SPI_CS_PIN);
+  DOG_SPI_DDR(DOG_SPI_MOSI_PORT) |= _BV(DOG_SPI_MOSI_PIN);
+  DOG_SPI_DDR(DOG_SPI_A0_PORT) |= _BV(DOG_SPI_A0_PIN);
+  DOG_SPI_DDR(DOG_SPI_SCL_PORT) |= _BV(DOG_SPI_SCL_PIN);
+  DOG_SPI_DDR(DOG_SPI_SS_PORT) |= _BV(DOG_SPI_SS_PIN);
+  
+    /*
+    SPR1 SPR0
+	0	0		fclk/4
+	0	1		fclk/16
+	1	0		fclk/64
+	1	1		fclk/128
+  */
+  
+  
+  
+  SPCR = 0;
+  SPCR =  (1<<SPE) | (1<<MSTR)|(0<<SPR1)|(0<<SPR0)|(0<<CPOL)|(0<<CPHA);
+}
+
+unsigned char dog_spi_out(unsigned char data)
+{
+  /* send data */
+  SPDR = data;
+  /* wait for transmission */
+  while (!(SPSR & (1<<SPIF))) 
+    ;
+  /* clear the SPIF flag by reading SPDR */
+  //dog_Delay(1);
+  return  SPDR;
+  //return data;
+}
+
+void dog_spi_enable_client(void)
+{
+  /* before the slave is enabled, esure that the clk pin has a logical zero */
+  DOG_SPI_PORT(DOG_SPI_SCL_PORT) &= ~_BV(DOG_SPI_SCL_PIN);
+  
+  /* now enable the SPI slave */
+  DOG_SPI_PORT(DOG_SPI_CS_PORT) &= ~_BV(DOG_SPI_CS_PIN);
+}
+
+void dog_spi_disable_client(void)
+{
+  /* disable the client (write a logical zero on the CS line) */
+  DOG_SPI_PORT(DOG_SPI_CS_PORT) |= _BV(DOG_SPI_CS_PIN);
+}
+
+void dog_cmd_mode(void)
+{
+  DOG_SPI_PORT(DOG_SPI_A0_PORT) &= ~_BV(DOG_SPI_A0_PIN);
+}
+
+void dog_data_mode(void)
+{
+  DOG_SPI_PORT(DOG_SPI_A0_PORT) |= _BV(DOG_SPI_A0_PIN);
+}
+
 
 
 #elif defined(__18CXX)
