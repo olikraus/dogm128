@@ -52,17 +52,17 @@ DOGDIR = ../../../../libraries/Dogm/utility/
 DOGDEFS = -DDOGM132_HW
 # assume USI interface on the target controller, default is Arduino Hardware
 DOGDEFS += -DDOG_SPI_ATMEGA
-# assign port and bit for the chip select line of the DOG controller
-DOGDEFS += -DDOG_SPI_CS_PORT=B -DDOG_SPI_CS_PIN=0
-# assign port and bit for the adress line of the DOG controller
-DOGDEFS += -DDOG_SPI_A0_PORT=B -DDOG_SPI_A0_PIN=1
+# Assign port and bit for the chip select line of the DOG controller
+# this must be SS pin of the SPI interface. The chip select signal of
+# the DOG controller must be connected to this SS pin
+DOGDEFS += -DDOG_SPI_SS_PORT=B -DDOG_SPI_SS_PIN=2
 # assign port and bit for the clock of the DOG controller (this must be the SCL output of the USI interface)
 DOGDEFS += -DDOG_SPI_SCL_PORT=B -DDOG_SPI_SCL_PIN=5
 # assign port and bit for the data line of the DOG controller (this must be the DO output of the USI interface)
 DOGDEFS += -DDOG_SPI_MOSI_PORT=B -DDOG_SPI_MOSI_PIN=3
-# The SS pin must be set to output for proper SPI communication
-# A0 or CS might be assigned to this pin
-DOGDEFS += -DDOG_SPI_SS_PORT=B -DDOG_SPI_SS_PIN=2
+# Assign port and bit for the adress line of the DOG controller
+# The address line can by any port bit
+DOGDEFS += -DDOG_SPI_A0_PORT=B -DDOG_SPI_A0_PIN=1
 
 #================================================
 # System/Environment Information

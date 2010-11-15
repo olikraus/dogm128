@@ -201,16 +201,6 @@ void dog_data_mode(void)
 #warning DOG_SPI_MOSI_PIN not defined, bit 3 assumed
 #endif 
 
-#ifndef DOG_SPI_CS_PORT
-#define DOG_SPI_CS_PORT B
-#warning DOG_SPI_CS_PORT not defined, port B assumed
-#endif 
-
-#ifndef DOG_SPI_CS_PIN
-#define DOG_SPI_CS_PIN 0
-#warning DOG_SPI_CS_PIN not defined, bit 0 assumed
-#endif 
-
 #ifndef DOG_SPI_A0_PORT
 #define DOG_SPI_A0_PORT B
 #warning DOG_SPI_A0_PORT not defined, port B assumed
@@ -236,7 +226,6 @@ void dog_spi_init(void)
   /* NOTE: SS Pin must be set to output, otherwise the SPI system might assume a collision */
   
   /* setup port directions */
-  DOG_SPI_DDR(DOG_SPI_CS_PORT) |= _BV(DOG_SPI_CS_PIN);
   DOG_SPI_DDR(DOG_SPI_MOSI_PORT) |= _BV(DOG_SPI_MOSI_PIN);
   DOG_SPI_DDR(DOG_SPI_A0_PORT) |= _BV(DOG_SPI_A0_PIN);
   DOG_SPI_DDR(DOG_SPI_SCL_PORT) |= _BV(DOG_SPI_SCL_PIN);
@@ -275,13 +264,13 @@ void dog_spi_enable_client(void)
   DOG_SPI_PORT(DOG_SPI_SCL_PORT) &= ~_BV(DOG_SPI_SCL_PIN);
   
   /* now enable the SPI slave */
-  DOG_SPI_PORT(DOG_SPI_CS_PORT) &= ~_BV(DOG_SPI_CS_PIN);
+  DOG_SPI_PORT(DOG_SPI_SS_PORT) &= ~_BV(DOG_SPI_SS_PIN);
 }
 
 void dog_spi_disable_client(void)
 {
   /* disable the client (write a logical zero on the CS line) */
-  DOG_SPI_PORT(DOG_SPI_CS_PORT) |= _BV(DOG_SPI_CS_PIN);
+  DOG_SPI_PORT(DOG_SPI_SS_PORT) |= _BV(DOG_SPI_SS_PIN);
 }
 
 void dog_cmd_mode(void)
