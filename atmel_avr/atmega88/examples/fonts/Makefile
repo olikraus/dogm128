@@ -50,7 +50,7 @@ SRC = fonts.c
 DOGDIR = ../../../../libraries/Dogm/utility/
 # assume DOGM 132 Hardware (other possible keywords are DOGM128_HW and DOGS102_HW)
 DOGDEFS = -DDOGM132_HW
-# assume USI interface on the target controller, default is Arduino Hardware
+# assume ATMEGA SPI interface on the target controller, default is Arduino Hardware
 DOGDEFS += -DDOG_SPI_ATMEGA
 # Assign port and bit for the chip select line of the DOG controller
 # this must be SS pin of the SPI interface. The chip select signal of

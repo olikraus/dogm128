@@ -1,0 +1,46 @@
+
+This is the dogm128 library.
+The dogm128 library is a C/C++ interface to the ST7565R based graphics module.
+Display types DOGM128, DOGM132 and DOGS102 are supported.
+
+Please also visit 
+  http://code.google.com/p/dogm128/wiki/install
+for install instructions.
+
+Install instruction for plain Atmel AVR ATMEGA microcontroller
+
+  1. Setup Environment
+      a) GNU C Compiler for Atmel AVR (`sudo apt-get install gcc-avr`)
+      b) Atmel AVR Programmer avrdude (`sudo apt-get install avrdude`)
+      c) gnu make
+      d) Programmer Hardware for Atmel ISP interface (see http://www.atmel.com/products/avr/ or http://en.wikipedia.org/wiki/Atmel_AVR)
+  2. Download latest version of dogm128_avr_vX.XX.zip
+  3. Extract zip file and change directory to graphics test example
+  4. Change the Makefile according to your hardware.
+      a) Line `MCU:=atmega88`
+	  Add the name of the target device. Valid names are reported with the avr-gcc -dumpspec  command.
+	  MCU names (devices) are also listed here: http://www.nongnu.org/avr-libc/user-manual/index.html
+      b) Line `F_CPU:=8000000'
+	  Set the frequency of the target environment. The examples of this library will try to assign maximum speed.
+      c) Line `DOGDEFS = -DDOGM132_HW' 
+	  Select display (DOGM128_HW, DOGM132_HW or DOGS102_HW)
+      d) DOGDEFS += -DDOG_SPI_ATMEGA
+	  Select the SPI Interface for the ATMEGA.
+      e) DOGDEFS += -DDOG_SPI_SS_PORT=B -DDOG_SPI_SS_PIN=2
+	  I/O port and bit number which is connected to the chip select line of the display.
+	  This should always be the SS pin of the SPI interface.
+      f) DOGDEFS += -DDOG_SPI_A0_PORT=B -DDOG_SPI_A0_PIN=1
+	  I/O port and bit number which is connected to the A0 line of the display.
+      g) DOGDEFS += -DDOG_SPI_SCL_PORT=B -DDOG_SPI_SCL_PIN=5
+	  Port and pin of the SCL output line of the Atmel AVR SPI interface
+      h) DOGDEFS += -DDOG_SPI_MOSI_PORT=B -DDOG_SPI_MOSI_PIN=3
+	  Port and pin of the MOSI output line of the Atmel AVR SPI interface
+  5. Create hex-file and upload the hexfile to the controller: `make upload` 
+  6. Setup a new project:
+      a) Create a new directory, copy the modified Makefile into the new directory.
+      b) `TARGETNAME = project_name`
+	  Assign the project name.
+      c) `DOGDIR = ../../lib/`
+	  Set the location of the dogm128 library if required.
+      d) `SRC = file1.c file2.c file3.c`
+	  Add list of the c-files of the project.
