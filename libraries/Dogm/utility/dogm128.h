@@ -19,14 +19,22 @@
   You should have received a copy of the Lesser GNU General Public License
   along with dogm128.  If not, see <http://www.gnu.org/licenses/>.
 
+  Controller SPI Interface Selection 
+    DOG_SPI_USI		Universal Serial Interface of ATTINY controller
+    DOG_SPI_ATMEGA	ATMEGA SPI Interface
+    DOG_SPI_ARDUINO	SPI Interface for ATMEGA within Arduino Environment
+    nothing defined		defaults to DOG_SPI_ARDUINO
+
   Display Selection
   one of the following constants could be defined:
-    DOGM128_HW
-    DOGS102_HW
-    DOGM132_HW
+    DOGM128_HW		DOGM128 Display
+    DOGS102_HW		DOGS102 Display
+    DOGM132_HW		DOGM132 Display
+    nothing defined		defaults to DOGM128 Display
     
   Normal or Revers Display Mode
-    DOG_REVERSE
+    DOG_REVERSE		Display output rotated by 180 degree
+    nothing defined		No rotation of the output
     
     
 */

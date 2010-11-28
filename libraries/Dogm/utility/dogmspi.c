@@ -38,13 +38,23 @@
     --> ATTINY 
   DOG_SPI_ATMEGA
     --> ATMEGA
-  nothing defined
+  DOG_SPI_ARDUINO or "nothing defined"
     --> Arduino
 
 
 */
 
 #include "dogm128.h"
+
+
+#if defined(DOG_SPI_USI)
+#elif defined(DOG_SPI_ATMEGA)
+#elif defined(__18CXX)
+#else
+#define DOG_SPI_ARDUINO
+#endif
+
+
 
 
 /* pin assignment for arduino, should be moved down */
@@ -55,6 +65,8 @@
 #define PIN_A0_DEFAULT     6
 
 uint8_t dog_spi_pin_a0 = PIN_A0_DEFAULT;
+
+
 
 #if defined(DOG_SPI_USI)
 
@@ -360,7 +372,7 @@ void dog_data_mode(void)
   LCD_A0_IO=1;
 }
 
-#else
+#elif defined(DOG_SPI_ARDUINO)
 
 /*=======================================================================*/
 /* Arduino SPI */
