@@ -6,12 +6,12 @@
   
   This file is part of the dogm128 Arduino library.
 
-  The dogm128 Arduino library is free software: you can redistribute it and/or modify
+  The dogm128 library is free software: you can redistribute it and/or modify
   it under the terms of the Lesser GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
-  The dogm128 Arduino library is distributed in the hope that it will be useful,
+  The dogm128 library is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   Lesser GNU General Public License for more details.
@@ -35,7 +35,7 @@ void dog_SetVLine(uint8_t x, uint8_t y1, uint8_t y2)
   if ( x >= DOG_WIDTH )
     return;
   ptr = dog_page_buffer+x; 
-  *ptr |= dog_get_vline_mask(y1, y2);
+  *ptr |= dog_get_vline_mask(y1, y2);  /* dogmov.c */
 }
 
 
