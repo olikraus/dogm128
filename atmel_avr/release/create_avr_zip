@@ -1,0 +1,28 @@
+
+# delete old folders and files
+# rm -rf examples
+rm -rf attiny84
+rm -rf lib
+rm dogm128_avr.zip
+# copy core library
+cp -R ../../libraries/Dogm/utility .
+mv utility lib
+
+# copy attiny84
+cp -R ../attiny84/examples .
+mv examples attiny84
+cp ../attiny84/INSTALL.TXT INSTALL.ATTINY84
+
+# copy atmega88
+cp -R ../atmega88/examples .
+mv examples atmega88
+cp ../atmega88/INSTALL.TXT INSTALL.ATMEGA88
+
+cp ../../COPYING.LESSER .
+cp ../../ChangeLog .
+find . -name Makefile -exec sed -iold -e "s|DOGDIR = .*|DOGDIR = ../../lib/|" {}  \;  
+find . -name "Makefile" -execdir make clean \;
+find . -name "Makefileold" -exec rm {} \;
+zip -r dogm128_avr.zip attiny84 atmega88 lib COPYING.LESSER INSTALL.ATTINY84 INSTALL.ATMEGA88 ChangeLog
+# zip -d dogm128_avr.zip "*/Makefileold"
+
