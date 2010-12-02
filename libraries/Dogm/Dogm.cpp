@@ -7,7 +7,7 @@
 void Dogm::Init(void)
 {
   is_req_init = 0;
-  dog_Init(a0Pin);
+  dog_InitA0CS(a0Pin, csPin);
 }
 
 Dogm::Dogm(uint8_t pin_a0)
@@ -17,12 +17,27 @@ Dogm::Dogm(uint8_t pin_a0)
   tx = 0;
   ty = 0;
   a0Pin = pin_a0;
+  csPin = 255;
+  is_req_init= 1;
+  // why can dog_Init() not be called here... arduino will hang if this is done in the constructor
+  // should be investigated some day
+  // dog_Init(pin_a0);  
+}
+
+Dogm::Dogm(uint8_t pin_a0, uint8_t pin_cs)
+{
+  rot = 0;
+  size = 0;
+  tx = 0;
+  ty = 0;
+  a0Pin = pin_a0;
+  csPin = pin_cs;
   is_req_init= 1;
   // why can dog_Init() not be called here... arduino will hang if this is done in the constructor
   // should be investigated some day
   // dog_Init(pin_a0);
-  
 }
+
 
 void Dogm::start(void)
 {

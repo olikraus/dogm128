@@ -65,6 +65,7 @@
 #define PIN_A0_DEFAULT     6
 
 uint8_t dog_spi_pin_a0 = PIN_A0_DEFAULT;
+uint8_t dog_spi_pin_cs = PIN_SS;	/* arduino chip select pin, defaults to the hardware pin */
 
 
 
@@ -389,8 +390,9 @@ void dog_spi_init(void)
   pinMode(PIN_SCK, OUTPUT);
   pinMode(PIN_MOSI, OUTPUT);
   /* pinMode(PIN_MISO, INPUT); */
-  pinMode(PIN_SS, OUTPUT);
+  pinMode(PIN_SS, OUTPUT);			/* this must always be an output port */
   pinMode(dog_spi_pin_a0, OUTPUT);
+  pinMode(dog_spi_pin_cs, OUTPUT);			/* this is the user chip select */
   
   /*
     SPR1 SPR0
@@ -425,12 +427,12 @@ unsigned char dog_spi_out(unsigned char data)
 
 void dog_spi_enable_client(void)
 {
-        digitalWrite(PIN_SS, LOW);  
+        digitalWrite(dog_spi_pin_cs, LOW);  
 }
 
 void dog_spi_disable_client(void)
 {
-        digitalWrite(PIN_SS, HIGH);
+        digitalWrite(dog_spi_pin_cs, HIGH);
 }
 
 void dog_cmd_mode(void)

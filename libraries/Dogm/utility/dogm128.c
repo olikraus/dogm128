@@ -185,12 +185,21 @@ static void dog_init_display(void)
   dog_spi_disable_client();
 }
 
-void dog_Init(unsigned short pin_a0)
+/* pin values of 255 are not assigned */
+void dog_InitA0CS(uint8_t pin_a0, uint8_t pin_cs)
 {
   dog_Delay(60);			/* initial delay */
-  dog_spi_pin_a0 = pin_a0;
+  if ( pin_a0 != 255 )
+    dog_spi_pin_a0 = pin_a0;
+  if ( pin_cs != 255 )
+    dog_spi_pin_cs = pin_cs;
   dog_spi_init();
   dog_init_display();
+}
+
+void dog_Init(unsigned short pin_a0)
+{
+  dog_InitA0CS(pin_a0, 255);
 }
 
 

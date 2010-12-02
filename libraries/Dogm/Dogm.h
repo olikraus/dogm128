@@ -8,6 +8,7 @@
 
 class Dogm : public Print {
     uint8_t a0Pin;
+    uint8_t csPin;
     uint8_t is_req_init;	// if call to Init() is required
     uint8_t size;
     uint8_t rot;
@@ -19,6 +20,7 @@ class Dogm : public Print {
     uint8_t tx, ty;
   
     Dogm(uint8_t pin_a0); 
+    Dogm(uint8_t pin_a0, uint8_t pin_cs); 
       
     void start(void);
     uint8_t next(void) { return dog_NextPage(); }

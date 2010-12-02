@@ -113,6 +113,7 @@ void dog_data_mode(void);
 
   
 void dog_Delay(uint16_t val);				/* delay in milliseconds */
+void dog_InitA0CS(uint8_t pin_a0, uint8_t pin_cs);
 void dog_Init(unsigned short pin_a0);
 void dog_SetContrast(uint8_t val);			/* values between 0 and 63 allowed, previosly named dog_set_contranst() */
 void dog_SetInvertPixelMode(uint8_t val);	/* previosly named dog_set_inverse() */
@@ -126,6 +127,7 @@ uint8_t dog_NextPage(void);
 
 /* --- dogmspi.c --- */
 extern uint8_t dog_spi_pin_a0;
+extern uint8_t dog_spi_pin_cs;	/* arduino chip select pin */
 
 void dog_spi_init(void);
 unsigned char dog_spi_out(unsigned char data);
