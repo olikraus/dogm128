@@ -1,7 +1,8 @@
 
 # delete old folders and files
-# rm -rf examples
+rm -rf examples
 rm -rf attiny84
+rm -rf atmega88
 rm -rf lib
 rm dogm128_avr.zip
 # copy core library
