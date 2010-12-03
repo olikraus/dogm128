@@ -49,4 +49,5 @@ dogm128 ChangeLog
 2010-xx-xx	v1.07	Oliver Kraus <olikraus@gmail.com>
 	* DOGM132-Shield fully supported by SpaceTrash.pde
 	* ATMEGA88: SPI support and examples
+	* Arduino Environment: Allow to select an IO port as chip select line
 	
