@@ -49,7 +49,7 @@ F_CPU:=8000000
 SRC = graphic_test.c
 DOGDIR = ../../../../libraries/Dogm/utility/
 # assume DOGM 132 Hardware (other possible keywords are DOGM128_HW and DOGS102_HW)
-DOGDEFS = -DDOGM132_HW
+DOGDEFS = -DDOGM132_HW -DDOG_DOUBLE_MEMORY
 # assume USI interface on the target controller, default is Arduino Hardware
 DOGDEFS += -DDOG_SPI_USI
 # assign port and bit for the chip select line of the DOG controller

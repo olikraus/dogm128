@@ -24,6 +24,28 @@
 
 #include "dogm128.h"
 
+
+#if defined(DOG_DOUBLE_MEMORY)
+/* y1 must be lower or equal to y2 */
+void dog_SetVLine(uint8_t x, uint8_t y1, uint8_t y2)
+{
+  if ( y2 < dog_min_y )
+    return;
+  if ( y1 > dog_max_y )
+    return;
+  if ( x >= DOG_WIDTH )
+    return;
+  if ( y2 > dog_max_y )
+    y2 = dog_max_y;
+  if ( y1 < dog_min_y )
+    y1 = dog_min_y;
+  while( y1 <= y2 )
+  {
+    dog_set_pixel(x, y1);
+    y1++;
+  }
+}
+#else
 /* y1 must be lower or equal to y2 */
 void dog_SetVLine(uint8_t x, uint8_t y1, uint8_t y2)
 {
@@ -37,6 +59,5 @@ void dog_SetVLine(uint8_t x, uint8_t y1, uint8_t y2)
   ptr = dog_page_buffer+x; 
   *ptr |= dog_get_vline_mask(y1, y2);  /* dogmov.c */
 }
-
-
+#endif
 

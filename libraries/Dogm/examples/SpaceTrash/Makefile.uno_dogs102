@@ -43,7 +43,7 @@ BOARD:=uno
 # -DDOGM132_HW		board is connected to DOGM132 display
 # -DDOGS102_HW		board is connected to DOGS102 display
 # -DDOG_REVERSE		180 degree rotation
-DEFS=-DDOGS102_HW
+DEFS=-DDOGS102_HW -DDOG_DOUBLE_MEMORY
 
 # The location where the avr tools (e.g. avr-gcc) are located. Requires a '/' at the end.
 # Can be empty if all tools are accessable through the search path

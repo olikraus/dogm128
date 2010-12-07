@@ -57,7 +57,7 @@
 #endif
 
 
-unsigned char dog_page_buffer[DOG_PAGE_WIDTH];
+unsigned char dog_page_buffer[DOG_PAGE_SIZE];
 uint8_t dog_curr_page = 0;	/* 0...DOG_PAGE_CNT-1 */
 uint8_t dog_min_y = 0;
 uint8_t dog_max_y = DOG_PAGE_HEIGHT-1;
@@ -203,7 +203,7 @@ void dog_Init(unsigned short pin_a0)
 }
 
 
-static void dog_transfer_page(void)
+static void dog_transfer_sub_page(uint8_t page, uint8_t  offset)
 {
   uint8_t idx;
 
@@ -213,7 +213,7 @@ static void dog_transfer_page(void)
   /* set write position */
   dog_cmd_mode();
   
-  dog_spi_out(0x0b0 | dog_curr_page );		/* select current page  */
+  dog_spi_out(0x0b0 | page );		/* select current page  */
   dog_spi_out(0x010 );		/* set upper 4 bit of the col adr to 0 */
   dog_spi_out(0x000 );		/* set lower 4 bit of the col adr to 0 */
   
@@ -225,7 +225,7 @@ static void dog_transfer_page(void)
   idx = 0;
   while( idx != DOG_PAGE_WIDTH )
   {
-    dog_spi_out(dog_page_buffer[idx]); 
+    dog_spi_out(dog_page_buffer[idx+offset]);
     idx++;
   }
 #else
@@ -233,7 +233,7 @@ static void dog_transfer_page(void)
   while( idx != 0 )
   {
     idx--;
-    dog_spi_out(dog_page_buffer[idx]); 
+    dog_spi_out(dog_page_buffer[idx+offset]); 
   }
 #endif
 
@@ -242,7 +242,15 @@ static void dog_transfer_page(void)
   dog_spi_disable_client();
 }
 
-
+static void dog_transfer_page(void)
+{
+#if defined(DOG_DOUBLE_MEMORY)
+  dog_transfer_sub_page(dog_curr_page*2, 0);
+  dog_transfer_sub_page(dog_curr_page*2+1, DOG_WIDTH);
+#else
+  dog_transfer_sub_page(dog_curr_page, 0);
+#endif
+}
 /*==============================================================*/
 /* page buffer functions */
 /*==============================================================*/
@@ -250,7 +258,7 @@ static void dog_transfer_page(void)
 static void dog_ClearPage(void)
 {
   uint8_t i;
-  for( i = 0; i < DOG_PAGE_WIDTH; i++ )
+  for( i = 0; i < DOG_PAGE_SIZE; i++ )
     dog_page_buffer[i] = 0;
 
 }

@@ -71,8 +71,12 @@
 
 /* Arduino Pin assignments have been moved to dogmspi.c */
 
-/* hight of a page for all supported DOG devices */ 
+/* height of a page for all supported DOG devices */ 
+#if defined(DOG_DOUBLE_MEMORY)
+#define DOG_PAGE_HEIGHT 16
+#else
 #define DOG_PAGE_HEIGHT 8
+#endif
 
 /* setings for the various DOG displays */
 #ifdef DOGM128_HW
@@ -93,14 +97,18 @@
 /* derived constants */
 #define DOG_PAGE_CNT (DOG_HEIGHT/DOG_PAGE_HEIGHT)
 #define DOG_PAGE_WIDTH DOG_WIDTH
-
+#if defined(DOG_DOUBLE_MEMORY)
+#define DOG_PAGE_SIZE (2*DOG_PAGE_WIDTH)
+#else
+#define DOG_PAGE_SIZE DOG_PAGE_WIDTH
+#endif
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 
-extern unsigned char dog_page_buffer[DOG_PAGE_WIDTH];
+extern unsigned char dog_page_buffer[DOG_PAGE_SIZE];
 
 extern uint8_t dog_min_y;
 extern uint8_t dog_max_y;
@@ -140,7 +148,11 @@ void dog_data_mode(void);
 /* --- set/clr functions --- */
 
 extern unsigned char dog_bit_to_mask[8];	/* dogmsd.c */
-  
+
+void dog_set_pixel(uint8_t x, uint8_t y) DOG_ATTR_FN_INLINE;
+void dog_xor_pixel(uint8_t x, uint8_t y) DOG_ATTR_FN_INLINE;
+void dog_clr_pixel(uint8_t x, uint8_t y) DOG_ATTR_FN_INLINE;
+
 void dog_SetPixel(uint8_t x, uint8_t y);	/* dogmsp.c */
 void dog_ClrPixel(uint8_t x, uint8_t y);	/* dogmcp.c */
 void dog_XorPixel(uint8_t x, uint8_t y);	/* v1.01, dogmxp.c */

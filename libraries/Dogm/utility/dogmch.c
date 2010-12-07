@@ -4,14 +4,14 @@
 
   (c) 2010 Oliver Kraus (olikraus@gmail.com)
   
-  This file is part of the dogm128 Arduino library.
+  This file is part of the dogm128 library.
 
-  The dogm128 Arduino library is free software: you can redistribute it and/or modify
+  The dogm128 library is free software: you can redistribute it and/or modify
   it under the terms of the Lesser GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
-  The dogm128 Arduino library is distributed in the hope that it will be useful,
+  The dogm128 library is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   Lesser GNU General Public License for more details.
@@ -38,8 +38,21 @@ void dog_ClrHLine(uint8_t x1, uint8_t x2, uint8_t y)
       
       if ( x2 > DOG_WIDTH-1 )
 	x2 = DOG_WIDTH-1;
+#if defined(DOG_DOUBLE_MEMORY)
+      if ( (y & 8) == 0 )
+      {
+	for( x = x1; x <= x2; x++ )
+	  dog_page_buffer[x] &= tmp;
+      }
+      else
+      {
+	for( x = x1; x <= x2; x++ )
+	  dog_page_buffer[x+DOG_WIDTH] &= tmp;
+      }
+#else
       for( x = x1; x <= x2; x++ )
 	dog_page_buffer[x] &= tmp;
+#endif
     }  
 }
 
