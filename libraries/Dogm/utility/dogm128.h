@@ -49,7 +49,7 @@
 //#define DOGM132_HW	/* uncomment for the DOGM132 display */
 
 /* default is DOGM128_HW */
-#if !defined DOGM128_HW && !defined DOGM132_HW && !defined DOGS102_HW
+#if !defined DOGM128_HW && !defined DOGM132_HW && !defined DOGS102_HW && !defined DOGXL160_HW
 #define DOGM128_HW
 #endif
 
@@ -92,6 +92,11 @@
 #ifdef DOGM132_HW
 #define DOG_WIDTH 132
 #define DOG_HEIGHT 32
+#endif
+
+#ifdef DOGXL160_HW
+#define DOG_WIDTH 160
+#define DOG_HEIGHT 104
 #endif
 
 /* derived constants */

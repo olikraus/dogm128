@@ -49,7 +49,7 @@ void page0(void)
     //dog_SetXY(20,10);
     dog_DrawStrP(20, 10, font_5x8, DOG_PSTR("Set Test"));
     dog_SetBox(5,20,DOG_WIDTH-5,43);
-    dog_SetVLine(80,0, 63);
+    dog_SetVLine(80,0, DOG_HEIGHT);
     dog_SetHLine(0,DOG_WIDTH-1, 2);
     dog_SetPixel(10, 17);
     dog_SetPixel(12, 17);
@@ -62,7 +62,7 @@ void page1(void)
     dog_DrawStrP(20, 10, font_5x8, DOG_PSTR("Clr Test"));
     dog_SetBox(5,20,DOG_WIDTH-5,43);
     dog_ClrBox(20,30,30,40);
-    dog_ClrVLine(80,0, 63);
+    dog_ClrVLine(80,0, DOG_HEIGHT);
     dog_ClrPixel(10, 27);
     dog_ClrPixel(12, 27);
     dog_ClrPixel(14, 27);
@@ -77,7 +77,7 @@ void page2(void)
     all_page();
     dog_DrawStrP(20, 16, font_5x8, DOG_PSTR("Xor Test"));
     dog_XorBox(5,20,90,43);
-    dog_XorVLine(80,0, 63);
+    dog_XorVLine(80,0, DOG_HEIGHT);
     dog_XorPixel(10, 27);
     dog_XorPixel(12, 27);
     dog_XorPixel(14, 27);

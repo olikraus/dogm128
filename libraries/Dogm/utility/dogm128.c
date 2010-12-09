@@ -178,7 +178,21 @@ static void dog_init_display(void)
   dog_spi_out(0x0af);		/* display on */
 #endif
 
-  dog_spi_out(0x0a5);		/* display all points */
+#ifdef DOGXL160_HW
+  dog_spi_out(0x0f1);		/* set display height-1 */
+  dog_spi_out(0x067);		/*  */
+  dog_spi_out(0x0c0);		/* SEG & COM normal */
+  dog_spi_out(0x040);		/* set display start line */
+  dog_spi_out(0x050);		/* */
+  dog_spi_out(0x02b);		/* set panelloading */
+  dog_spi_out(0x0eb);		/* set bias 1/2 */
+  dog_spi_out(0x081);		/* set contrast */
+  dog_spi_out(0x05f);		/* */
+  dog_spi_out(0x089);		/* set auto increment */
+  dog_spi_out(0x0af);		/* display on */
+#endif
+
+  dog_spi_out(0x0a5);		/* display all points, ST7565, UC1610 */
   dog_Delay(300);
   dog_spi_out(0x0a4);		/* normal display  */
   dog_Delay(300);
@@ -202,6 +216,9 @@ void dog_Init(unsigned short pin_a0)
   dog_InitA0CS(pin_a0, 255);
 }
 
+#ifdef DOGXL160_HW
+uint8_t dog_4to8[16] = { 0x00, 0x03, 0x0c, 0x0f, 0x30, 0x33, 0x3c, 0x3f, 0xc0, 0xc3, 0xcc, 0xcf, 0xf0, 0xf3, 0xfc, 0xff };
+#endif
 
 static void dog_transfer_sub_page(uint8_t page, uint8_t  offset)
 {
@@ -210,31 +227,66 @@ static void dog_transfer_sub_page(uint8_t page, uint8_t  offset)
   /* enable and reset com interface of the ST7565R */
   dog_spi_enable_client();
   
+  
+
+#ifdef DOG_REVERSE
+#ifdef DOGXL160_HW
+#else
   /* set write position */
   dog_cmd_mode();
-  
-  dog_spi_out(0x0b0 | page );		/* select current page  */
+  dog_spi_out(0x0b0 | page );		/* select current page (ST7565R) */
   dog_spi_out(0x010 );		/* set upper 4 bit of the col adr to 0 */
   dog_spi_out(0x000 );		/* set lower 4 bit of the col adr to 0 */
   
   /* send a complete page */
-  
   dog_data_mode();
-
-#ifdef DOG_REVERSE
   idx = 0;
   while( idx != DOG_PAGE_WIDTH )
   {
     dog_spi_out(dog_page_buffer[idx+offset]);
     idx++;
   }
+#endif
 #else
+#ifdef DOGXL160_HW
+  dog_cmd_mode();
+  dog_spi_out(0x060 | (page*2) );		/* select current page  (UC1610)*/
+  dog_spi_out(0x010 );		/* set upper 4 bit of the col adr to 0 */
+  dog_spi_out(0x000 );		/* set lower 4 bit of the col adr to 0 */
+  dog_data_mode();
+  idx = DOG_PAGE_WIDTH;
+  while( idx != 0 )
+  {
+    idx--;
+    dog_spi_out(dog_4to8[dog_page_buffer[idx+offset] & 15]); 
+  }  
+  dog_cmd_mode();
+  dog_spi_out(0x060 | (page*2)+1 );		/* select current page  (UC1610)*/
+  dog_spi_out(0x010 );		/* set upper 4 bit of the col adr to 0 */
+  dog_spi_out(0x000 );		/* set lower 4 bit of the col adr to 0 */
+  dog_data_mode();
+  idx = DOG_PAGE_WIDTH;
+  while( idx != 0 )
+  {
+    idx--;
+    dog_spi_out(dog_4to8[(dog_page_buffer[idx+offset] >> 4)&15]); 
+  }  
+#else
+  /* set write position */
+  dog_cmd_mode();
+  dog_spi_out(0x0b0 | page );		/* select current page (ST7565R) */
+  dog_spi_out(0x010 );		/* set upper 4 bit of the col adr to 0 */
+  dog_spi_out(0x000 );		/* set lower 4 bit of the col adr to 0 */
+  
+  /* send a complete page */
+  dog_data_mode();
   idx = DOG_PAGE_WIDTH;
   while( idx != 0 )
   {
     idx--;
     dog_spi_out(dog_page_buffer[idx+offset]); 
   }
+#endif
 #endif
 
   /* disable com interface of the ST7565R */
