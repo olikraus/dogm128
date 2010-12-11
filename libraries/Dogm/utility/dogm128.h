@@ -30,6 +30,7 @@
     DOGM128_HW		DOGM128 Display
     DOGS102_HW		DOGS102 Display
     DOGM132_HW		DOGM132 Display
+    DOGXL60_HW		DOGXL160 Display
     nothing defined		defaults to DOGM128 Display
     
   Normal or Revers Display Mode
@@ -47,6 +48,7 @@
 //#define DOGM128_HW	/* uncomment for the DOGM128 display */
 //#define DOGS102_HW		/* uncomment for the DOGS102 display */
 //#define DOGM132_HW	/* uncomment for the DOGM132 display */
+//#define DOGXL160_HW	/* uncomment for the DOGXL160 display */
 
 /* default is DOGM128_HW */
 #if !defined DOGM128_HW && !defined DOGM132_HW && !defined DOGS102_HW && !defined DOGXL160_HW
