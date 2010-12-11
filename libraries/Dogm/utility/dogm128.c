@@ -261,7 +261,7 @@ static void dog_transfer_sub_page(uint8_t page, uint8_t  offset)
     dog_spi_out(dog_4to8[dog_page_buffer[idx+offset] & 15]); 
   }  
   dog_cmd_mode();
-  dog_spi_out(0x060 | (page*2)+1 );		/* select current page  (UC1610)*/
+  dog_spi_out(0x060 | ((page*2)+1) );		/* select current page  (UC1610)*/
   dog_spi_out(0x010 );		/* set upper 4 bit of the col adr to 0 */
   dog_spi_out(0x000 );		/* set lower 4 bit of the col adr to 0 */
   dog_data_mode();

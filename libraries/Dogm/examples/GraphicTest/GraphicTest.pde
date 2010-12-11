@@ -26,6 +26,9 @@
   CS (Chip Select)  Pin 10
   MISO (Pin 12) is not used, but can not be reused as generic I/O
   
+  Analog 0: Read value
+  PWM Pin 3: Write analog (Backlight controll)
+  
   Note:
     1) Set correct display hardware in Dogm/utility/dogm128.h
     2) Set top/bottom view (DOG_REVERSE) in Dogm/utility/dogm128.h
@@ -36,10 +39,13 @@
 #include <Dogm.h>
 
 int a0Pin = 9;      // address line a0 for the dogm module
+uint8_t sensorPin = 0;  // analog input
+uint8_t backlightPin = 3;
 
 Dogm dogm(a0Pin);
 
 void setup() {
+  analogWrite(backlightPin, 0);
 }
 
 
@@ -155,9 +161,16 @@ void page4()
     dogm.drawStr("bc");
     dogm.drawChar('d');
 }
+
+
 uint8_t page = 0;
 uint8_t is_invert = 0;
+
+uint16_t sensorValue;
+
+
 void loop() {
+  uint8_t i;
   dogm.start();
   do {
     switch(page) {
@@ -168,7 +181,13 @@ void loop() {
       case 4: page4(); break;
     }
   } while( dogm.next() );
-  dog_Delay(1500);
+  for( i = 0; i < 16; i++ )
+  {
+    dog_Delay(100);
+    sensorValue = analogRead(sensorPin);
+    sensorValue >>= 2;
+    analogWrite(backlightPin, sensorValue);
+  }
   page++;
   if ( page == 5 )
   {
