@@ -250,6 +250,8 @@ signed char dog_cos(uint8_t w);	/* dogmma.c */
 /* --- other --- */
 char *dog_itoa(unsigned long v);
 
+uint8_t dog_GetSPIByte(void);		/* dogmoi.c */
+
 
 /* --- breakout --- */
 
