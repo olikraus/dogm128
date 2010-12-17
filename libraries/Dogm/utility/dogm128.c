@@ -227,10 +227,30 @@ static void dog_transfer_sub_page(uint8_t page, uint8_t  offset)
   /* enable and reset com interface of the ST7565R */
   dog_spi_enable_client();
   
-  
-
 #ifdef DOG_REVERSE
 #ifdef DOGXL160_HW
+  dog_cmd_mode();
+  dog_spi_out(0x060 | (page*2) );		/* select current page  (UC1610)*/
+  dog_spi_out(0x010 );		/* set upper 4 bit of the col adr to 0 */
+  dog_spi_out(0x000 );		/* set lower 4 bit of the col adr to 0 */
+  dog_data_mode();
+  idx = 0;
+  while( idx != DOG_PAGE_WIDTH )
+  {
+    dog_spi_out(dog_4to8[dog_page_buffer[idx+offset] & 15]); 
+    idx++;
+  }  
+  dog_cmd_mode();
+  dog_spi_out(0x060 | ((page*2)+1) );		/* select current page  (UC1610)*/
+  dog_spi_out(0x010 );		/* set upper 4 bit of the col adr to 0 */
+  dog_spi_out(0x000 );		/* set lower 4 bit of the col adr to 0 */
+  dog_data_mode();
+  idx = 0;
+  while( idx != DOG_PAGE_WIDTH )
+  {
+    dog_spi_out(dog_4to8[(dog_page_buffer[idx+offset] >> 4)&15]); 
+    idx++;
+  }  
 #else
   /* set write position */
   dog_cmd_mode();
