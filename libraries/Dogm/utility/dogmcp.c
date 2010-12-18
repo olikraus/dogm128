@@ -46,7 +46,7 @@ void dog_clr_pixel(uint8_t x, uint8_t y)
   }
   else
   {
-    dog_page_buffer[x+DOG_WIDTH] ^= mask;
+    dog_page_buffer[x+DOG_WIDTH] &= mask;
   }
 #else
     dog_page_buffer[x] &= mask;
@@ -64,9 +64,13 @@ void dog_clr_pixel(uint8_t x, uint8_t y)
   tmp ^= 0x0ff;
 #if defined(DOG_DOUBLE_MEMORY)
   if ( (y & 8) == 0 ) 
+  {
     dog_page_buffer[x] &= tmp;
+  }
   else
+  {
     dog_page_buffer[x+DOG_WIDTH] &= tmp;
+  }
 #else
   dog_page_buffer[x] &= tmp;
 #endif

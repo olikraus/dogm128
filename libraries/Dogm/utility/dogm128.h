@@ -115,7 +115,7 @@
 #endif
 
 /* derived constants */
-#define DOG_PAGE_CNT (DOG_HEIGHT/DOG_PAGE_HEIGHT)
+#define DOG_PAGE_CNT ((DOG_HEIGHT+DOG_PAGE_HEIGHT-1)/DOG_PAGE_HEIGHT)
 #define DOG_PAGE_WIDTH DOG_WIDTH
 #if defined(DOG_DOUBLE_MEMORY)
 #define DOG_PAGE_SIZE (2*DOG_PAGE_WIDTH)
@@ -281,6 +281,7 @@ void bo_Setup(uint8_t level);
 void bo_Draw(void);
 void bo_Step(void);
 void bo_SetX(uint8_t pos);
+void bo_DrawFPS(uint8_t fps);
 
 /* --- walk --- */
 

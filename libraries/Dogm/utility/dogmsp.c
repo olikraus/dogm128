@@ -70,9 +70,13 @@ void dog_set_pixel(uint8_t x, uint8_t y)
   tmp = dog_bit_to_mask[tmp];
 #if defined(DOG_DOUBLE_MEMORY)
   if ( (y & 8) == 0 ) 
+  {
     dog_page_buffer[x] |= tmp;
+  }
   else
+  {
     dog_page_buffer[x+DOG_WIDTH] |= tmp;
+  }
 #else
   dog_page_buffer[x] |= tmp;
 #endif

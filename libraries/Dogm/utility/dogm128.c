@@ -228,6 +228,9 @@ uint8_t dog_4to8[16] = { 0x00, 0x03, 0x0c, 0x0f, 0x30, 0x33, 0x3c, 0x3f, 0xc0, 0
 static void dog_transfer_sub_page(uint8_t page, uint8_t  offset)
 {
   uint8_t idx;
+  uint8_t *buffer = dog_page_buffer;
+  
+  buffer += offset;
 
   /* enable and reset com interface of the ST7565R */
   dog_spi_enable_client();
@@ -243,7 +246,7 @@ static void dog_transfer_sub_page(uint8_t page, uint8_t  offset)
   idx = 0;
   while( idx != DOG_PAGE_WIDTH )
   {
-    dog_spi_out(dog_4to8[dog_page_buffer[idx+offset] & 15]); 
+    dog_spi_out(dog_4to8[buffer[idx] & 15]); 
     idx++;
   }  
   dog_cmd_mode();
@@ -254,7 +257,7 @@ static void dog_transfer_sub_page(uint8_t page, uint8_t  offset)
   idx = 0;
   while( idx != DOG_PAGE_WIDTH )
   {
-    dog_spi_out(dog_4to8[(dog_page_buffer[idx+offset] >> 4)&15]); 
+    dog_spi_out(dog_4to8[(buffer[idx] >> 4)&15]); 
     idx++;
   }  
 #else
@@ -274,7 +277,7 @@ static void dog_transfer_sub_page(uint8_t page, uint8_t  offset)
   idx = 0;
   while( idx != DOG_PAGE_WIDTH )
   {
-    dog_spi_out(dog_page_buffer[idx+offset] );
+    dog_spi_out(buffer[idx] );
     idx++;
   }
 #endif
@@ -291,7 +294,7 @@ static void dog_transfer_sub_page(uint8_t page, uint8_t  offset)
   while( idx != 0 )
   {
     idx--;
-    dog_spi_out(dog_4to8[dog_page_buffer[idx+offset] & 15]); 
+    dog_spi_out(dog_4to8[buffer[idx] & 15]); 
   }  
   dog_cmd_mode();
   dog_spi_out(0x060 | ((page*2)+1) );		/* select current page  (UC1610)*/
@@ -302,7 +305,7 @@ static void dog_transfer_sub_page(uint8_t page, uint8_t  offset)
   while( idx != 0 )
   {
     idx--;
-    dog_spi_out(dog_4to8[(dog_page_buffer[idx+offset] >> 4)&15]); 
+    dog_spi_out(dog_4to8[(buffer[idx] >> 4)&15]); 
   }  
 #else
   /* set write position */
@@ -323,7 +326,7 @@ static void dog_transfer_sub_page(uint8_t page, uint8_t  offset)
   while( idx != 0 )
   {
     idx--;
-    dog_spi_out(dog_page_buffer[idx+offset] ); 
+    dog_spi_out(buffer[idx] ); 
   }
 #endif
   
@@ -349,10 +352,11 @@ static void dog_transfer_page(void)
 
 static void dog_ClearPage(void)
 {
-  uint8_t i;
+  uint16_t i;
   for( i = 0; i < DOG_PAGE_SIZE; i++ )
+  {
     dog_page_buffer[i] = 0;
-
+  }
 }
 
 void dog_StartPage(void)

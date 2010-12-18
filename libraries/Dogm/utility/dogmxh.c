@@ -58,12 +58,16 @@ void dog_XorHLine(uint8_t x1, uint8_t x2, uint8_t y)
       if ( (y & 8) == 0 )
       {
 	for( x = x1; x <= x2; x++ )
+	{
 	  dog_page_buffer[x] ^= tmp;
+	}
       }
       else
       {
 	for( x = x1; x <= x2; x++ )
+	{
 	  dog_page_buffer[x+DOG_WIDTH] ^= tmp;
+	}
       }
 #else
       for( x = x1; x <= x2; x++ )

@@ -39,6 +39,13 @@
       Assign left button pin to variable uiKeyLeftPin. Default is DOGS102 Shield
       Assign right button pin to variable uiKeyRightPin. Default is DOGS102 Shield
   
+  FPS (in game)
+    DOGXL160_HW_GR, no DOG_REVERSE, no DOG_DOUBLE_MEMORY		16 FPS
+    DOGXL160_HW_GR no DOG_REVERSE, with DOG_DOUBLE_MEMORY		22 FPS
+    DOGXL160_HW_BW, no DOG_REVERSE, no DOG_DOUBLE_MEMORY		24 FPS
+    DOGXL160_HW_BW, no DOG_REVERSE, with DOG_DOUBLE_MEMORY		28 FPS
+    
+  
 */
 
 #include <Dogm.h>
@@ -47,6 +54,8 @@
 #error Breakorino can not be used on a DOGM132 display
 #endif
 
+unsigned long next_sec_time;
+uint8_t fps, frame_cnt;
 
 int a0Pin = 9;      // address line a0 for the dogm module
 int sensorPin = 0;  // analog input
@@ -129,17 +138,29 @@ void uiStep(void) {
 void setup() {
   uiSetup();
   bo_Setup(0);
+  next_sec_time = millis() + 1000UL;
+  fps = 0;
+  frame_cnt = 0;
 }
 
 void loop() {
   dogm.start();
   do{
     bo_Draw();
+    bo_DrawFPS(fps);
   } while( dogm.next() );
   dog_Delay(1);
   uiStep();
   bo_SetX(playerLocation);
   bo_Step();  
+  
+  frame_cnt++;
+  if ( next_sec_time < millis() )
+  {
+    fps = frame_cnt;
+    frame_cnt = 0;
+    next_sec_time = millis() + 1000UL;
+  }
 }
 
 

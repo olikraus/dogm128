@@ -730,6 +730,11 @@ void draw_player(bo_player *p)
   dog_SetBox(ox, oy, ox+w, oy+h);
 }
 
+void bo_DrawFPS(uint8_t fps)
+{
+  dog_DrawStr(95, 57, BO_F1, dog_itoa(fps));
+}
+
 void draw_field(u8 level)
 {
   u8 x;
