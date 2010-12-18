@@ -48,10 +48,10 @@
 //#define DOGM128_HW	/* uncomment for the DOGM128 display */
 //#define DOGS102_HW		/* uncomment for the DOGS102 display */
 //#define DOGM132_HW	/* uncomment for the DOGM132 display */
-//#define DOGXL160_HW	/* uncomment for the DOGXL160 display */
+//#define DOGXL160_HW_BW	/* uncomment for the DOGXL160 display */
 
 /* default is DOGM128_HW */
-#if !defined DOGM128_HW && !defined DOGM132_HW && !defined DOGS102_HW && !defined DOGXL160_HW
+#if !defined DOGM128_HW && !defined DOGM132_HW && !defined DOGS102_HW && !defined DOGXL160_HW_BW  && !defined DOGXL160_HW_GR
 #define DOGM128_HW
 #endif
 
@@ -73,11 +73,19 @@
 
 /* Arduino Pin assignments have been moved to dogmspi.c */
 
-/* height of a page for all supported DOG devices */ 
+/* height of a page for all supported DOG devices (with speciall case for DOGMXL160_HW_GR) */ 
 #if defined(DOG_DOUBLE_MEMORY)
+#if defined(DOGXL160_HW_GR)
+#define DOG_PAGE_HEIGHT 8
+#else
 #define DOG_PAGE_HEIGHT 16
+#endif
+#else /*DOG_DOUBLE_MEMORY*/
+#if defined(DOGXL160_HW_GR)
+#define DOG_PAGE_HEIGHT 4
 #else
 #define DOG_PAGE_HEIGHT 8
+#endif
 #endif
 
 /* setings for the various DOG displays */
@@ -96,7 +104,12 @@
 #define DOG_HEIGHT 32
 #endif
 
-#ifdef DOGXL160_HW
+#ifdef DOGXL160_HW_BW
+#define DOG_WIDTH 160
+#define DOG_HEIGHT 104
+#endif
+
+#ifdef DOGXL160_HW_GR
 #define DOG_WIDTH 160
 #define DOG_HEIGHT 104
 #endif
@@ -150,6 +163,15 @@ void dog_spi_enable_client(void);
 void dog_spi_disable_client(void);
 void dog_cmd_mode(void);
 void dog_data_mode(void);
+
+
+/* --- dogmop.c (other pixel: pixel value) --- */
+
+
+#if defined(DOGXL160_HW_GR)
+extern uint8_t dog_pixel_value;
+#endif
+void dog_SetPixelValue(uint8_t value);
 
 
 /* --- set/clr functions --- */

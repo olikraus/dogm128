@@ -162,6 +162,50 @@ void page4()
     dogm.drawChar('d');
 }
 
+void page5()
+{
+#ifdef DOGXL160_HW_GR
+    all_page();
+    dogm.setFont(font_5x8);
+    dogm.setXY(20,10);
+    dogm.drawStr("PixVal Test");
+    dog_SetPixelValue(3);
+    dogm.setBox(5,20,DOG_WIDTH-7,43);
+  
+    dogm.setHLine(90,DOG_WIDTH-1, 5);
+    dogm.setHLine(90,DOG_WIDTH-1, 5 + 5);
+    dogm.setHLine(90,DOG_WIDTH-1, 5 + 10);
+  
+    dog_SetPixelValue(2);
+    dogm.setBox(5+2,20+1,DOG_WIDTH-7-2,43-1);
+  
+    dogm.setHLine(90,DOG_WIDTH-1, 6);
+    dogm.setHLine(90,DOG_WIDTH-1, 6 + 5);
+    dogm.setHLine(90,DOG_WIDTH-1, 6 + 10);
+
+    dog_SetPixelValue(1);
+    dogm.setBox(5+4,20+2,DOG_WIDTH-7-4,43-2);
+
+    dogm.setHLine(90,DOG_WIDTH-1, 7);
+    dogm.setHLine(90,DOG_WIDTH-1, 7 + 5);
+    dogm.setHLine(90,DOG_WIDTH-1, 7 + 10);
+
+    dog_SetPixelValue(0);
+    dogm.setBox(5+6,20+3,DOG_WIDTH-7-6,43-3);
+  
+    dogm.setHLine(90,DOG_WIDTH-1, 8);
+    dogm.setHLine(90,DOG_WIDTH-1, 8 + 5);
+    dogm.setHLine(90,DOG_WIDTH-1, 8 + 10);
+
+    dog_SetPixelValue(3);
+    dogm.setVLine(80,0, 63);
+    dogm.setHLine(0,DOG_WIDTH-1, 2);
+    dogm.setPixel(10, 17);
+    dogm.setPixel(12, 17);
+    dogm.setPixel(14, 17);
+#endif
+}
+
 
 uint8_t page = 0;
 uint8_t is_invert = 0;
@@ -179,6 +223,7 @@ void loop() {
       case 2: page2(); break;
       case 3: page3(); break;
       case 4: page4(); break;
+      case 5: page5(); break;
     }
   } while( dogm.next() );
   for( i = 0; i < 16; i++ )
@@ -189,7 +234,11 @@ void loop() {
     analogWrite(backlightPin, sensorValue);
   }
   page++;
+#ifdef DOGXL160_HW_GR
+  if ( page == 6 )
+#else
   if ( page == 5 )
+#endif
   {
     page = 0;
     is_invert++;

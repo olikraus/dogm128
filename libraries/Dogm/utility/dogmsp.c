@@ -24,6 +24,44 @@
 
 #include "dogm128.h"
 
+#if defined(DOGXL160_HW_GR)
+
+void dog_set_pixel(uint8_t x, uint8_t y)
+{
+  uint8_t tmp, mask, bits;
+  tmp = y;
+  tmp &= (unsigned char)3;
+  bits = dog_pixel_value;
+  bits &= 3;
+  mask = 3;
+  while( tmp > 0 )
+  {
+    bits <<= 1;
+    bits <<= 1;
+    mask <<= 1;
+    mask <<= 1;
+    tmp--;
+  }
+  mask ^= 0x0ff;
+#if defined(DOG_DOUBLE_MEMORY)
+  if ( (y & 4) == 0 ) 
+  {
+    dog_page_buffer[x] &= mask;
+    dog_page_buffer[x] |= bits;
+  }
+  else
+  {
+    dog_page_buffer[x+DOG_WIDTH] &= mask;
+    dog_page_buffer[x+DOG_WIDTH] |= bits;
+  }
+#else
+    dog_page_buffer[x] &= mask;
+    dog_page_buffer[x] |= bits;
+#endif
+}
+
+#else
+
 void dog_set_pixel(uint8_t x, uint8_t y)
 {
   uint8_t tmp;
@@ -39,6 +77,8 @@ void dog_set_pixel(uint8_t x, uint8_t y)
   dog_page_buffer[x] |= tmp;
 #endif
 }
+
+#endif
 
 void dog_SetPixel(uint8_t x, uint8_t y)
 {

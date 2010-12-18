@@ -24,6 +24,36 @@
 
 #include "dogm128.h"
 
+#if defined(DOGXL160_HW_GR)
+
+void dog_xor_pixel(uint8_t x, uint8_t y)
+{
+  uint8_t tmp, mask;
+  tmp = y;
+  tmp &= (unsigned char)3;
+  mask = 3;
+  while( tmp > 0 )
+  {
+    mask <<= 1;
+    mask <<= 1;
+    tmp--;
+  }
+#if defined(DOG_DOUBLE_MEMORY)
+  if ( (y & 4) == 0 ) 
+  {
+    dog_page_buffer[x] ^= mask;
+  }
+  else
+  {
+    dog_page_buffer[x+DOG_WIDTH] ^= mask;
+  }
+#else
+    dog_page_buffer[x] ^= mask;
+#endif
+}
+
+#else
+
 void dog_xor_pixel(uint8_t x, uint8_t y)
 {
   uint8_t tmp;
@@ -40,6 +70,8 @@ void dog_xor_pixel(uint8_t x, uint8_t y)
 #endif
 }
 
+#endif
+
 void dog_XorPixel(uint8_t x, uint8_t y)
 {
   if ( x < DOG_WIDTH )
@@ -48,5 +80,4 @@ void dog_XorPixel(uint8_t x, uint8_t y)
       dog_xor_pixel(x, y);
     }
 }
-
 

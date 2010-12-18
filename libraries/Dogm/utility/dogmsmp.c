@@ -25,6 +25,14 @@
 
 #include "dogm128.h"
 
+#if defined(DOGXL160_HW_GR)
+
+void dog_SetHBitmapP(uint8_t x, uint8_t y, DOG_PGM_P bitmap, uint8_t w)
+{
+}
+
+#else
+
 /* at position (x,y) set a pixel for each logical one bit in the bitmap pattern */
 /* the bitmap must contain (w+7)/8 bytes, each byte is interpreted as bitmap pattern */
 /* most significant bit of the byte in the pattern is on the left */
@@ -68,6 +76,8 @@ void dog_SetHBitmapP(uint8_t x, uint8_t y, DOG_PGM_P bitmap, uint8_t w)
     }  
 }
 
+#endif
+
 /* NOTE: (x,y) is the upper left corner of the bitmap !!! */
 void dog_SetBitmapP(uint8_t x, uint8_t y, DOG_PGM_P bitmap, uint8_t w, uint8_t h)
 {
@@ -81,6 +91,4 @@ void dog_SetBitmapP(uint8_t x, uint8_t y, DOG_PGM_P bitmap, uint8_t w, uint8_t h
     y--;
   }
 }
-
-
 

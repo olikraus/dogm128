@@ -24,7 +24,7 @@
 
 #include "dogm128.h"
 
-#if defined(DOG_DOUBLE_MEMORY)
+#if defined(DOGXL160_HW_GR) || defined(DOG_DOUBLE_MEMORY)
 /* y1 must be lower or equal to y2 */
 void dog_ClrVLine(uint8_t x, uint8_t y1, uint8_t y2)
 {

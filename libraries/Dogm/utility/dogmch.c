@@ -24,6 +24,22 @@
 
 #include "dogm128.h"
 
+#if defined(DOGXL160_HW_GR) 
+
+void dog_ClrHLine(uint8_t x1, uint8_t x2, uint8_t y)
+{
+  uint8_t x;
+  if ( x1 < DOG_WIDTH )
+    if ( y >= dog_min_y && y <=dog_max_y )
+    {
+      for( x = x1; x <= x2; x++ )
+	dog_clr_pixel(x, y);
+    }
+}
+  
+#else
+
+
 /* x1 must be lower or equal to x2 */
 void dog_ClrHLine(uint8_t x1, uint8_t x2, uint8_t y)
 {
@@ -56,4 +72,4 @@ void dog_ClrHLine(uint8_t x1, uint8_t x2, uint8_t y)
     }  
 }
 
-
+#endif
