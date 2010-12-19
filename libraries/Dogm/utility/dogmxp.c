@@ -31,6 +31,9 @@ void dog_xor_pixel(uint8_t x, uint8_t y)
   uint8_t tmp, mask;
   tmp = y;
   tmp &= (unsigned char)3;
+#ifdef DOG_REVERSE
+  tmp = 3-tmp;
+#endif
   mask = 3;
   while( tmp > 0 )
   {

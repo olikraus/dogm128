@@ -31,6 +31,9 @@ void dog_set_pixel(uint8_t x, uint8_t y)
   uint8_t tmp, mask, bits;
   tmp = y;
   tmp &= (unsigned char)3;
+#ifdef DOG_REVERSE
+  tmp = 3-tmp;
+#endif
   bits = dog_pixel_value;
   bits &= 3;
   mask = 3;
