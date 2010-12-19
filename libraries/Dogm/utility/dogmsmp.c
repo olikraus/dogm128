@@ -27,8 +27,36 @@
 
 #if defined(DOGXL160_HW_GR)
 
+/* at position (x,y) set a pixel for each logical one bit in the bitmap pattern */
+/* the bitmap must contain (w+7)/8 bytes, each byte is interpreted as bitmap pattern */
+/* most significant bit of the byte in the pattern is on the left */
 void dog_SetHBitmapP(uint8_t x, uint8_t y, DOG_PGM_P bitmap, uint8_t w)
 {
+  uint8_t i, tmp, b;
+  if ( x < DOG_WIDTH )
+    if ( y >= dog_min_y && y <=dog_max_y )
+    {
+      if ( x+w > DOG_WIDTH )
+      {
+	w = DOG_WIDTH;
+	w -= x;
+      }
+      b = 0;
+      for( i = 0; i < w; i++ )
+      {
+	if ( (i & 7) == 0 ) 
+	{
+	  b = dog_pgm_read(bitmap);
+	  bitmap++;
+	}
+	if ( b & 128 )
+	{
+	  dog_set_pixel(x, y);
+	}
+	b<<=1;
+	x++;
+      }
+    }  
 }
 
 #else
@@ -64,11 +92,11 @@ void dog_SetHBitmapP(uint8_t x, uint8_t y, DOG_PGM_P bitmap, uint8_t w)
 #if defined(DOG_DOUBLE_MEMORY)
 	  if ( (y & 8) == 0 )
 	  {
-	    // dog_page_buffer[x] |= tmp;
+	    dog_page_buffer[x] |= tmp;
 	  }
 	  else
 	  {
-	    // dog_page_buffer[x+DOG_WIDTH] |= tmp;
+	    dog_page_buffer[x+DOG_WIDTH] |= tmp;
 	  }
 #else
 	  dog_page_buffer[x] |= tmp;
