@@ -169,35 +169,35 @@ void page5()
     dogm.setFont(font_5x8);
     dogm.setXY(20,10);
     dogm.drawStr("PixVal Test");
-    dog_SetPixelValue(3);
+    dogm.setPixelValue(3);
     dogm.setBox(5,20,DOG_WIDTH-7,43);
   
     dogm.setHLine(90,DOG_WIDTH-1, 5);
     dogm.setHLine(90,DOG_WIDTH-1, 5 + 5);
     dogm.setHLine(90,DOG_WIDTH-1, 5 + 10);
   
-    dog_SetPixelValue(2);
+    dogm.setPixelValue(2);
     dogm.setBox(5+2,20+1,DOG_WIDTH-7-2,43-1);
   
     dogm.setHLine(90,DOG_WIDTH-1, 6);
     dogm.setHLine(90,DOG_WIDTH-1, 6 + 5);
     dogm.setHLine(90,DOG_WIDTH-1, 6 + 10);
 
-    dog_SetPixelValue(1);
+    dogm.setPixelValue(1);
     dogm.setBox(5+4,20+2,DOG_WIDTH-7-4,43-2);
 
     dogm.setHLine(90,DOG_WIDTH-1, 7);
     dogm.setHLine(90,DOG_WIDTH-1, 7 + 5);
     dogm.setHLine(90,DOG_WIDTH-1, 7 + 10);
 
-    dog_SetPixelValue(0);
+    dogm.setPixelValue(0);
     dogm.setBox(5+6,20+3,DOG_WIDTH-7-6,43-3);
   
     dogm.setHLine(90,DOG_WIDTH-1, 8);
     dogm.setHLine(90,DOG_WIDTH-1, 8 + 5);
     dogm.setHLine(90,DOG_WIDTH-1, 8 + 10);
 
-    dog_SetPixelValue(3);
+    dogm.setPixelValue(3);
     dogm.setVLine(80,0, 63);
     dogm.setHLine(0,DOG_WIDTH-1, 2);
     dogm.setPixel(10, 17);

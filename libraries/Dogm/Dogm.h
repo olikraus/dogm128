@@ -27,6 +27,9 @@ class Dogm : public Print {
     
     void setContrast(uint8_t val);
     void setInvertPixelMode(uint8_t val);
+    
+    void setPixelValue(uint8_t val) { dog_SetPixelValue(val); }
+
 
     
     void setPixel(uint8_t x, uint8_t y) { dog_SetPixel(x, y); }
