@@ -152,7 +152,7 @@ void setup() {
 void loop() {
   dogm.start();
   do{
-    st_Draw();
+    st_Draw(0);
   } while( dogm.next() );
   dog_Delay(10);
   uiStep();
