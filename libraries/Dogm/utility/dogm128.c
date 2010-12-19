@@ -189,7 +189,9 @@ static void dog_init_display(void)
   dog_spi_out(0x081);		/* set contrast */
   dog_spi_out(0x05f);		/* */
   dog_spi_out(0x089);		/* set auto increment */
+  dog_spi_out(0x0a6);		/* normal pixel mode, issue 103 */
   dog_spi_out(0x0af);		/* display on */
+
 #endif
 
   dog_spi_out(0x0a5);		/* display all points, ST7565, UC1610 */
@@ -214,7 +216,6 @@ void dog_InitA0CS(uint8_t pin_a0, uint8_t pin_cs)
   
   dog_spi_init();
   dog_init_display();
-  dog_SetInvertPixelMode(0);		/* issue 103 */
 }
 
 void dog_Init(unsigned short pin_a0)
