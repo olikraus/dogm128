@@ -48,6 +48,15 @@
       Assign fire button pin to variable uiKeyFirePin2. Default is DOGM132 Shield
 	  Remember to define DOGM132_HW and DOG_REVERSE
 
+  FPS
+  Arduino Uno, FPS at end of 1st level
+    DOGXL160_HW_GR		no 2x Mem		no REV			14 FPS
+    DOGXL160_HW_GR		with 2x Mem		no REV			18 FPS
+    DOGXL160_HW_BW		no 2x Mem		no REV			19 FPS
+    DOGXL160_HW_BW		no 2x Mem		with REV			19 FPS
+    DOGXL160_HW_BW		with 2x Mem		no REV			21 FPS
+    DOGXL160_HW_BW		with 2x Mem		with REV			 FPS     --> Display wrong
+  
 */
 
 #include <Dogm.h>
