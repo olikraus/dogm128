@@ -7,14 +7,14 @@
   (c) 2010 Oliver Kraus (olikraus@gmail.com)
 
 
-  This file is part of the dogm128 Arduino library.
+  This file is part of the dogm128 library.
 
-  The dogm128 Arduino library is free software: you can redistribute it and/or modify
+  The dogm128 library is free software: you can redistribute it and/or modify
   it under the terms of the Lesser GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
-  The dogm128 Arduino library is distributed in the hope that it will be useful,
+  The dogm128 library is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   Lesser GNU General Public License for more details.
@@ -73,7 +73,7 @@ typedef int16_t s16;
 #define BO_AREA_UNIT_X (BO_BRICK_WIDTH+((s16)4<<BO_FP))
 #define BO_AREA_UNIT_Y (BO_BRICK_HEIGHT+((s16)4<<BO_FP))
 #define BO_AREA_ORIG_X ((s16)2<<BO_FP)
-#define BO_AREA_ORIG_Y ((s16)32<<BO_FP)
+#define BO_AREA_ORIG_Y ((s16)(DOG_HEIGHT-32)<<BO_FP)
 
 /* dimensions of the overall game field (BO_FP units) */
 #define BO_FIELD_WIDTH (BO_AREA_ORIG_X + BO_AREA_UNIT_X * BO_AREA_WIDTH)
@@ -732,7 +732,7 @@ void draw_player(bo_player *p)
 
 void bo_DrawFPS(uint8_t fps)
 {
-  dog_DrawStr(95, 57, BO_F1, dog_itoa(fps));
+  dog_DrawStr(95, DOG_HEIGHT-7, BO_F1, dog_itoa(fps));
 }
 
 void draw_field(u8 level)
@@ -740,13 +740,13 @@ void draw_field(u8 level)
   u8 x;
   dog_SetVLine(BO_FIELD_X0, BO_FIELD_Y0, BO_FIELD_Y1);
   dog_SetVLine(BO_FIELD_X1-1, BO_FIELD_Y0, BO_FIELD_Y1);
-  x = dog_DrawStr(4, 57, BO_F1, dog_itoa(bo_remaining_bricks));
+  x = dog_DrawStr(4, DOG_HEIGHT-7, BO_F1, dog_itoa(bo_remaining_bricks));
   /* dog_DrawStr(x+2, 57, BO_F1, "left"); */
-  x = dog_DrawStrP(25, 57, BO_F1, DOG_PSTR("level"));
-  dog_DrawStr(x+2+25, 57, BO_F1, dog_itoa(level+1));
+  x = dog_DrawStrP(25, DOG_HEIGHT-7, BO_F1, DOG_PSTR("level"));
+  dog_DrawStr(x+2+25, DOG_HEIGHT-7, BO_F1, dog_itoa(level+1));
 
   if ( bo_no_reflection_cnt > 0 )
-    dog_DrawStr(x+2+25+15, 57, BO_F1, dog_itoa((bo_no_reflection_cnt>>8)+1));
+    dog_DrawStr(x+2+25+15, DOG_HEIGHT-7, BO_F1, dog_itoa((bo_no_reflection_cnt>>8)+1));
   
 }
 
