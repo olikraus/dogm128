@@ -56,6 +56,11 @@
 int a0Pin = 9;      // address line a0 for the dogm module
 uint16_t sensorPin = 0;  // analog input
 
+
+// frames per second
+unsigned long next_sec_time;
+uint8_t fps, frame_cnt;
+
 // generic configuration values
 uint8_t uiIncrement = 2;
 
@@ -147,16 +152,27 @@ void uiStep(void) {
 
 void setup() {
   uiSetup();
+  next_sec_time = millis() + 1000UL;
+  fps = 0;
+  frame_cnt = 0;
 }
 
 void loop() {
   dogm.start();
   do{
-    st_Draw(0);
+    st_Draw(fps);
   } while( dogm.next() );
   dog_Delay(10);
   uiStep();
   st_Step(shipLocation, isAutoFire, isFire);
+  
+  frame_cnt++;
+  if ( next_sec_time < millis() )
+  {
+    fps = frame_cnt;
+    frame_cnt = 0;
+    next_sec_time = millis() + 1000UL;
+  }
 }
 
 
