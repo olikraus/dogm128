@@ -298,18 +298,18 @@ const dog_pgm_uint8_t st_bitmap_gadget[] =
 /*================================================================*/
 /* forward definitions */
 /*================================================================*/
-uint8_t st_rnd(void) DOG_ATTR_FN_INLINE;
-static st_obj *st_GetObj(uint8_t objnr) DOG_ATTR_FN_INLINE;
+uint8_t st_rnd(void) DOG_ATTR_FN_NOINLINE;
+static st_obj *st_GetObj(uint8_t objnr) DOG_ATTR_FN_NOINLINE;
 uint8_t st_GetMissleMask(uint8_t objnr);
 uint8_t st_GetHitMask(uint8_t objnr);
-int8_t st_FindObj(uint8_t ot) DOG_ATTR_FN_INLINE;
-void st_ClrObjs(void) DOG_ATTR_FN_INLINE;
-int8_t st_NewObj(void) DOG_ATTR_FN_INLINE;
+int8_t st_FindObj(uint8_t ot) DOG_ATTR_FN_NOINLINE;
+void st_ClrObjs(void) DOG_ATTR_FN_NOINLINE;
+int8_t st_NewObj(void) DOG_ATTR_FN_NOINLINE;
 uint8_t st_CntObj(uint8_t ot);
-uint8_t st_CalcXY(st_obj *o) DOG_ATTR_FN_INLINE;
-void st_SetXY(st_obj *o, uint8_t x, uint8_t y) DOG_ATTR_FN_INLINE;
+uint8_t st_CalcXY(st_obj *o) DOG_ATTR_FN_NOINLINE;
+void st_SetXY(st_obj *o, uint8_t x, uint8_t y) DOG_ATTR_FN_NOINLINE;
 
-void st_FireStep(uint8_t is_auto_fire, uint8_t is_fire) DOG_ATTR_FN_INLINE;
+void st_FireStep(uint8_t is_auto_fire, uint8_t is_fire) DOG_ATTR_FN_NOINLINE;
 
 void st_InitTrash(uint8_t x, uint8_t y, int8_t dir);
 void st_NewGadget(uint8_t x, uint8_t y);

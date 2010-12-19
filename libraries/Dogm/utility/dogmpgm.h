@@ -53,7 +53,7 @@
 typedef uint8_t PROGMEM dog_pgm_uint8_t;
 typedef char PROGMEM dog_pgm_char_t;
 #define dog_pgm_read(adr) pgm_read_byte_near(adr)
-#define DOG_ATTR_FN_INLINE __attribute__ ((noinline))
+#define DOG_ATTR_FN_NOINLINE __attribute__ ((noinline))
 #define DOG_PROGMEM PROGMEM
 #define DOG_ROM
 #define DOG_PSTR(s) PSTR(s)
@@ -69,7 +69,7 @@ typedef unsigned int uint16_t;
 typedef uint8_t rom dog_pgm_uint8_t;
 typedef char rom dog_pgm_char_t;
 #define dog_pgm_read(adr) (*(const dog_pgm_uint8_t *)(adr)) 
-#define DOG_ATTR_FN_INLINE
+#define DOG_ATTR_FN_NOINLINE
 #define DOG_PROGMEM
 #define DOG_ROM rom
 /* Strings in C18 are always in ROM */
@@ -84,7 +84,7 @@ typedef char rom dog_pgm_char_t;
 typedef uint8_t dog_pgm_uint8_t;
 typedef char dog_pgm_char_t;
 #define dog_pgm_read(adr) (*(const dog_pgm_uint8_t *)(adr)) 
-#define DOG_ATTR_FN_INLINE
+#define DOG_ATTR_FN_NOINLINE
 #define DOG_PROGMEM
 #define DOG_ROM
 #define DOG_PSTR(s) (s)

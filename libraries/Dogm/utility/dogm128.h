@@ -178,9 +178,9 @@ void dog_SetPixelValue(uint8_t value);
 
 extern unsigned char dog_bit_to_mask[8];	/* dogmsd.c */
 
-void dog_set_pixel(uint8_t x, uint8_t y) DOG_ATTR_FN_INLINE;
-void dog_xor_pixel(uint8_t x, uint8_t y) DOG_ATTR_FN_INLINE;
-void dog_clr_pixel(uint8_t x, uint8_t y) DOG_ATTR_FN_INLINE;
+void dog_set_pixel(uint8_t x, uint8_t y) DOG_ATTR_FN_NOINLINE;
+void dog_xor_pixel(uint8_t x, uint8_t y) DOG_ATTR_FN_NOINLINE;
+void dog_clr_pixel(uint8_t x, uint8_t y) DOG_ATTR_FN_NOINLINE;
 
 void dog_SetPixel(uint8_t x, uint8_t y);	/* dogmsp.c */
 void dog_ClrPixel(uint8_t x, uint8_t y);	/* dogmcp.c */
@@ -233,7 +233,7 @@ void dog_DrawArc(uint8_t mx, uint8_t my, uint8_t r, uint8_t w0, uint8_t w1, uint
 /* --- font information --- */
 
 /* start: internal definitions. Do not call or use these definitions directly */
-uint16_t dog_font_pgm_read_word(DOG_PGM_P buf) DOG_ATTR_FN_INLINE;
+uint16_t dog_font_pgm_read_word(DOG_PGM_P buf) DOG_ATTR_FN_NOINLINE;
 uint8_t dog_char(uint8_t x, uint8_t y, DOG_PGM_P font, uint8_t mode, uint8_t rot, unsigned char code);
 #define fnt_get_bbox_capital_a(buf) (dog_font_pgm_read_word((buf)+0))
 #define fnt_get_bbox_small_a(buf) (dog_font_pgm_read_word((buf)+2))
