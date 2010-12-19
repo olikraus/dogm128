@@ -25,7 +25,7 @@
 
 */
 
-#define BO_BUILD "v1.04"
+#define BO_BUILD "v1.05"
 
 
 #include <stdio.h>
@@ -732,7 +732,7 @@ void draw_player(bo_player *p)
 
 void bo_DrawFPS(uint8_t fps)
 {
-  dog_DrawStr(95, DOG_HEIGHT-7, BO_F1, dog_itoa(fps));
+  dog_DrawStr(95, DOG_HEIGHT-8, BO_F1, dog_itoa(fps));
 }
 
 void draw_field(u8 level)
@@ -740,13 +740,13 @@ void draw_field(u8 level)
   u8 x;
   dog_SetVLine(BO_FIELD_X0, BO_FIELD_Y0, BO_FIELD_Y1);
   dog_SetVLine(BO_FIELD_X1-1, BO_FIELD_Y0, BO_FIELD_Y1);
-  x = dog_DrawStr(4, DOG_HEIGHT-7, BO_F1, dog_itoa(bo_remaining_bricks));
+  x = dog_DrawStr(4, DOG_HEIGHT-8, BO_F1, dog_itoa(bo_remaining_bricks));
   /* dog_DrawStr(x+2, 57, BO_F1, "left"); */
-  x = dog_DrawStrP(25, DOG_HEIGHT-7, BO_F1, DOG_PSTR("level"));
-  dog_DrawStr(x+2+25, DOG_HEIGHT-7, BO_F1, dog_itoa(level+1));
+  x = dog_DrawStrP(25, DOG_HEIGHT-8, BO_F1, DOG_PSTR("level"));
+  dog_DrawStr(x+2+25, DOG_HEIGHT-8, BO_F1, dog_itoa(level+1));
 
   if ( bo_no_reflection_cnt > 0 )
-    dog_DrawStr(x+2+25+15, DOG_HEIGHT-7, BO_F1, dog_itoa((bo_no_reflection_cnt>>8)+1));
+    dog_DrawStr(x+2+25+15, DOG_HEIGHT-8, BO_F1, dog_itoa((bo_no_reflection_cnt>>8)+1));
   
 }
 

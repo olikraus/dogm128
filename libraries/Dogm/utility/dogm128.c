@@ -214,6 +214,7 @@ void dog_InitA0CS(uint8_t pin_a0, uint8_t pin_cs)
   
   dog_spi_init();
   dog_init_display();
+  dog_SetInvertPixelMode(0);		/* issue 103 */
 }
 
 void dog_Init(unsigned short pin_a0)
