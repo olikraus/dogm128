@@ -68,7 +68,7 @@ int main(void)
     dog_StartPage();
     do
     {
-      st_Draw();
+      st_Draw(0);
     } while( dog_NextPage() );
     adc = sys_adc();
     adc >>= 2;

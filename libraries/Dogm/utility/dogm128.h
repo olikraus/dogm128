@@ -290,7 +290,7 @@ void walk_Step(void);
 
 /* --- spacetrash --- */
 
-void st_Draw(void);
+void st_Draw(uint8_t fps);	/* use value 0 to suppress output of fps (frames per second) value */
 void st_Step(uint8_t player_pos, uint8_t is_auto_fire, uint8_t is_fire);
 
 

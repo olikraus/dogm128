@@ -1175,7 +1175,7 @@ void st_InitDelta(void)
 /* API: game draw procedure */
 /*================================================================*/
 
-void st_DrawInGame(void)
+void st_DrawInGame(uint8_t fps)
 {
   uint8_t i;
   /* draw all objects */
@@ -1194,13 +1194,16 @@ void st_DrawInGame(void)
   /* player points */
   dog_DrawStr(ST_AREA_WIDTH-5*4-2,  ST_AREA_HEIGHT, font_4x6, dog_itoa(st_player_points_delayed));
   
-  /* debug output */
-  /*
-  dog_DrawStr(60, ST_AREA_HEIGHT, font_4x6, dog_itoa(st_CntObj(0)));
-  */
+  /* FPS output */
+  if ( fps > 0 )
+  {
+    i = dog_DrawStr(55, ST_AREA_HEIGHT, font_4x6, "FPS:");
+    dog_DrawStr(55+i, ST_AREA_HEIGHT, font_4x6, dog_itoa(fps));
+  }
+  /*dog_DrawStr(60+i, ST_AREA_HEIGHT, font_4x6, dog_itoa(st_CntObj(0)));*/
 }
 
-void st_Draw(void)
+void st_Draw(uint8_t fps)
 {
   switch(st_state)
   {
@@ -1211,7 +1214,7 @@ void st_Draw(void)
       dog_SetHLine(DOG_WIDTH-st_to_diff_cnt-10, DOG_WIDTH-st_to_diff_cnt, (DOG_HEIGHT-6)/2-1);
       break;
     case ST_STATE_GAME:
-      st_DrawInGame();
+      st_DrawInGame(fps);
       break;
     case ST_STATE_END:
     case ST_STATE_IEND:
