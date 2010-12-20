@@ -51,13 +51,13 @@
   FPS
   Arduino Uno, FPS at end of 1st level
     DOGXL160_HW_GR		no 2x Mem		no REV			14 FPS
-    DOGXL160_HW_GR		with 2x Mem		no REV			18 FPS
     DOGXL160_HW_GR		no 2x Mem		with REV			14 FPS		--> Display wrong  --> fixed
-    DOGXL160_HW_GR		with 2x Mem		with REV			 FPS		--> Display wrong --> seems to be fixed
+    DOGXL160_HW_GR		with 2x Mem		no REV			18 FPS
+    DOGXL160_HW_GR		with 2x Mem		with REV			17 FPS		--> Display wrong --> seems to be fixed
     DOGXL160_HW_BW		no 2x Mem		no REV			19 FPS
     DOGXL160_HW_BW		no 2x Mem		with REV			19 FPS
     DOGXL160_HW_BW		with 2x Mem		no REV			21 FPS
-    DOGXL160_HW_BW		with 2x Mem		with REV			 FPS     --> Display wrong --> still wrong (offset!!!)
+    DOGXL160_HW_BW		with 2x Mem		with REV			21 FPS     --> Display wrong --> still wrong (offset!!!) --> fixed
   
 */
 
