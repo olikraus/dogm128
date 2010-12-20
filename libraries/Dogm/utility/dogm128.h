@@ -43,14 +43,21 @@
 #ifndef _DOGM128_H
 #define _DOGM128_H
 
-//#define DOG_REVERSE
+//#define DOG_REVERSE			/* rotate display by 180 degree */
+
+//#define DOG_DOUBLE_MEMORY		/* double page buffer size */
 
 //#define DOGM128_HW	/* uncomment for the DOGM128 display */
 //#define DOGS102_HW		/* uncomment for the DOGS102 display */
-//#define DOGM132_HW	/* uncomment for the DOGM132 display */
-//#define DOGXL160_HW_BW	/* uncomment for the DOGXL160 display */
+//#define DOGM132_HW		/* uncomment for the DOGM132 display */
+//#define DOGXL160_HW_BW	/* uncomment for the DOGXL160 display (black and white mode) */
+//#define DOGXL160_HW_GR	/* uncomment for the DOGXL160 display (graylevel mode) */
 
 /* default is DOGM128_HW */
+
+
+
+
 #if !defined DOGM128_HW && !defined DOGM132_HW && !defined DOGS102_HW && !defined DOGXL160_HW_BW  && !defined DOGXL160_HW_GR
 #define DOGM128_HW
 #endif
