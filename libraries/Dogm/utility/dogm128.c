@@ -342,9 +342,13 @@ static void dog_transfer_sub_page(uint8_t page, uint8_t  offset)
 static void dog_transfer_page(void)
 {
 #if defined(DOG_DOUBLE_MEMORY)
+#if defined(DOG_REVERSE)
+  dog_transfer_sub_page(dog_curr_page*2, DOG_WIDTH);
+  dog_transfer_sub_page(dog_curr_page*2+1, 0);
+#else
   dog_transfer_sub_page(dog_curr_page*2, 0);
   dog_transfer_sub_page(dog_curr_page*2+1, DOG_WIDTH);
-  
+#endif
   //dog_transfer_sub_page(dog_curr_page*2, DOG_WIDTH);
   //dog_transfer_sub_page(dog_curr_page*2+1, 0);
 #else
