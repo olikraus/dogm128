@@ -32,7 +32,7 @@
 /* most significant bit of the byte in the pattern is on the left */
 void dog_SetHBitmapP(uint8_t x, uint8_t y, DOG_PGM_P bitmap, uint8_t w)
 {
-  uint8_t i, tmp, b;
+  uint8_t i, b;
   if ( x < DOG_WIDTH )
     if ( y >= dog_min_y && y <=dog_max_y )
     {
