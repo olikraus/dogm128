@@ -19,6 +19,7 @@ Dogm::Dogm(uint8_t pin_a0)
   a0Pin = pin_a0;
   csPin = 255;
   is_req_init= 1;
+  libinfo_done = 0;
   // why can dog_Init() not be called here... arduino will hang if this is done in the constructor
   // should be investigated some day
   // dog_Init(pin_a0);  
@@ -89,5 +90,19 @@ void Dogm::drawChar(uint8_t c)
 void Dogm::drawStr(const char *s) 
 { 
   xy_char_correction(dog_DrawRStr(tx, ty, rot, fptr, s));
+}
+
+void Dogm::showLibInfo(void)
+{
+  if ( libinfo_done == 0 )
+  {
+    start();
+    do
+    {
+      libinfo_draw();
+    } while( next() );
+    libinfo_done = 1;
+    dog_Delay(2000);
+  }
 }
 

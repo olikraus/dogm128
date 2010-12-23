@@ -30,7 +30,8 @@
     DOGM128_HW		DOGM128 Display
     DOGS102_HW		DOGS102 Display
     DOGM132_HW		DOGM132 Display
-    DOGXL60_HW		DOGXL160 Display
+    DOGXL60_HW_BW	DOGXL160 Display
+    DOGXL60_HW_GR	DOGXL160 Display
     nothing defined		defaults to DOGM128 Display
     
   Normal or Revers Display Mode
@@ -280,6 +281,8 @@ signed char dog_cos(uint8_t w);	/* dogmma.c */
 char *dog_itoa(unsigned long v);
 
 uint8_t dog_GetSPIByte(void);		/* dogmoi.c */
+
+void libinfo_draw(void);			/* libinfo.c */
 
 
 /* --- breakout --- */

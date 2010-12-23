@@ -12,6 +12,7 @@ class Dogm : public Print {
     uint8_t is_req_init;	// if call to Init() is required
     uint8_t size;
     uint8_t rot;
+    uint8_t libinfo_done;
     DOG_PGM_P fptr;
     void Init(void);
     void xy_char_correction(uint8_t);
@@ -73,6 +74,10 @@ class Dogm : public Print {
     void drawPoint(uint8_t x, uint8_t y) {  dog_DrawPoint( x, y, size); }
     void drawLine(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2) {dog_DrawLine(x1, y1, x2, y2, size);}
     void drawArc(uint8_t mx, uint8_t my, uint8_t r, uint8_t w0, uint8_t w1) {dog_DrawArc(mx, my, r, w0, w1, size);}
+    
+    /* splash screen */
+    void showLibInfo(void);
+
 };
 
 #endif 
