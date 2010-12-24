@@ -50,4 +50,8 @@ dogm128 ChangeLog
 	* DOGM132-Shield fully supported by SpaceTrash.pde
 	* ATMEGA88: SPI support and examples
 	* Arduino Environment: Allow to select an IO port as chip select line
+2010-xx-xx	v1.08	Oliver Kraus <olikraus@gmail.com>
+	* Splash Screen
+	* DOUBLE_MEMORY: Doubled page size for increased performance
+	* Support for DOGXL160 (added dog_SetPixelValue(), Dogm::setPixelValue)
 	
