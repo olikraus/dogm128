@@ -30,8 +30,7 @@
     DOGM128_HW		DOGM128 Display
     DOGS102_HW		DOGS102 Display
     DOGM132_HW		DOGM132 Display
-    DOGXL60_HW_BW	DOGXL160 Display
-    DOGXL60_HW_GR	DOGXL160 Display
+    DOGXL60_HW		DOGXL160 Display
     nothing defined		defaults to DOGM128 Display
     
   Normal or Revers Display Mode
@@ -44,21 +43,14 @@
 #ifndef _DOGM128_H
 #define _DOGM128_H
 
-//#define DOG_REVERSE			/* rotate display by 180 degree */
-
-//#define DOG_DOUBLE_MEMORY		/* double page buffer size */
+//#define DOG_REVERSE
 
 //#define DOGM128_HW	/* uncomment for the DOGM128 display */
 //#define DOGS102_HW		/* uncomment for the DOGS102 display */
-//#define DOGM132_HW		/* uncomment for the DOGM132 display */
-//#define DOGXL160_HW_BW	/* uncomment for the DOGXL160 display (black and white mode) */
-//#define DOGXL160_HW_GR	/* uncomment for the DOGXL160 display (graylevel mode) */
+//#define DOGM132_HW	/* uncomment for the DOGM132 display */
+//#define DOGXL160_HW_BW	/* uncomment for the DOGXL160 display */
 
 /* default is DOGM128_HW */
-
-
-
-
 #if !defined DOGM128_HW && !defined DOGM132_HW && !defined DOGS102_HW && !defined DOGXL160_HW_BW  && !defined DOGXL160_HW_GR
 #define DOGM128_HW
 #endif
@@ -141,12 +133,7 @@ extern unsigned char dog_page_buffer[DOG_PAGE_SIZE];
 extern uint8_t dog_min_y;
 extern uint8_t dog_max_y;
 
-unsigned char dog_spi_out(unsigned char data);
-void dog_spi_enable_client(void);
-void dog_spi_disable_client(void);
-void dog_cmd_mode(void);
-void dog_data_mode(void);
-
+/* --- dogm128.c --- */
   
 void dog_Delay(uint16_t val);				/* delay in milliseconds */
 void dog_InitA0CS(uint8_t pin_a0, uint8_t pin_cs);
@@ -154,8 +141,6 @@ void dog_Init(unsigned short pin_a0);
 void dog_SetContrast(uint8_t val);			/* values between 0 and 63 allowed, previosly named dog_set_contranst() */
 void dog_SetInvertPixelMode(uint8_t val);	/* previosly named dog_set_inverse() */
 
-  
-  
 /* --- page functions --- */
 
 void dog_StartPage(void);
@@ -281,8 +266,6 @@ signed char dog_cos(uint8_t w);	/* dogmma.c */
 char *dog_itoa(unsigned long v);
 
 uint8_t dog_GetSPIByte(void);		/* dogmoi.c */
-
-void libinfo_draw(void);			/* libinfo.c */
 
 
 /* --- breakout --- */
