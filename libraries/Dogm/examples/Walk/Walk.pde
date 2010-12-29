@@ -43,6 +43,9 @@ void setup() {
 }
 
 void loop() {  
+  
+  dogm.showLibInfo();
+
   dogm.start();
   do {
     walk_Draw();

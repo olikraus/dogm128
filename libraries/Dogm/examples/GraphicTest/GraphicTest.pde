@@ -215,6 +215,9 @@ uint16_t sensorValue;
 
 void loop() {
   uint8_t i;
+  
+  dogm.showLibInfo();
+
   dogm.start();
   do {
     switch(page) {
