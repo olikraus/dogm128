@@ -2,7 +2,7 @@
 
 # set test configuration
 dut=uno_dogxl
-examples="SpaceTrash GraphicsTest Walk"
+examples="SpaceTrash GraphicTest Walk"
 currdir=`pwd`
 
 # create mount point
@@ -26,15 +26,17 @@ rm -rf ./release/*
   unzip -o dogm128.zip > /dev/null
 
 # copy makefiles
-  cp ../Makefile*${dut}* ./Dogm/examples/SpaceTrash/.
+  cp ../Makefile*${dut}* ./Dogm/examples/$e/.
 
 # execute makefile
-  cd Dogm/examples/SpaceTrash/
+  cd Dogm/examples/$e/
   for m in Makefile.*
   do
-    echo $e $m
-#  make -f $m clean
-#  make -f $m upload
+    echo START: $e $m
+    pwd
+    make -f $m clean
+    make -f $m upload
+    make -f $m clean
     echo DONE: $e $m
     sleep 2
   done

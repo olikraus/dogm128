@@ -242,6 +242,9 @@ static void dog_transfer_sub_page(uint8_t page, uint8_t  offset)
 #ifdef DOG_REVERSE
   
 #if defined(DOGXL160_HW_BW)
+#if defined(DOG_DOUBLE_MEMORY)
+  page--;
+#endif
   dog_cmd_mode();
   dog_spi_out(0x060 | (page*2) );		/* select current page  (UC1610)*/
   dog_spi_out(0x010 );		/* set upper 4 bit of the col adr to 0 */
@@ -344,8 +347,13 @@ static void dog_transfer_sub_page(uint8_t page, uint8_t  offset)
 static void dog_transfer_page(void)
 {
 #if defined(DOG_DOUBLE_MEMORY)
+#if defined(DOG_REVERSE)
+  dog_transfer_sub_page(dog_curr_page*2, DOG_WIDTH);
+  dog_transfer_sub_page(dog_curr_page*2+1, 0);
+#else
   dog_transfer_sub_page(dog_curr_page*2, 0);
   dog_transfer_sub_page(dog_curr_page*2+1, DOG_WIDTH);
+#endif
 #else
   dog_transfer_sub_page(dog_curr_page, 0);
 #endif

@@ -46,6 +46,7 @@
 
 void libinfo_draw(void)
 {
+  uint8_t x;
   uint8_t y = DOG_HEIGHT - LH;
 #ifdef DOGM128_HW
   dog_DrawStrP(0, y, font_4x6, DOG_PSTR("DOGM128"));
@@ -77,6 +78,10 @@ void libinfo_draw(void)
   dog_DrawStrP(0, y, font_4x6, DOG_PSTR("DOUBLE_MEM"));
   y -= LH;
 #endif
+  x = dog_DrawStrP(0, y, font_4x6, DOG_PSTR("Pages "));
+  dog_DrawStr(x, y, font_4x6, dog_itoa(DOG_PAGE_CNT));
+  y -= LH;
+
 }
 
 

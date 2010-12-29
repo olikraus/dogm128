@@ -134,7 +134,7 @@ AVRDUDE = avrdude
 # Build C and C++ flags. Include path information must be placed here
 COMMON_FLAGS = -DF_CPU=$(F_CPU) -mmcu=$(MCU) 
 # COMMON_FLAGS += -gdwarf-2
-COMMON_FLAGS += -Os
+COMMON_FLAGS += -Os -DDOG_REVERSE -DDOG_DOUBLE_MEMORY
 COMMON_FLAGS += -Wall -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
 COMMON_FLAGS += -I. 
 COMMON_FLAGS += -I$(ARDUINO_PATH)hardware/arduino/cores/arduino
