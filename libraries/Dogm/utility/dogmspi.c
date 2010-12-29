@@ -57,15 +57,7 @@
 
 
 
-/* pin assignment for arduino, should be moved down */
-#define PIN_SCK   13
-#define PIN_MISO  12
-#define PIN_MOSI  11
-#define PIN_SS    10
-#define PIN_A0_DEFAULT     6
 
-uint8_t dog_spi_pin_a0 = PIN_A0_DEFAULT;
-uint8_t dog_spi_pin_cs = PIN_SS;	/* arduino chip select pin, defaults to the hardware pin */
 
 
 

@@ -134,6 +134,16 @@ extern uint8_t dog_min_y;
 extern uint8_t dog_max_y;
 
 /* --- dogm128.c --- */
+
+/* pin assignment for arduino, should be renamed */
+#define PIN_SCK   13
+#define PIN_MISO  12
+#define PIN_MOSI  11
+#define PIN_SS    10
+#define PIN_A0_DEFAULT     6
+
+extern uint8_t dog_spi_pin_a0;
+extern uint8_t dog_spi_pin_cs;	/* arduino chip select pin */
   
 void dog_Delay(uint16_t val);				/* delay in milliseconds */
 void dog_InitA0CS(uint8_t pin_a0, uint8_t pin_cs);
@@ -147,9 +157,6 @@ void dog_StartPage(void);
 uint8_t dog_NextPage(void);
 
 /* --- dogmspi.c --- */
-extern uint8_t dog_spi_pin_a0;
-extern uint8_t dog_spi_pin_cs;	/* arduino chip select pin */
-
 void dog_spi_init(void);
 unsigned char dog_spi_out(unsigned char data);
 void dog_spi_enable_client(void);
@@ -286,7 +293,8 @@ void walk_Step(void);
 void st_Draw(uint8_t fps);	/* use value 0 to suppress output of fps (frames per second) value */
 void st_Step(uint8_t player_pos, uint8_t is_auto_fire, uint8_t is_fire);
 
-
+/*--- libinfo.c ---*/
+void libinfo_draw(void);
 
 #ifdef __cplusplus
 }
