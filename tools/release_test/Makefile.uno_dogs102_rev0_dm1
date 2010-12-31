@@ -1,7 +1,7 @@
 
 #
 # Arduino 0022 Makefile 
-# Uno with DOGXL160
+# Uno with DOGS102
 #
 # written by olikraus@gmail.com
 #
@@ -47,7 +47,7 @@ BOARD:=uno
 # -DDOG_REVERSE		180 degree rotation
 # -DDOG_DOUBLE_MEMORY
 #DEFS=-DDOGXL160_HW_GR -DDOG_DOUBLE_MEMORY
-DEFS=-DDOGXL160_HW_BW -DDOG_DOUBLE_MEMORY
+DEFS=-DDOGS102_HW -DDOG_DOUBLE_MEMORY
 
 # The location where the avr tools (e.g. avr-gcc) are located. Requires a '/' at the end.
 # Can be empty if all tools are accessable through the search path

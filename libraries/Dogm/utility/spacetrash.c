@@ -1197,8 +1197,8 @@ void st_DrawInGame(uint8_t fps)
   /* FPS output */
   if ( fps > 0 )
   {
-    i = dog_DrawStr(55, ST_AREA_HEIGHT, font_4x6, "FPS:");
-    dog_DrawStr(55+i, ST_AREA_HEIGHT, font_4x6, dog_itoa(fps));
+    i = dog_DrawStr(ST_AREA_WIDTH-5*4-2-7*4, ST_AREA_HEIGHT, font_4x6, "FPS:");
+    dog_DrawStr(ST_AREA_WIDTH-5*4-2-7*4+i, ST_AREA_HEIGHT, font_4x6, dog_itoa(fps));
   }
   /*dog_DrawStr(60+i, ST_AREA_HEIGHT, font_4x6, dog_itoa(st_CntObj(0)));*/
 }
