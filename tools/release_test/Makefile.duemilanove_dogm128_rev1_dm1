@@ -42,7 +42,7 @@ BOARD:=atmega328
 AVR_TOOLS_PATH:=/usr/bin/
 
 # Install path of the arduino software. Requires a '/' at the end.
-ARDUINO_PATH:=/home/kraus/prg/arduino-0021/
+ARDUINO_PATH:=/home/kraus/prg/arduino-0022/
 
 # Install path for avrdude. Requires a '/' at the end. Can be empty if avrdude is in the search path.
 AVRDUDE_PATH:= 
