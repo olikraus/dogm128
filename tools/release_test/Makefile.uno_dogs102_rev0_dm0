@@ -1,6 +1,7 @@
 
 #
-# Arduino 0022 Makefile
+# Arduino 0022 Makefile 
+# Uno with DOGS102
 #
 # written by olikraus@gmail.com
 #
@@ -21,6 +22,7 @@
 # History
 #	001	28 Apr 2010	first  release
 #	002  05 Oct 2010	added 'uno'
+#	003  11 Dec 2010	DOGXL160
 #
 
 #=== user configuration ===
@@ -35,7 +37,17 @@
 #	mega		Arduino Mega
 #	mini			Arduino Mini
 #	lilypad328	LilyPad Arduino w/ ATmega328  
-BOARD:=atmega328
+BOARD:=uno
+
+# additional (comma separated) defines 
+# -DDOGM128_HW		board is connected to DOGM128 display
+# -DDOGM132_HW		board is connected to DOGM132 display
+# -DDOGS102_HW		board is connected to DOGS102 display
+# -DDOGXL160_HW_BW	connexted to DOGXL160, use BW mode
+# -DDOG_REVERSE		180 degree rotation
+# -DDOG_DOUBLE_MEMORY
+#DEFS=-DDOGXL160_HW_GR -DDOG_DOUBLE_MEMORY
+DEFS=-DDOGS102_HW
 
 # The location where the avr tools (e.g. avr-gcc) are located. Requires a '/' at the end.
 # Can be empty if all tools are accessable through the search path
@@ -48,7 +60,9 @@ ARDUINO_PATH:=/home/kraus/prg/arduino-0022/
 AVRDUDE_PATH:= 
 
 # The unix device where we can reach the arduino board
-AVRDUDE_PORT:=/dev/ttyUSB0
+# Uno: /dev/ttyACM0
+# Duemilanove: /dev/ttyUSB0
+AVRDUDE_PORT:=/dev/ttyACM0
 
 # List of all libaries which should be included.
 EXTRA_DIRS=$(ARDUINO_PATH)libraries/LiquidCrystal/
@@ -133,8 +147,8 @@ AVRDUDE = avrdude
 # use "make -p -f/dev/null" to see the default rules and definitions
 
 # Build C and C++ flags. Include path information must be placed here
-COMMON_FLAGS = -DF_CPU=$(F_CPU) -mmcu=$(MCU) 
-COMMON_FLAGS += -DDOG_DOUBLE_MEMORY -DDOG_REVERSE
+COMMON_FLAGS = -DF_CPU=$(F_CPU) -mmcu=$(MCU) $(DEFS)
+# COMMON_FLAGS += -gdwarf-2
 COMMON_FLAGS += -Os
 COMMON_FLAGS += -Wall -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
 COMMON_FLAGS += -I. 
