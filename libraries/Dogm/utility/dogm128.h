@@ -48,7 +48,8 @@
 //#define DOGM128_HW	/* uncomment for the DOGM128 display */
 //#define DOGS102_HW		/* uncomment for the DOGS102 display */
 //#define DOGM132_HW	/* uncomment for the DOGM132 display */
-//#define DOGXL160_HW_BW	/* uncomment for the DOGXL160 display */
+//#define DOGXL160_HW_BW	/* uncomment for the DOGXL160 display, black & white mode */
+//#define DOGXL160_HW_GR	/* uncomment for the DOGXL160 display gray level mode */
 
 /* default is DOGM128_HW */
 #if !defined DOGM128_HW && !defined DOGM132_HW && !defined DOGS102_HW && !defined DOGXL160_HW_BW  && !defined DOGXL160_HW_GR
