@@ -44,6 +44,7 @@ BOARD:=uno
 # -DDOGM132_HW		board is connected to DOGM132 display
 # -DDOGS102_HW		board is connected to DOGS102 display
 # -DDOGXL160_HW_BW	connexted to DOGXL160, use BW mode
+# -DDOGXL160_HW_GR	connexted to DOGXL160, use GR mode
 # -DDOG_REVERSE		180 degree rotation
 # -DDOG_DOUBLE_MEMORY
 #DEFS=-DDOGXL160_HW_GR -DDOG_DOUBLE_MEMORY

@@ -41,6 +41,10 @@ void all_page(void)
     dog_SetVLine(101,30, 34);
 }
 
+void page_intro(void)
+{
+  libinfo_draw();
+}
 
 void page0(void)
 {
@@ -145,9 +149,8 @@ void system_init(void)
 
 int main(void)
 {
-  uint8_t page = 0;
+  uint8_t page = 100;
   system_init();
-  dog_Delay(2000);  
   dog_Init(0);
 
   for(;;)
@@ -157,6 +160,7 @@ int main(void)
     do
     {
       switch(page) {
+	case 100: page_intro(); break;
 	case 0: page0(); break;
 	case 1: page1(); break;
 	case 2: page2(); break;
@@ -167,7 +171,7 @@ int main(void)
     } while( dog_NextPage() );
     dog_Delay(1500);
     page++;
-    if ( page == 6 )
+    if ( page > 6 )
       page = 0;
   }  
 }
