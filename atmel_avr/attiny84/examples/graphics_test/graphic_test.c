@@ -171,7 +171,7 @@ int main(void)
     } while( dog_NextPage() );
     dog_Delay(1500);
     page++;
-    if ( page > 6 )
+    if ( page >= 6 )
       page = 0;
   }  
 }
