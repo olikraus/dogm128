@@ -25,6 +25,14 @@
     DOG_SPI_ARDUINO	SPI Interface for ATMEGA within Arduino Environment
     nothing defined		defaults to DOG_SPI_ARDUINO
 
+  Normal or Revers Display Mode
+    DOG_REVERSE		Display output rotated by 180 degree
+    nothing defined		No rotation of the output
+    
+  Memory Usage
+    DOG_DOUBLE_MEMORY 	Double size of the internal page memory. Will give some speed improvement
+    nothing defined			Minimal memory usage
+    
   Display Selection
   one of the following constants could be defined:
     DOGM128_HW		DOGM128 Display
@@ -33,23 +41,20 @@
     DOGXL60_HW		DOGXL160 Display
     nothing defined		defaults to DOGM128 Display
     
-  Normal or Revers Display Mode
-    DOG_REVERSE		Display output rotated by 180 degree
-    nothing defined		No rotation of the output
-    
-    
 */
 
 #ifndef _DOGM128_H
 #define _DOGM128_H
 
-//#define DOG_REVERSE
+//#define DOG_REVERSE			/* uncomment for 180 degree rotation */
 
-//#define DOGM128_HW	/* uncomment for the DOGM128 display */
-//#define DOGS102_HW		/* uncomment for the DOGS102 display */
-//#define DOGM132_HW	/* uncomment for the DOGM132 display */
-//#define DOGXL160_HW_BW	/* uncomment for the DOGXL160 display, black & white mode */
-//#define DOGXL160_HW_GR	/* uncomment for the DOGXL160 display gray level mode */
+//#define DOG_DOUBLE_MEMORY		/* uncomment for speed improvement */
+
+//#define DOGM128_HW				/* uncomment for the DOGM128 display */
+//#define DOGS102_HW				/* uncomment for the DOGS102 display */
+//#define DOGM132_HW				/* uncomment for the DOGM132 display */
+//#define DOGXL160_HW_BW			/* uncomment for the DOGXL160 display, black & white mode */
+//#define DOGXL160_HW_GR			/* uncomment for the DOGXL160 display gray level mode */
 
 /* default is DOGM128_HW */
 #if !defined DOGM128_HW && !defined DOGM132_HW && !defined DOGS102_HW && !defined DOGXL160_HW_BW  && !defined DOGXL160_HW_GR
