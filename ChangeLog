@@ -1,5 +1,5 @@
 
-dogm128 ChangeLog
+dogm128 Library ChangeLog
 
 
 2010-02-13	v1.00	Oliver Kraus <olikraus@gmail.com>
@@ -50,8 +50,14 @@ dogm128 ChangeLog
 	* DOGM132-Shield fully supported by SpaceTrash.pde
 	* ATMEGA88: SPI support and examples
 	* Arduino Environment: Allow to select an IO port as chip select line
-2010-xx-xx	v1.08	Oliver Kraus <olikraus@gmail.com>
+2011-01-02	v1.08	Oliver Kraus <olikraus@gmail.com>
 	* Splash Screen
+	* Frames per second (FPS) counter for Breakorino and Spacetrash (Arduino Environment only)
 	* DOUBLE_MEMORY: Doubled page size for increased performance
 	* Support for DOGXL160 (added dog_SetPixelValue(), Dogm::setPixelValue)
+	* Semi-automatic release tests
+	* Clean up and documentation of SPI abstraction layer
+	* Renamed DOG_ATTR_FN_INLINE to DOG_ATTR_FN_NOINLINE
+	* Tested with Arduino 0022 IDE
+	
 	

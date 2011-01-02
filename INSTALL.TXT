@@ -1,7 +1,7 @@
 
 This is the dogm128 library..
-The dogm128 library is a C/C++ interface to the ST7565R based graphics module.
-Display types DOGM128, DOGM132 and DOGS102 are supported.
+The dogm128 library is a C/C++ interface to the ST7565R and UC1610 based graphics modules.
+Display types DOGM128, DOGM132, DOGS102 and DOGXL160 from Electronic Assembly are supported.
 
 Please also visit 
   http://code.google.com/p/dogm128/wiki/install
@@ -9,13 +9,13 @@ for install instructions.
 
 Install instruction for the Arduino Hardware
 
-Arduino-0021
+Arduino Environment
 
    1. Download latest version of dogm128_arduino_vX.XX.zip
-   2. cd <arduino-0021 path>/libraries
+   2. cd <arduino environment path>/libraries
    3. unzip dogm128_vX.XX.zip
-   4. cd <arduino-0021 path>/libraries/Dogm/utility/
-   5. edit file dogm128.h and uncomment your display hardware (DOGM128, DOGS102 or DOGM132)
+   4. cd <arduino environment path>/libraries/Dogm/utility/
+   5. edit file dogm128.h and uncomment your display hardware (DOGM128, DOGM132, DOGS102 or DOGXL160)
    6. Optional: Edit file dogm128.h and uncomment DOG_REVERSE (change top/bottom view)
    7. (re)start the Arduino IDE
    8. Dogm128 examples are available under File > Examples > Dogm 
