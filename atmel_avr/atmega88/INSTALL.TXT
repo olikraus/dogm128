@@ -1,7 +1,7 @@
 
 This is the dogm128 library.
-The dogm128 library is a C/C++ interface to the ST7565R based graphics module.
-Display types DOGM128, DOGM132 and DOGS102 are supported.
+The dogm128 library is a C/C++ interface to the ST7565R and UC1610 based graphics modules.
+Display types DOGM128, DOGM132, DOGXL160 and DOGS102 from Electronic Assembly are supported.
 
 Please also visit 
   http://code.google.com/p/dogm128/wiki/install
@@ -23,7 +23,7 @@ Install instruction for plain Atmel AVR ATMEGA microcontroller
       b) Line `F_CPU:=8000000'
 	  Set the frequency of the target environment. The examples of this library will try to assign maximum speed.
       c) Line `DOGDEFS = -DDOGM132_HW' 
-	  Select display (DOGM128_HW, DOGM132_HW or DOGS102_HW)
+	  Select display (DOGM128_HW, DOGM132_HW, DOGXL160_HW_BW, DOGXL160_HW_GR or DOGS102_HW)
       d) DOGDEFS += -DDOG_SPI_ATMEGA
 	  Select the SPI Interface for the ATMEGA.
       e) DOGDEFS += -DDOG_SPI_SS_PORT=B -DDOG_SPI_SS_PIN=2
