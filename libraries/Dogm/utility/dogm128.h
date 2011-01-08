@@ -216,8 +216,10 @@ void dog_XorBox(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2);	/* dogmxb.c */
 /* most significant bit of the byte in the pattern is on the left */
 void dog_SetHBitmap(uint8_t x, uint8_t y, const unsigned char *bitmap, uint8_t w); /* v1.01, dogmsm.c */
 void dog_SetHBitmapP(uint8_t x, uint8_t y, DOG_PGM_P bitmap, uint8_t w); /* v1.01, dogmsmp.c */
+void dog_ClrHBitmapP(uint8_t x, uint8_t y, DOG_PGM_P bitmap, uint8_t w); /* v1.01, dogmcmp.c */
 void dog_SetBitmap(uint8_t x, uint8_t y, const unsigned char *bitmap, uint8_t w, uint8_t h); /* v1.01, dogmsm.c */
 void dog_SetBitmapP(uint8_t x, uint8_t y, DOG_PGM_P bitmap, uint8_t w, uint8_t h); /* v1.01, dogmsmp.c */
+void dog_ClrBitmapP(uint8_t x, uint8_t y, DOG_PGM_P bitmap, uint8_t w, uint8_t h); /* v1.09, dogmcmp.c */
 
 /* --- draw functions --- */
 /*
