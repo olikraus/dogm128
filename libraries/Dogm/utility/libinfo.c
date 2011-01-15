@@ -1,6 +1,6 @@
 /*
 
-  dbgsceen.h
+  libinfo.c
 
   (c) 2010 Oliver Kraus (olikraus@gmail.com)
   
@@ -49,7 +49,7 @@ void libinfo_draw(void)
   uint8_t x;
   uint8_t y = DOG_HEIGHT - LH;
 #ifdef DOGM128_HW
-  dog_DrawStrP(0, y, font_4x6, DOG_PSTR("DOGM128"));
+  dog_DrawStrP(0, y, font_4x6, DOG_PSTR("M128"));
   y -= LH;
 #endif
 #ifdef DOGS102_HW

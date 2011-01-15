@@ -301,6 +301,13 @@ void walk_Step(void);
 void st_Draw(uint8_t fps);	/* use value 0 to suppress output of fps (frames per second) value */
 void st_Step(uint8_t player_pos, uint8_t is_auto_fire, uint8_t is_fire);
 
+/*--- chess ---*/
+#define CHESS_KEY_NONE 0
+#define CHESS_KEY_NEXT 1
+#define CHESS_KEY_PREV 2
+#define CHESS_KEY_SELECT 3
+#define CHESS_KEY_BACK 4
+
 /*--- libinfo.c ---*/
 void libinfo_draw(void);
 
