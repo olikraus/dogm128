@@ -11,6 +11,7 @@ zip dogm128.zip ./Dogm/examples/Stars/*.pde
 zip dogm128.zip ./Dogm/examples/Walk/*.pde
 zip dogm128.zip ./Dogm/examples/GraphicTest/*.pde
 zip dogm128.zip ./Dogm/examples/SpaceTrash/*.pde
+zip dogm128.zip ./Dogm/examples/Chess/*.pde
 
 
 
