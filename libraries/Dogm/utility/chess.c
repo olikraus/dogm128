@@ -31,7 +31,7 @@
     - Fifty-move rule is not checked (no pawn move, no capture within last 50 moves)
 	
   Words
-    Ply	a half move
+    Ply		a half move
     
   General Links
     http://chessprogramming.wikispaces.com/
@@ -83,6 +83,7 @@
 	- simplify eval_t ce_Eval(void)
 	- position eval does not work, still moves side pawn :-(
 	      maybe because all pieces are considered
+	    --> done
 
 */
 
@@ -842,13 +843,19 @@ const char *cu_GetHalfMoveStr(uint8_t idx)
     - however it processes "en passant" and casteling
     - backup the move and allow 1x undo
   
-  TODO: 
+  2011-02-05: 
     - fill pawn_dbl_move[] for double pawn moves
+	--> done
     - Implement casteling 
+	--> done
     - en passant
+	--> done
     - pawn conversion/promotion
+	--> done
     - half-move backup 
+	--> done
     - cleanup everything, minimize variables
+	--> done
 */
 
 void cu_Move(uint8_t src, uint8_t dest)
@@ -1619,8 +1626,6 @@ void chess_ManualMove(uint8_t src, uint8_t dest)
   
   /* printf("chess_ManualMove %02x -> %02x\n", src, dest); */
   
-  /* TODO: it might happen, that dest is ILLEGAL. because of this, the analysis part should start now */
-  
   /* if all other things fail, this is the place where the game is to be decided: */
   /* ... if the KING is captured */
   cp = cp_GetFromBoard(dest);
@@ -1649,7 +1654,6 @@ void chess_ManualMove(uint8_t src, uint8_t dest)
   /* so we check if the king can move and will not be captured at search level 1 */
   
   stack_Init(1);
-  //stack_GetCurrElement()->current_color = lrc_obj.ply_count&1;
   ce_LoopPieces(); 
 
   /* printf("chess_ManualMove/analysis best_from_pos %02x -> best_to_pos %02x\n", stack_GetCurrElement()->best_from_pos, stack_GetCurrElement()->best_to_pos); */
@@ -1697,36 +1701,6 @@ void chess_ManualMove(uint8_t src, uint8_t dest)
       i = cu_NextPos(i);
     } while( i != 0 );
   }
-
-#ifdef TODO_CODE_REMOVE  
-  /* not sure if the following if conditions are required */
-  
-  if ( stack_GetCurrElement()->best_eval == EVAL_T_MAX )
-  {
-    lrc_obj.is_game_end = 1;
-    lrc_obj.lost_side_color = lrc_obj.ply_count; 
-    lrc_obj.lost_side_color  &= 1;
-    lrc_obj.lost_side_color  ^= 1;
-    
-    /*
-      it is a draw, if the king is not attacked:
-	this, ce_GetPositionAttackCount(uint8_t pos, uint8_t color), returns 0
-    */
-    return;
-  }
-  else  if ( stack_GetCurrElement()->best_eval == EVAL_T_MIN )
-  {
-    lrc_obj.is_game_end = 1;
-    lrc_obj.lost_side_color = lrc_obj.ply_count; 
-    lrc_obj.lost_side_color  &= 1;
-    /*
-      it is a draw, if the king is not attacked
-	this, ce_GetPositionAttackCount(uint8_t pos, uint8_t color), returns 0
-    */
-    return;
-  }
-    
-#endif
 }
 
 /* let the computer do a move */
@@ -2323,7 +2297,7 @@ void chess_Step(uint8_t keycode)
   }
   
   /* TODO: remove this line */
-  ce_CalculatePositionWeight(chess_source_pos);
+  /*ce_CalculatePositionWeight(chess_source_pos);*/
     
 }
 
