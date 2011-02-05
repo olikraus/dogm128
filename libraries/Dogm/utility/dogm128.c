@@ -175,7 +175,7 @@ static void dog_init_display(void)
   dog_spi_out(0x02f);		/* all power  control circuits on */
   dog_spi_out(0x027);		/* regulator, booster and follower */
   dog_spi_out(0x081);		/* set contrast */
-  dog_spi_out(0x00b);		/* contrast value, EA default: 0x010, previous value for S102: 0x0e */
+  dog_spi_out(0x00e);		/* contrast value, EA default: 0x010, previous value for S102: 0x0e */
   dog_spi_out(0x0fa);		/* Set Temp compensation */ 
   dog_spi_out(0x090);		/* 0.11 deg/c WP Off WC Off*/
   dog_spi_out(0x0af);		/* display on */
