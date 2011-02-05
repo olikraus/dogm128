@@ -150,6 +150,9 @@ extern uint8_t dog_max_y;
 
 extern uint8_t dog_spi_pin_a0;
 extern uint8_t dog_spi_pin_cs;	/* arduino chip select pin */
+
+extern uint8_t dog_spi_result;		/* last value returned from SPI system (after executing the picture loop) */
+
   
 void dog_Delay(uint16_t val);				/* delay in milliseconds */
 void dog_InitA0CS(uint8_t pin_a0, uint8_t pin_cs);

@@ -66,6 +66,7 @@ uint8_t dog_max_y = DOG_PAGE_HEIGHT-1;
 uint8_t dog_spi_pin_a0 = PIN_A0_DEFAULT;
 uint8_t dog_spi_pin_cs = PIN_SS;	/* arduino chip select pin, defaults to the hardware pin */
 
+uint8_t dog_spi_result = 0;		/* last value returned from SPI system (after executing the picture loop) */
 
 /*==============================================================*/
 /* 
@@ -357,6 +358,8 @@ static void dog_transfer_page(void)
 #else
   dog_transfer_sub_page(dog_curr_page, 0);
 #endif
+  
+  dog_spi_result = dog_spi_out(0x0e3);	/* NOP command for UC1610 and ST7565 */
 }
 /*==============================================================*/
 /* page buffer functions */

@@ -30,7 +30,7 @@ uint8_t dog_GetSPIByte(void)
   uint8_t result;
   dog_spi_enable_client();
   dog_cmd_mode();
-  result = dog_spi_out(0x0e3);	/* NOP command für UC1610 and ST7565 */
+  result = dog_spi_out(0x0e3);	/* NOP command for UC1610 and ST7565 */
   dog_spi_disable_client();
   return result;
 }
