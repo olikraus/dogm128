@@ -249,7 +249,7 @@ static void dog_transfer_sub_page(uint8_t page, uint8_t  offset)
   dog_cmd_mode();
   dog_spi_out(0x060 | (page*2) );		/* select current page  (UC1610)*/
   dog_spi_out(0x010 );		/* set upper 4 bit of the col adr to 0 */
-  dog_spi_out(0x000 );		/* set lower 4 bit of the col adr to 0 */
+  dog_spi_result = dog_spi_out(0x000 );		/* set lower 4 bit of the col adr to 0 */
   dog_data_mode();
   idx = 0;
   while( idx != DOG_PAGE_WIDTH )
@@ -260,7 +260,7 @@ static void dog_transfer_sub_page(uint8_t page, uint8_t  offset)
   dog_cmd_mode();
   dog_spi_out(0x060 | ((page*2)+1) );		/* select current page  (UC1610)*/
   dog_spi_out(0x010 );		/* set upper 4 bit of the col adr to 0 */
-  dog_spi_out(0x000 );		/* set lower 4 bit of the col adr to 0 */
+  dog_spi_result = dog_spi_out(0x000 );		/* set lower 4 bit of the col adr to 0 */
   dog_data_mode();
   idx = 0;
   while( idx != DOG_PAGE_WIDTH )
@@ -274,11 +274,11 @@ static void dog_transfer_sub_page(uint8_t page, uint8_t  offset)
 #ifdef DOGXL160_HW_GR
   dog_spi_out(0x060 | (page) );		/* select current page  (UC1610)*/
   dog_spi_out(0x010 );		/* set upper 4 bit of the col adr to 0 */
-  dog_spi_out(0x000 );		/* set lower 4 bit of the col adr to 0 */
+  dog_spi_result = dog_spi_out(0x000 );		/* set lower 4 bit of the col adr to 0 */
 #else
   dog_spi_out(0x0b0 | page );		/* select current page (ST7565R) */
   dog_spi_out(0x010 );		/* set upper 4 bit of the col adr to 0 */
-  dog_spi_out(0x000 );		/* set lower 4 bit of the col adr to 0 */
+  dog_spi_result = dog_spi_out(0x000 );		/* set lower 4 bit of the col adr to 0 */
 #endif
   /* send a complete page */
   dog_data_mode();
@@ -296,7 +296,7 @@ static void dog_transfer_sub_page(uint8_t page, uint8_t  offset)
   dog_cmd_mode();
   dog_spi_out(0x060 | (page*2) );		/* select current page  (UC1610)*/
   dog_spi_out(0x010 );		/* set upper 4 bit of the col adr to 0 */
-  dog_spi_out(0x000 );		/* set lower 4 bit of the col adr to 0 */
+  dog_spi_result = dog_spi_out(0x000 );		/* set lower 4 bit of the col adr to 0 */
   dog_data_mode();
   idx = DOG_PAGE_WIDTH;
   while( idx != 0 )
@@ -307,7 +307,7 @@ static void dog_transfer_sub_page(uint8_t page, uint8_t  offset)
   dog_cmd_mode();
   dog_spi_out(0x060 | ((page*2)+1) );		/* select current page  (UC1610)*/
   dog_spi_out(0x010 );		/* set upper 4 bit of the col adr to 0 */
-  dog_spi_out(0x000 );		/* set lower 4 bit of the col adr to 0 */
+  dog_spi_result = dog_spi_out(0x000 );		/* set lower 4 bit of the col adr to 0 */
   dog_data_mode();
   idx = DOG_PAGE_WIDTH;
   while( idx != 0 )
@@ -321,11 +321,11 @@ static void dog_transfer_sub_page(uint8_t page, uint8_t  offset)
 #ifdef DOGXL160_HW_GR
   dog_spi_out(0x060 | (page) );		/* select current page  (UC1610)*/
   dog_spi_out(0x010 );		/* set upper 4 bit of the col adr to 0 */
-  dog_spi_out(0x000 );		/* set lower 4 bit of the col adr to 0 */
+  dog_spi_result = dog_spi_out(0x000 );		/* set lower 4 bit of the col adr to 0 */
 #else
   dog_spi_out(0x0b0 | page );		/* select current page (ST7565R) */
   dog_spi_out(0x010 );		/* set upper 4 bit of the col adr to 0 */
-  dog_spi_out(0x000 );		/* set lower 4 bit of the col adr to 0 */
+  dog_spi_result = dog_spi_out(0x000 );		/* set lower 4 bit of the col adr to 0 */
 #endif
   
   /* send a complete page */
@@ -359,7 +359,6 @@ static void dog_transfer_page(void)
   dog_transfer_sub_page(dog_curr_page, 0);
 #endif
   
-  dog_spi_result = dog_spi_out(0x0e3);	/* NOP command for UC1610 and ST7565 */
 }
 /*==============================================================*/
 /* page buffer functions */
