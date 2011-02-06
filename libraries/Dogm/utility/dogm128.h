@@ -46,6 +46,10 @@
 #ifndef _DOGM128_H
 #define _DOGM128_H
 
+/*=========================================================================*/
+/* Begin: User Configuration */
+/*=========================================================================*/
+
 //#define DOG_REVERSE			/* uncomment for 180 degree rotation */
 
 //#define DOG_DOUBLE_MEMORY		/* uncomment for speed improvement */
@@ -56,9 +60,14 @@
 //#define DOGXL160_HW_BW			/* uncomment for the DOGXL160 display, black & white mode */
 //#define DOGXL160_HW_GR			/* uncomment for the DOGXL160 display gray level mode */
 
-/* default is DOGM128_HW */
+/*=========================================================================*/
+/* End: User Configuration */
+/*=========================================================================*/
+
 #if !defined DOGM128_HW && !defined DOGM132_HW && !defined DOGS102_HW && !defined DOGXL160_HW_BW  && !defined DOGXL160_HW_GR
-#define DOGM128_HW
+/* #define DOGM128_HW */
+/* print error message, please uncomment one of the displays above */
+#error LCD model is not defined. Define your LCD in dogm128.h.
 #endif
 
 // prevent duplicate definition

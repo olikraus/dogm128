@@ -36,6 +36,14 @@
 #	lilypad328	LilyPad Arduino w/ ATmega328  
 BOARD:=atmega328
 
+# additional (comma separated) defines 
+# -DDOGM128_HW		board is connected to DOGM128 display
+# -DDOGM132_HW		board is connected to DOGM132 display
+# -DDOGS102_HW		board is connected to DOGS102 display
+# -DDOG_REVERSE		180 degree rotation
+# -DDOG_DOUBLE_MEMORY
+DEFS=-DDOGM128_HW
+
 # The location where the avr tools (e.g. avr-gcc) are located. Requires a '/' at the end.
 # Can be empty if all tools are accessable through the search path
 AVR_TOOLS_PATH:=/usr/bin/
@@ -132,9 +140,9 @@ AVRDUDE = avrdude
 # use "make -p -f/dev/null" to see the default rules and definitions
 
 # Build C and C++ flags. Include path information must be placed here
-COMMON_FLAGS = -DF_CPU=$(F_CPU) -mmcu=$(MCU) 
+COMMON_FLAGS = -DF_CPU=$(F_CPU) -mmcu=$(MCU) $(DEFS)
 # COMMON_FLAGS += -gdwarf-2
-COMMON_FLAGS += -Os -DDOG_REVERSE -DDOG_DOUBLE_MEMORY
+COMMON_FLAGS += -Os
 COMMON_FLAGS += -Wall -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
 COMMON_FLAGS += -I. 
 COMMON_FLAGS += -I$(ARDUINO_PATH)hardware/arduino/cores/arduino
