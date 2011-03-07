@@ -45,7 +45,9 @@ uint8_t backlightPin = 3;
 Dogm dogm(a0Pin);
 
 void setup() {
+#ifndef DOGXL160_HW_GR
   analogWrite(backlightPin, 0);
+#endif
 }
 
 
@@ -212,6 +214,10 @@ uint8_t is_invert = 0;
 
 uint16_t sensorValue;
 
+#ifdef DOGXL160_HW_GR
+uint8_t backlight = 0;
+#endif
+
 
 void loop() {
   uint8_t i;
@@ -232,9 +238,14 @@ void loop() {
   for( i = 0; i < 16; i++ )
   {
     dog_Delay(100);
+#ifdef DOGXL160_HW_GR
+    analogWrite(6, backlight);		/* assume DOGXL160 shield */
+    backlight++;
+#else
     sensorValue = analogRead(sensorPin);
     sensorValue >>= 2;
     analogWrite(backlightPin, sensorValue);
+#endif
   }
   page++;
 #ifdef DOGXL160_HW_GR
