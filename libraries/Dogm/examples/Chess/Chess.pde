@@ -49,7 +49,8 @@ uint8_t uiKeyNext = 4;
 uint8_t uiKeySelect = 5;
 uint8_t uiKeyBack = 3;
 #else
-// DOGM128 configuration values
+// DOGM128-Shield	 configuration values
+// DOGXL60-Shield configuration values
 uint8_t uiKeyPrev = 7;
 uint8_t uiKeyNext = 3;
 uint8_t uiKeySelect = 2;
