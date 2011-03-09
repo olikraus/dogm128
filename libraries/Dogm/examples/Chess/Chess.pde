@@ -105,16 +105,20 @@ void setup() {
 }
 
 void loop() {  
+  uint8_t keyCode = CHESS_KEY_NONE;
   
   dogm.showLibInfo();
 
   dogm.start();
   do {
     chess_Draw();
+    uiStep();
+    if ( uiKeyCode != CHESS_KEY_NONE )
+      keyCode = uiKeyCode;
   } while( dogm.next() );
   
   dog_Delay(10);
-  
+  chess_Step(keyCode);
   uiStep();
-  chess_Step(uiKeyCode);
+  keyCode = uiKeyCode;
 }

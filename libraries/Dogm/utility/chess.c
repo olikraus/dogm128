@@ -22,7 +22,13 @@
   You should have received a copy of the Lesser GNU General Public License
   along with dogm128.  If not, see <http://www.gnu.org/licenses/>.
 
-
+  Note:
+    Hardware support:
+      DOGXL160_HW_GR		ok
+      DOGXL160_HW_BW		will work
+      DOGM128_HW			ok
+      DOGM132_HW			not supported
+      DOGS102_HW			ok
 
   Current Rule Limitation
     - no minor promotion, only "Queening" of the pawn
@@ -1982,7 +1988,7 @@ const dog_pgm_uint8_t chess_black_pieces_bm[] =
 };
 
 
-#if defined(DOGXL160_HW_GR) || defined(DOGXL160_HW_BW)
+#if defined(DOGXL160_HW_GR)
 #define BOXSIZE 13
 #define BOXOFFSET 3
 #else
@@ -2006,7 +2012,7 @@ void chess_DrawFrame(uint8_t pos, uint8_t is_bold)
   if ( lrc_obj.orientation != COLOR_WHITE )
     y0 ^= 7;
   
-#if defined(DOGXL160_HW_GR) || defined(DOGXL160_HW_BW)
+#if defined(DOGXL160_HW_GR) 
   x0 *= BOXSIZE;
   x0++;
   x1 = x0;
@@ -2054,7 +2060,7 @@ void chess_DrawBoard(void)
   uint8_t i, j, cp;
   const dog_pgm_uint8_t *ptr;
   
-#if defined(DOGXL160_HW_GR) || defined(DOGXL160_HW_BW)
+#if defined(DOGXL160_HW_GR)
   for( i = 0; i < 8; i++ )
     for( j = 0; j < 8; j++ )
     {
@@ -2070,7 +2076,6 @@ void chess_DrawBoard(void)
       dog_SetBox(x,y,x+BOXSIZE-1,y+BOXSIZE-1);
 	
     }
-
   dog_SetPixelValue(3);    
 #else
   for( i = 0; i < 8*8; i+=8 )
