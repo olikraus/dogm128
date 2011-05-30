@@ -193,6 +193,7 @@ static void dog_init_display(void)
   dog_spi_out(0x05f);		/* */
   dog_spi_out(0x089);		/* set auto increment */
   dog_spi_out(0x0a6);		/* normal pixel mode, issue 103 */
+  dog_spi_out(0x0d3);		/* 0xd3=40% RMS separation for gray levels */
   dog_spi_out(0x0af);		/* display on */
 
 #endif
