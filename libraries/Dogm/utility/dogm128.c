@@ -56,7 +56,11 @@
 #else
 #endif
 
-#include <wiring.h>	/* arduino pinMode */
+/*
+#ifdef ADA_ST7565P_HW
+#include <wiring.h>	
+#endif
+*/
 
 unsigned char dog_page_buffer[DOG_PAGE_SIZE];
 uint8_t dog_curr_page = 0;	/* 0...DOG_PAGE_CNT-1 */
@@ -132,15 +136,6 @@ void dog_Delay(uint16_t val)
 static void dog_init_display(void)
 {
   
-#ifdef ADA_ST7565P_HW
-  pinMode(dog_spi_pin_rst, OUTPUT);
-  if (dog_spi_pin_cs > 0)
-    digitalWrite(dog_spi_pin_cs, LOW);
-  digitalWrite(dog_spi_pin_rst, LOW);
-  dog_Delay(100);
-  digitalWrite(dog_spi_pin_rst, HIGH);
-#endif
-  
   dog_Delay(10);
   dog_spi_disable_client();	/* force reset of the spi subsystem of the ST7565R */
   dog_Delay(10);
@@ -148,15 +143,7 @@ static void dog_init_display(void)
   dog_Delay(10);
   dog_cmd_mode();
 
-#ifdef ADA_ST7565P_HW
-  // Reset procedure taken from Adafruit ST7565 library
-  // toggle RST low to reset; CS low so it'll listen to us
-  if (dog_spi_pin_cs > 0)
-    digitalWrite(dog_spi_pin_cs, LOW);
-  digitalWrite(dog_spi_pin_rst, LOW);
-  dog_Delay(100);
-  digitalWrite(dog_spi_pin_rst, HIGH);
-  
+#ifdef ADA_ST7565P_HW  
   dog_spi_out(0xA3);            // LCD bias select to 1/7 (1/9) does NOT work!
 
   dog_spi_out(0xA1);            // ACD set to reverse

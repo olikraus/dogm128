@@ -456,7 +456,23 @@ void dog_spi_init(void)
   pinMode(PIN_SCK, OUTPUT);
   pinMode(PIN_MOSI, OUTPUT);
   pinMode(dog_spi_pin_a0, OUTPUT);
-  pinMode(dog_spi_pin_cs, OUTPUT);			/* this is the user chip select */
+  if (dog_spi_pin_cs > 0)
+  {
+    pinMode(dog_spi_pin_cs, OUTPUT);			/* this is the user chip select */
+    digitalWrite(dog_spi_pin_cs, LOW);
+  }
+
+  // Reset procedure taken from Adafruit ST7565 library
+  // toggle RST low to reset; CS low so it'll listen to us
+  
+  if ( dog_spi_pin_rst > 0 )
+  {
+    pinMode(dog_spi_pin_rst, OUTPUT);
+    digitalWrite(dog_spi_pin_rst, LOW);
+    dog_Delay(100);
+    digitalWrite(dog_spi_pin_rst, HIGH);
+    dog_Delay(10);
+  }
 }
 
 unsigned char dog_spi_out(unsigned char data)

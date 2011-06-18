@@ -99,6 +99,9 @@ AVRDUDE = avrdude
 COMMON_FLAGS = -DF_CPU=$(F_CPU) -mmcu=$(MCU) $(DOGDEFS)
 COMMON_FLAGS += -g -Os -Wall -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
 COMMON_FLAGS += -I. -I$(DOGDIR)
+COMMON_FLAGS += -ffunction-sections -fdata-sections -Wl,--gc-sections
+COMMON_FLAGS += -Wl,--relax
+COMMON_FLAGS += -mcall-prologues
 CFLAGS = $(COMMON_FLAGS) -std=gnu99 -Wstrict-prototypes  
 
 # Additional Suffixes
