@@ -1,7 +1,8 @@
 
 This is the dogm128 library.
 The dogm128 library is a C/C++ interface to the ST7565R and UC1610 based graphics modules.
-Display types DOGM128, DOGM132, DOGXL160 and DOGS102 from Electronic Assembly are supported.
+Supported Displays:
+  DOGM128, DOGM132, DOGS102 and DOGXL160 from Electronic Assembly.
 
 Please also visit 
   http://code.google.com/p/dogm128/wiki/install
