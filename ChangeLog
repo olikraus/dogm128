@@ -64,3 +64,9 @@ dogm128 Library ChangeLog
 	* New Function: ClrBitmapP
 	* Throw error message if LCD is not defined (previous versions did use DOGM128 by default)
 	
+2011-06-18	v1.10	Oliver Kraus <olikraus@gmail.com>
+	* Added support for Adafruit Product 250
+	* Updated Makefiles to produce more compact HEX files
+	* Fixed dogmfont.c: Handle codes below ASCII 32 correctly
+	
+	
