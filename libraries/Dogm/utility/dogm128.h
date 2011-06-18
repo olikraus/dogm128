@@ -165,7 +165,7 @@ extern uint8_t dog_max_y;
 
 /* pin assignment for arduino, should be renamed */
   
-#ifdef ADA_ST7565P_HW
+#ifndef ADA_ST7565P_HW
 #define PIN_SCK   13
 #define PIN_MISO  12
 #define PIN_MOSI  11
