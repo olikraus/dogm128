@@ -38,9 +38,10 @@
     --> ATTINY 
   DOG_SPI_ATMEGA
     --> ATMEGA
+  DOG_SPI_SW_ARDUINO
+      --> default for ADA_ST7565P_HW
   DOG_SPI_ARDUINO or "nothing defined"
-    --> Arduino
-
+    --> Arduino 
 
 */
 
@@ -48,9 +49,14 @@
 
 #if defined(DOG_SPI_USI)
 #elif defined(DOG_SPI_ATMEGA)
+#elif defined(DOG_SPI_SW_ARDUINO)
 #elif defined(__18CXX)
 #else
+#ifdef ADA_ST7565P_HW
+#define DOG_SPI_SW_ARDUINO
+#else
 #define DOG_SPI_ARDUINO
+#endif
 #endif
 
 
@@ -389,12 +395,8 @@ void dog_spi_init(void)
 	1	0		fclk/64
 	1	1		fclk/128
   */
-#ifndef ADA_ST7565P_HW
   SPCR = 0;
   SPCR =  (1<<SPE) | (1<<MSTR)|(0<<SPR1)|(0<<SPR0)|(0<<CPOL)|(0<<CPHA);
-#else
-  pinMode(dog_spi_pin_rst, OUTPUT);
-#endif
   /*
   {
   unsigned char x;
@@ -406,7 +408,6 @@ void dog_spi_init(void)
 
 unsigned char dog_spi_out(unsigned char data)
 {
-#ifndef ADA_ST7565P_HW
   /* unsigned char x = 100; */
   /* send data */
   SPDR = data;
@@ -415,12 +416,54 @@ unsigned char dog_spi_out(unsigned char data)
     ;
   /* clear the SPIF flag by reading SPDR */
   return  SPDR;
-#else
+}
+
+void dog_spi_enable_client(void)
+{
+        digitalWrite(dog_spi_pin_cs, LOW);  
+}
+
+void dog_spi_disable_client(void)
+{
+        digitalWrite(dog_spi_pin_cs, HIGH);
+}
+
+void dog_cmd_mode(void)
+{
+  digitalWrite(dog_spi_pin_a0, LOW);
+}
+
+void dog_data_mode(void)
+{
+  digitalWrite(dog_spi_pin_a0, HIGH);
+}
+
+#elif defined(DOG_SPI_SW_ARDUINO)
+
+/*=======================================================================*/
+/* Arduino Software SPI */
+/*=======================================================================*/
+
+
+#include <avr/interrupt.h>
+#include <avr/io.h>
+#include <util/delay.h>
+#include <wiring.h>	/* arduino pinMode */
+
+void dog_spi_init(void)
+{
+  pinMode(PIN_SCK, OUTPUT);
+  pinMode(PIN_MOSI, OUTPUT);
+  pinMode(dog_spi_pin_a0, OUTPUT);
+  pinMode(dog_spi_pin_cs, OUTPUT);			/* this is the user chip select */
+}
+
+unsigned char dog_spi_out(unsigned char data)
+{
   shiftOut(PIN_MOSI, PIN_SCK, MSBFIRST, data);
   // not sure what we should return here...
   // luckily, nothing upstream ever seems to use the return value!
   return data;
-#endif
 }
 
 void dog_spi_enable_client(void)

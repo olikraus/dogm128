@@ -133,6 +133,7 @@ static void dog_init_display(void)
 {
   
 #ifdef ADA_ST7565P_HW
+  pinMode(dog_spi_pin_rst, OUTPUT);
   if (dog_spi_pin_cs > 0)
     digitalWrite(dog_spi_pin_cs, LOW);
   digitalWrite(dog_spi_pin_rst, LOW);
