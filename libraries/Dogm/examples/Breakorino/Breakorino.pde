@@ -57,7 +57,7 @@
 unsigned long next_sec_time;
 uint8_t fps, frame_cnt;
 
-int a0Pin = 9;      // address line a0 for the dogm module
+int a0Pin = PIN_A0_DEFAULT;      // address line a0 for the dogm module
 int sensorPin = 0;  // analog input
 
 // configuration values

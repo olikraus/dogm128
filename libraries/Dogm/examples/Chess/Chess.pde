@@ -62,7 +62,7 @@ uint8_t uiKeyCodeSecond = CHESS_KEY_NONE;
 uint8_t uiKeyCode = CHESS_KEY_NONE;
 
 
-int a0Pin = 9;      // address line a0 for the dogm module
+int a0Pin = PIN_A0_DEFAULT;      // address line a0 for the dogm module
 Dogm dogm(a0Pin);
 
 void uiSetup(void) {

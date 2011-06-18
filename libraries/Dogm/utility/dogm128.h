@@ -170,7 +170,7 @@ extern uint8_t dog_max_y;
 #define PIN_MISO  12
 #define PIN_MOSI  11
 #define PIN_SS    10
-#define PIN_A0_DEFAULT     6  
+#define PIN_A0_DEFAULT     9
 #else
 #define PIN_RST   6     // This is for the default Adafruit wiring scheme
 #define PIN_SCK   8     // described in:

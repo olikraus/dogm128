@@ -54,7 +54,7 @@ struct pt2d
 };
 
 // for the spi interface...
-int a0Pin = 9;      // address line a0 for the dogm module
+int a0Pin = PIN_A0_DEFAULT;      // address line a0 for the dogm module
 
 // create an array with some stars
 #define STAR_CNT 40
