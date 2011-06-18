@@ -195,6 +195,7 @@ void dog_InitA0CS(uint8_t pin_a0, uint8_t pin_cs);
 void dog_Init(unsigned short pin_a0);
 void dog_SetContrast(uint8_t val);			/* values between 0 and 63 allowed, previosly named dog_set_contranst() */
 void dog_SetInvertPixelMode(uint8_t val);	/* previosly named dog_set_inverse() */
+void dog_SetUC1610GrayShade(uint8_t val);	/* dogmsysgr.c, values are from 0 to 3 */
 
 /* --- page functions --- */
 

@@ -56,7 +56,7 @@
 #else
 #endif
 
-/*
+/* moved to dogmspi.c
 #ifdef ADA_ST7565P_HW
 #include <wiring.h>	
 #endif
@@ -231,8 +231,8 @@ static void dog_init_display(void)
   dog_spi_out(0x0a6);		/* normal pixel mode, issue 103 */
   dog_spi_out(0x0d3);		/* 0xd3=40% RMS separation for gray levels */
   dog_spi_out(0x0af);		/* display on */
-
 #endif
+
   dog_spi_out(0x0a5);		/* display all points, ST7565, UC1610 */
   dog_Delay(300);
   dog_spi_out(0x0a4);		/* normal display  */
