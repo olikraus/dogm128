@@ -46,7 +46,6 @@
 
 #include "dogm128.h"
 
-
 #if defined(DOG_SPI_USI)
 #elif defined(DOG_SPI_ATMEGA)
 #elif defined(__18CXX)
@@ -376,10 +375,13 @@ void dog_spi_init(void)
   pinMode(PIN_SCK, OUTPUT);
   pinMode(PIN_MOSI, OUTPUT);
   /* pinMode(PIN_MISO, INPUT); */
-  pinMode(PIN_SS, OUTPUT);			/* this must always be an output port */
+
+  // This this redundant with dog_spi_pin_cs... 
+  // pinMode(PIN_SS, OUTPUT);			/* this must always be an output port */
+
   pinMode(dog_spi_pin_a0, OUTPUT);
   pinMode(dog_spi_pin_cs, OUTPUT);			/* this is the user chip select */
-  
+
   /*
     SPR1 SPR0
 	0	0		fclk/4
@@ -387,8 +389,12 @@ void dog_spi_init(void)
 	1	0		fclk/64
 	1	1		fclk/128
   */
+#ifndef ADA_ST7565P_HW
   SPCR = 0;
   SPCR =  (1<<SPE) | (1<<MSTR)|(0<<SPR1)|(0<<SPR0)|(0<<CPOL)|(0<<CPHA);
+#else
+  pinMode(dog_spi_pin_rst, OUTPUT);
+#endif
   /*
   {
   unsigned char x;
@@ -400,7 +406,7 @@ void dog_spi_init(void)
 
 unsigned char dog_spi_out(unsigned char data)
 {
-  
+#ifndef ADA_ST7565P_HW
   /* unsigned char x = 100; */
   /* send data */
   SPDR = data;
@@ -409,6 +415,12 @@ unsigned char dog_spi_out(unsigned char data)
     ;
   /* clear the SPIF flag by reading SPDR */
   return  SPDR;
+#else
+  shiftOut(PIN_MOSI, PIN_SCK, MSBFIRST, data);
+  // not sure what we should return here...
+  // luckily, nothing upstream ever seems to use the return value!
+  return data;
+#endif
 }
 
 void dog_spi_enable_client(void)

@@ -39,7 +39,8 @@
     DOGS102_HW		DOGS102 Display
     DOGM132_HW		DOGM132 Display
     DOGXL60_HW		DOGXL160 Display
-    nothing defined		defaults to DOGM128 Display
+    ADA_ST7565P_HW      Adafruit Graphics LCD based on the ST7565P
+    nothing defined	defaults to DOGM128 Display
     
 */
 
@@ -60,11 +61,19 @@
 //#define DOGXL160_HW_BW			/* uncomment for the DOGXL160 display, black & white mode */
 //#define DOGXL160_HW_GR			/* uncomment for the DOGXL160 display gray level mode */
 
+//#define ADA_ST7565P_HW                        /* uncomment for the Adafruit ST7565P display */
+/* For ADA_ST7665P_HW only
+   Warning: the reset pin number is hardcoded in the dogm128.c file with the following line
+   uint8_t dog_spi_pin_rst = 6;
+   If you use a different pin of the Arduino board to control the reset signal, modify the
+   dogm128.c accordingly.
+*/
+
 /*=========================================================================*/
 /* End: User Configuration */
 /*=========================================================================*/
 
-#if !defined DOGM128_HW && !defined DOGM132_HW && !defined DOGS102_HW && !defined DOGXL160_HW_BW  && !defined DOGXL160_HW_GR
+#if !defined ADA_ST7565P_HW && !defined DOGM128_HW && !defined DOGM132_HW && !defined DOGS102_HW && !defined DOGXL160_HW_BW  && !defined DOGXL160_HW_GR
 /* #define DOGM128_HW */
 /* print error message, please uncomment one of the displays above */
 #error LCD model is not defined. Define your LCD in dogm128.h.
@@ -104,6 +113,11 @@
 #endif
 
 /* setings for the various DOG displays */
+#ifdef ADA_ST7565P_HW
+#define DOG_WIDTH 128
+#define DOG_HEIGHT 64
+#endif
+
 #ifdef DOGM128_HW
 #define DOG_WIDTH 128
 #define DOG_HEIGHT 64
@@ -156,9 +170,22 @@ extern uint8_t dog_max_y;
 #define PIN_MOSI  11
 #define PIN_SS    10
 #define PIN_A0_DEFAULT     6
+#ifdef ADA_ST7565P_HW
+#define PIN_RST   6     // This is for the default Adafruit wiring scheme, of course
+                        // In this case PIN_A0_DEFAULT should be defined correctly
+                        // The other pins used on the Adafruit tutorial are below:
+//#define PIN_SCK   8
+//#define PIN_MOSI  9
+//#define PIN_SS    5
+//#define PIN_A0_DEFAULT  7
+#endif
 
 extern uint8_t dog_spi_pin_a0;
 extern uint8_t dog_spi_pin_cs;	/* arduino chip select pin */
+
+#ifdef ADA_ST7565P_HW
+extern uint8_t dog_spi_pin_rst; /* ST7565P reset pin */
+#endif
 
 extern uint8_t dog_spi_result;		/* last value returned from SPI system (after executing the picture loop) */
 

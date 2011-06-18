@@ -48,6 +48,10 @@ void libinfo_draw(void)
 {
   uint8_t x;
   uint8_t y = DOG_HEIGHT - LH;
+#ifdef ADA_ST7565P_HW
+  dog_DrawStrP(0, y, font_4x6, DOG_PSTR("ST7565P"));
+  y -= LH;
+#endif
 #ifdef DOGM128_HW
   dog_DrawStrP(0, y, font_4x6, DOG_PSTR("M128"));
   y -= LH;
