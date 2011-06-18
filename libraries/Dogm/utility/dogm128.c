@@ -132,6 +132,14 @@ void dog_Delay(uint16_t val)
 static void dog_init_display(void)
 {
   
+#ifdef ADA_ST7565P_HW
+  if (dog_spi_pin_cs > 0)
+    digitalWrite(dog_spi_pin_cs, LOW);
+  digitalWrite(dog_spi_pin_rst, LOW);
+  dog_Delay(100);
+  digitalWrite(dog_spi_pin_rst, HIGH);
+#endif
+  
   dog_Delay(10);
   dog_spi_disable_client();	/* force reset of the spi subsystem of the ST7565R */
   dog_Delay(10);
