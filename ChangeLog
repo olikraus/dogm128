@@ -68,5 +68,5 @@ dogm128 Library ChangeLog
 	* Added support for Adafruit Product 250
 	* Updated Makefiles to produce more compact HEX files
 	* Fixed dogmfont.c: Handle codes below ASCII 32 correctly
-	
+	* Added dog_SetUC1610GrayShade()
 	

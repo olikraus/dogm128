@@ -31,14 +31,18 @@
   val = 2: 36%
   val = 3: 40%
 */
+
+
 void dog_SetUC1610GrayShade(uint8_t val)
 {
+#if defined(DOGXL160_HW_BW) || defined(DOGXL160_HW_GR)
   val &= 3;
   dog_spi_enable_client();  
   dog_cmd_mode();
   dog_spi_out(0x0d0 | val);		/* set RMS gray level separation value */
   dog_data_mode();
   dog_spi_disable_client();
+#endif
 }
 
 
