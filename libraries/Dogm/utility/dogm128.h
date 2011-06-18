@@ -61,13 +61,12 @@
 //#define DOGXL160_HW_BW			/* uncomment for the DOGXL160 display, black & white mode */
 //#define DOGXL160_HW_GR			/* uncomment for the DOGXL160 display gray level mode */
 
-//#define ADA_ST7565P_HW                        /* uncomment for the Adafruit ST7565P display */
-/* For ADA_ST7665P_HW only
-   Warning: the reset pin number is hardcoded in the dogm128.c file with the following line
-   uint8_t dog_spi_pin_rst = 6;
-   If you use a different pin of the Arduino board to control the reset signal, modify the
-   dogm128.c accordingly.
-*/
+//#define ADA_ST7565P_HW                        /* uncomment for the Adafruit ST7565P display. */
+                                                /* Note: if you are using a wiring scheme different from
+                                                   http://www.ladyada.net/learn/lcd/st7565.html
+                                                   then you will need to change the pin number accordingly 
+                                                   (lower in this same file, look for PIN_RST)
+                                                */
 
 /*=========================================================================*/
 /* End: User Configuration */
@@ -165,19 +164,19 @@ extern uint8_t dog_max_y;
 /* --- dogm128.c --- */
 
 /* pin assignment for arduino, should be renamed */
+  
+#ifdef ADA_ST7565P_HW
 #define PIN_SCK   13
 #define PIN_MISO  12
 #define PIN_MOSI  11
 #define PIN_SS    10
-#define PIN_A0_DEFAULT     6
-#ifdef ADA_ST7565P_HW
-#define PIN_RST   6     // This is for the default Adafruit wiring scheme, of course
-                        // In this case PIN_A0_DEFAULT should be defined correctly
-                        // The other pins used on the Adafruit tutorial are below:
-//#define PIN_SCK   8
-//#define PIN_MOSI  9
-//#define PIN_SS    5
-//#define PIN_A0_DEFAULT  7
+#define PIN_A0_DEFAULT     6  
+#else
+#define PIN_RST   6     // This is for the default Adafruit wiring scheme
+#define PIN_SCK   8     // described in:
+#define PIN_MOSI  9     // http://www.ladyada.net/learn/lcd/st7565.html
+#define PIN_SS    5     // change these numbers to reflect your wiring.
+#define PIN_A0_DEFAULT  7
 #endif
 
 extern uint8_t dog_spi_pin_a0;
