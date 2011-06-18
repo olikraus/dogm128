@@ -132,7 +132,7 @@ static unsigned short chr_get_skip_delta(DOG_PGM_P cbuf, unsigned char skip_cnt)
 DOG_PGM_P fnt_get_chr(DOG_PGM_P  fbuf, unsigned char code)
 {
   DOG_PGM_P adr;
-
+  
   if ( code >= 'a' )
   {
     adr = fbuf + fnt_get_bbox_small_a(fbuf);
@@ -145,6 +145,8 @@ DOG_PGM_P fnt_get_chr(DOG_PGM_P  fbuf, unsigned char code)
   }
   else
   {
+    if ( code < ' ' )
+      code = ' ';
     adr = fbuf + FNT_DATA + chr_get_skip_delta(fbuf+FNT_DATA, code - ' ');
   }
   return adr;

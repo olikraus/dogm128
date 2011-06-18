@@ -49,9 +49,10 @@
 
 #if defined(DOG_SPI_USI)
 #elif defined(DOG_SPI_ATMEGA)
+#elif defined(DOG_SPI_ARDUINO)
 #elif defined(DOG_SPI_SW_ARDUINO)
 #elif defined(__18CXX)
-#else
+#else  /* nothing defined */
 #ifdef ADA_ST7565P_HW
 #define DOG_SPI_SW_ARDUINO
 #else
