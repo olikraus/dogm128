@@ -63,10 +63,12 @@ dogm128 Library ChangeLog
 	* Little Rook Chess Example
 	* New Function: ClrBitmapP
 	* Throw error message if LCD is not defined (previous versions did use DOGM128 by default)
-	
 2011-06-18	v1.10	Oliver Kraus <olikraus@gmail.com>
 	* Added support for Adafruit Product 250
 	* Updated Makefiles to produce more compact HEX files
 	* Fixed dogmfont.c: Handle codes below ASCII 32 correctly
 	* Added dog_SetUC1610GrayShade()
+2011-07-15	v1.11	Oliver Kraus <olikraus@gmail.com>
+	* Support for Arduino Mega and Mega2560 
+	* Support ES13BB0
 	
