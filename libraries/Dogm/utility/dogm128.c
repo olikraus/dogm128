@@ -76,6 +76,11 @@ uint8_t dog_spi_pin_rst = PIN_RST;
 #define ST7565P_STARTBYTES 1
 #endif
 
+#ifdef ES13BB0_HW
+uint8_t dog_page_map[8] = {4, 5, 6, 7, 0, 1, 2, 3};
+#endif
+
+
 uint8_t dog_spi_result = 0;		/* last value returned from SPI system (after executing the picture loop) */
 
 /*==============================================================*/
@@ -168,7 +173,7 @@ static void dog_init_display(void)
 
   /* mostly taken from the EA dogm description */
 
-#ifdef DOGM128_HW
+#if defined(DOGM128_HW) || defined(ES13BB0_HW)
   dog_spi_out(0x040);		/* set display start line to 0 */
   dog_spi_out(0x0a1);		/* ADC set to reverse */
   dog_spi_out(0x0c0);		/* common output mode */
@@ -398,10 +403,17 @@ static void dog_transfer_page(void)
   dog_transfer_sub_page(dog_curr_page*2+1, DOG_WIDTH);
 #endif
 #else
+#ifdef ES13BB0_HW
+  dog_transfer_sub_page(dog_page_map[dog_curr_page], 0);
+#else 
   dog_transfer_sub_page(dog_curr_page, 0);
 #endif
-  
+#endif  
 }
+
+
+
+
 /*==============================================================*/
 /* page buffer functions */
 /*==============================================================*/

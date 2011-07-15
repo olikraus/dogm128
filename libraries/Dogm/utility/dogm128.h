@@ -40,7 +40,8 @@
     DOGM132_HW		DOGM132 Display
     DOGXL60_HW		DOGXL160 Display
     ADA_ST7565P_HW      Adafruit Graphics LCD based on the ST7565P
-    nothing defined	defaults to DOGM128 Display
+    
+    nothing defined		error message
     
 */
 
@@ -67,13 +68,16 @@
                                                    then you will need to change the pin number accordingly 
                                                    (lower in this same file, look for PIN_RST)
                                                 */
+//#define ES13BB0_HW				/* uncomment for ES13BB0 128x64 display */
+
+
+
 
 /*=========================================================================*/
 /* End: User Configuration */
 /*=========================================================================*/
 
 #if !defined ADA_ST7565P_HW && !defined DOGM128_HW && !defined DOGM132_HW && !defined DOGS102_HW && !defined DOGXL160_HW_BW  && !defined DOGXL160_HW_GR
-/* #define DOGM128_HW */
 /* print error message, please uncomment one of the displays above */
 #error LCD model is not defined. Define your LCD in dogm128.h.
 #endif
@@ -111,12 +115,18 @@
 #endif
 #endif
 
-/* setings for the various DOG displays */
+
+#ifdef ES13BB0_HW
+#define DOG_WIDTH 128
+#define DOG_HEIGHT 64
+#endif
+
 #ifdef ADA_ST7565P_HW
 #define DOG_WIDTH 128
 #define DOG_HEIGHT 64
 #endif
 
+/* setings for the various DOG displays */
 #ifdef DOGM128_HW
 #define DOG_WIDTH 128
 #define DOG_HEIGHT 64
