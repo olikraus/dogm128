@@ -53,7 +53,7 @@
 #elif defined(DOG_SPI_SW_ARDUINO)
 #elif defined(__18CXX)
 #else  /* nothing defined */
-#ifdef ADA_ST7565P_HW
+#if defined(ADA_ST7565P_HW) || defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__)
 #define DOG_SPI_SW_ARDUINO
 #else
 #define DOG_SPI_ARDUINO
@@ -462,9 +462,9 @@ void dog_spi_init(void)
     digitalWrite(dog_spi_pin_cs, LOW);
   }
 
+#ifdef ADA_ST7565P_HW  
   // Reset procedure taken from Adafruit ST7565 library
   // toggle RST low to reset; CS low so it'll listen to us
-  
   if ( dog_spi_pin_rst > 0 )
   {
     pinMode(dog_spi_pin_rst, OUTPUT);
@@ -473,6 +473,7 @@ void dog_spi_init(void)
     digitalWrite(dog_spi_pin_rst, HIGH);
     dog_Delay(10);
   }
+#endif
 }
 
 unsigned char dog_spi_out(unsigned char data)
