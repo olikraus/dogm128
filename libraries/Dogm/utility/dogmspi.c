@@ -523,6 +523,48 @@ void shiftOutFastAssign(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder, uin
 }
 #endif
 
+uint8_t dog_bitData, dog_bitNotData;
+uint8_t dog_bitClock, dog_bitNotClock;
+volatile uint8_t *dog_outData;
+volatile uint8_t *dog_outClock;
+
+void dog_init_shift_out(uint8_t dataPin, uint8_t clockPin)
+{
+  dog_outData = portOutputRegister(digitalPinToPort(dataPin));
+  dog_outClock = portOutputRegister(digitalPinToPort(clockPin));
+  dog_bitData = digitalPinToBitMask(dataPin);
+  dog_bitClock = digitalPinToBitMask(clockPin);
+
+  dog_bitNotClock = dog_bitClock;
+  dog_bitNotClock ^= 0x0ff;
+
+  dog_bitNotData = dog_bitData;
+  dog_bitNotData ^= 0x0ff;
+}
+
+void dog_do_shift_out_msb_first(uint8_t val)
+{
+  uint8_t cnt = 8;
+  uint8_t bitData = dog_bitData;
+  uint8_t bitNotData = dog_bitNotData;
+  uint8_t bitClock = dog_bitClock;
+  uint8_t bitNotClock = dog_bitNotClock;
+  volatile uint8_t *outData = dog_outData;
+  volatile uint8_t *outClock = dog_outClock;
+  do
+  {
+    if ( val & 128 )
+      *outData |= bitData;
+    else
+      *outData &= bitNotData;
+    
+    *outClock |= bitClock;
+    *outClock &= bitNotClock;
+    val <<= 1;
+    cnt--;
+  } while( cnt != 0 );
+}
+
 void shiftOutFast(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder, uint8_t val)
 {
   uint8_t cnt;
@@ -603,15 +645,15 @@ void dog_spi_init(void)
     dog_Delay(10);
   }
 #endif
+  dog_init_shift_out(PIN_MOSI, PIN_SCK);
 }
 
 
 
 unsigned char dog_spi_out(unsigned char data)
 {
-  shiftOutFast(PIN_MOSI, PIN_SCK, MSBFIRST, data);
-  // not sure what we should return here...
-  // luckily, nothing upstream ever seems to use the return value!
+  //shiftOutFast(PIN_MOSI, PIN_SCK, MSBFIRST, data);
+  dog_do_shift_out_msb_first(data);
   return data;
 }
 
