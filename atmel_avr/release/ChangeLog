@@ -1,0 +1,72 @@
+
+dogm128 Library ChangeLog
+
+
+2010-02-13	v1.00	Oliver Kraus <olikraus@gmail.com>
+	* First release
+2010-07-17	v1.01	Oliver Kraus <olikraus@gmail.com>
+	* Fixed compiler warnings
+	* Fixed a bug in Breakorino
+	* Implemented getStrWidth Function (issue 13)
+	* Added new example "Stars.pde" 
+	* Added Bitmap Support (example "Walk.pde")
+	* Less flash ROM required (functions put into individual files)
+	* Fixed bug in drawArc (w0 > w1)
+	* Added GraphicsTest.pde
+2010-07-18	v1.02	Oliver Kraus <olikraus@gmail.com>
+	* removed unrequired file
+2010-08-19	v1.03	Oliver Kraus <olikraus@gmail.com>
+	* Code update: Use DOG_WIDTH if required
+	* Support for DOGM132 and DOGS102
+	* New levels 4 & 5 for Breakorino
+	* Added SPI abstraction layer (dogmspi.c)
+	* More generic delay procedure (dog_delay())
+	* clrHLine, xorHLine
+2010-09-05	v1.04	Oliver Kraus <olikraus@gmail.com>
+	* Renamed dog_delay() --> dog_Delay() 
+	* Renamed dog_init() --> dog_Init()
+	* Renamed dog_set_inverse() --> dog_SetInvertPixelMode()
+	* Renamed dog_set_contrast() --> dog_SetContrast()
+	* Renamed dog_get_char_width() --> dog_GetCharWidth()
+	* Renamed dog_get_str_width() --> dog_GetStrWidth()
+	* Port to Atmel AVR ATTINY84 
+2010-09-18	v1.05	Oliver Kraus <olikraus@gmail.com>
+	* Breakorino bugfix (remember last reflection)
+        * Display orientation: DOG_REVERSE
+	* Put some tables into flashrom, marked some functions as static --> reduced RAM/ROM usage
+	* Chars and strings: Rotation by 0, 90, 180 or 270 degree
+	* Bugfix: dog_SetVLine (Issue 55)
+	* New example game: SpaceTrash
+2010-10-10	v1.06	Oliver Kraus <olikraus@gmail.com>
+	* Bugfix DrawArc: Multiplication fails for sizeof(int)==1 --> fixed
+	* Bugfix DOG_REVERSE: Fixed an "off by one" bug
+	* setContrast, setInvertPixelMode: Available in C++ interface
+	* Support for DOGS102 Shield
+	* dog_GetStrWidthP, dog_DrawStrP, dog_DrawRStrP: Support for
+	    strings located in flash ROM area (C interface).
+	* Introduced flash rom abstraction layer
+	* Tested with Arduino UNO and Arduino 0021 IDE
+2010-12-03	v1.07	Oliver Kraus <olikraus@gmail.com> 
+	* DOGM132-Shield fully supported by SpaceTrash.pde
+	* ATMEGA88: SPI support and examples
+	* Arduino Environment: Allow to select an IO port as chip select line
+2011-01-02	v1.08	Oliver Kraus <olikraus@gmail.com>
+	* Splash Screen
+	* Frames per second (FPS) counter for Breakorino and Spacetrash (Arduino Environment only)
+	* DOUBLE_MEMORY: Doubled page size for increased performance
+	* Support for DOGXL160 (added dog_SetPixelValue(), Dogm::setPixelValue)
+	* Semi-automatic release tests
+	* Clean up and documentation of SPI abstraction layer
+	* Renamed DOG_ATTR_FN_INLINE to DOG_ATTR_FN_NOINLINE
+	* Tested with Arduino 0022 IDE
+2011-02-06	v1.09	Oliver Kraus <olikraus@gmail.com>
+	* Little Rook Chess Example
+	* New Function: ClrBitmapP
+	* Throw error message if LCD is not defined (previous versions did use DOGM128 by default)
+	
+2011-06-18	v1.10	Oliver Kraus <olikraus@gmail.com>
+	* Added support for Adafruit Product 250
+	* Updated Makefiles to produce more compact HEX files
+	* Fixed dogmfont.c: Handle codes below ASCII 32 correctly
+	* Added dog_SetUC1610GrayShade()
+	

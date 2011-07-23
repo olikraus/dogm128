@@ -1,7 +1,7 @@
 
 #
 # Arduino 0022 Makefile 
-# Uno with DOGS102 Shield
+# Uno with DOGS128 Shield
 #
 # written by olikraus@gmail.com
 #
@@ -43,8 +43,8 @@ BOARD:=uno
 # -DDOGM132_HW		board is connected to DOGM132 display
 # -DDOGS102_HW		board is connected to DOGS102 display
 # -DDOG_REVERSE		180 degree rotation
-# -DDOG_SPI_SW_ARDUINO	force SW shiftOut
-DEFS=-DDOGS102_HW -DDOG_DOUBLE_MEMORY -DDOG_SPI_SW_ARDUINO
+# -DDOG_DOUBLE_MEMORY
+DEFS=-DDOGM128_HW -DDOG_DOUBLE_MEMORY -DDOG_REVERSE
 
 # The location where the avr tools (e.g. avr-gcc) are located. Requires a '/' at the end.
 # Can be empty if all tools are accessable through the search path

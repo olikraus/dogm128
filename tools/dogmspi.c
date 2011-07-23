@@ -38,27 +38,35 @@
     --> ATTINY 
   DOG_SPI_ATMEGA
     --> ATMEGA
-  DOG_SPI_SW_ARDUINO
-      --> default for ADA_ST7565P_HW
   DOG_SPI_ARDUINO or "nothing defined"
-    --> Arduino 
+    --> Arduino
+
 
 */
 
 #include "dogm128.h"
 
+
 #if defined(DOG_SPI_USI)
 #elif defined(DOG_SPI_ATMEGA)
-#elif defined(DOG_SPI_ARDUINO)
-#elif defined(DOG_SPI_SW_ARDUINO)
 #elif defined(__18CXX)
-#else  /* nothing defined */
-#if defined(ADA_ST7565P_HW) || defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__)
-#define DOG_SPI_SW_ARDUINO
 #else
 #define DOG_SPI_ARDUINO
 #endif
-#endif
+
+
+
+
+/* pin assignment for arduino, should be moved down */
+#define PIN_SCK   13
+#define PIN_MISO  12
+#define PIN_MOSI  11
+#define PIN_SS    10
+#define PIN_A0_DEFAULT     6
+
+uint8_t dog_spi_pin_a0 = PIN_A0_DEFAULT;
+uint8_t dog_spi_pin_cs = PIN_SS;	/* arduino chip select pin, defaults to the hardware pin */
+
 
 
 #if defined(DOG_SPI_USI)
@@ -382,13 +390,10 @@ void dog_spi_init(void)
   pinMode(PIN_SCK, OUTPUT);
   pinMode(PIN_MOSI, OUTPUT);
   /* pinMode(PIN_MISO, INPUT); */
-
-  // This this redundant with dog_spi_pin_cs... 
-  // pinMode(PIN_SS, OUTPUT);			/* this must always be an output port */
-
+  pinMode(PIN_SS, OUTPUT);			/* this must always be an output port */
   pinMode(dog_spi_pin_a0, OUTPUT);
   pinMode(dog_spi_pin_cs, OUTPUT);			/* this is the user chip select */
-
+  
   /*
     SPR1 SPR0
 	0	0		fclk/4
@@ -409,6 +414,7 @@ void dog_spi_init(void)
 
 unsigned char dog_spi_out(unsigned char data)
 {
+  
   /* unsigned char x = 100; */
   /* send data */
   SPDR = data;
@@ -417,148 +423,6 @@ unsigned char dog_spi_out(unsigned char data)
     ;
   /* clear the SPIF flag by reading SPDR */
   return  SPDR;
-}
-
-void dog_spi_enable_client(void)
-{
-        digitalWrite(dog_spi_pin_cs, LOW);  
-}
-
-void dog_spi_disable_client(void)
-{
-        digitalWrite(dog_spi_pin_cs, HIGH);
-}
-
-void dog_cmd_mode(void)
-{
-  digitalWrite(dog_spi_pin_a0, LOW);
-}
-
-void dog_data_mode(void)
-{
-  digitalWrite(dog_spi_pin_a0, HIGH);
-}
-
-#elif defined(DOG_SPI_SW_ARDUINO)
-
-/*=======================================================================*/
-/* Arduino Software SPI */
-/*=======================================================================*/
-
-/*
-  fast shift out
-    - interface compatible with shiftOut
-  restrictions (compared to shiftOut)
-    - PWM is not deactivated for the digital pins: Ensure that PWM is not active for both pins
-    - Port is not set as output for both pins. This must be done before calling shiftOutFast.
-
-  Performance Test DOGM128 Library, Arduino Uno, DOGS102 Display, SpaceTrash Example
-    DOUBLE_MEM, shiftOut:		9 FPS (frames per second)
-    DOUBLE_MEM, shiftOutFast:	31 FPS
-    DOUBLE_MEM, Hardware SPI:	42 FPS
-  
-*/
-#include "wiring_private.h"
-#include "pins_arduino.h"
-
-void shiftOutFast(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder, uint8_t val)
-{
-  uint8_t cnt;
-  uint8_t bitData;
-  uint8_t bitClock;
-  volatile uint8_t *outData;
-  volatile uint8_t *outClock;
-  uint8_t dataLow, dataHigh, clockLow, clockHigh;
-
-  outData = portOutputRegister(digitalPinToPort(dataPin));
-  outClock = portOutputRegister(digitalPinToPort(clockPin));
-  bitData = digitalPinToBitMask(dataPin);
-  bitClock = digitalPinToBitMask(clockPin);
-
-  dataHigh = *outData;
-  dataHigh |=  bitData;
-  bitData ^= 0x0ff;
-  dataLow = dataHigh;
-  dataLow &= bitData;
-	
-  clockHigh = *outClock;
-  clockHigh |=  bitClock;
-  bitClock ^= 0x0ff;
-  clockLow = clockHigh;
-  clockLow &= bitClock;
-
-  cnt = 8;
-  if (bitOrder == LSBFIRST)
-  {
-    do
-    {
-      if ( val & 1 )
-	*outData = dataHigh;
-      else
-	*outData = dataLow;
-      
-      *outClock = clockHigh;
-      val >>= 1;
-      *outClock = clockLow;
-      cnt--;
-    } while( cnt != 0 );
-  }
-  else
-  {
-    do
-    {
-      if ( val & 128 )
-	*outData = dataHigh;
-      else
-	*outData = dataLow;
-      
-      *outClock = clockHigh;
-      val <<= 1;
-      *outClock = clockLow;
-      cnt--;
-    } while( cnt != 0 );
-  } 
-}
-
-
-#include <avr/interrupt.h>
-#include <avr/io.h>
-#include <util/delay.h>
-#include <wiring.h>	/* arduino pinMode */
-
-void dog_spi_init(void)
-{
-  pinMode(PIN_SCK, OUTPUT);
-  pinMode(PIN_MOSI, OUTPUT);
-  pinMode(dog_spi_pin_a0, OUTPUT);
-  if (dog_spi_pin_cs > 0)
-  {
-    pinMode(dog_spi_pin_cs, OUTPUT);			/* this is the user chip select */
-    digitalWrite(dog_spi_pin_cs, LOW);
-  }
-
-#ifdef ADA_ST7565P_HW  
-  // Reset procedure taken from Adafruit ST7565 library
-  // toggle RST low to reset; CS low so it'll listen to us
-  if ( dog_spi_pin_rst > 0 )
-  {
-    pinMode(dog_spi_pin_rst, OUTPUT);
-    digitalWrite(dog_spi_pin_rst, LOW);
-    dog_Delay(100);
-    digitalWrite(dog_spi_pin_rst, HIGH);
-    dog_Delay(10);
-  }
-#endif
-}
-
-
-
-unsigned char dog_spi_out(unsigned char data)
-{
-  shiftOutFast(PIN_MOSI, PIN_SCK, MSBFIRST, data);
-  // not sure what we should return here...
-  // luckily, nothing upstream ever seems to use the return value!
-  return data;
 }
 
 void dog_spi_enable_client(void)
