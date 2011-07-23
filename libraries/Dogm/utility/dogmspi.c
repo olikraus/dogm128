@@ -461,67 +461,6 @@ void dog_data_mode(void)
 #include "wiring_private.h"
 #include "pins_arduino.h"
 
-#ifdef OBSOLETE
-/* code is wrong: does not work, if clock and data pin are on the same port */
-void shiftOutFastAssign(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder, uint8_t val)
-{
-  uint8_t cnt;
-  uint8_t bitData;
-  uint8_t bitClock;
-  volatile uint8_t *outData;
-  volatile uint8_t *outClock;
-  uint8_t dataLow, dataHigh, clockLow, clockHigh;
-
-  outData = portOutputRegister(digitalPinToPort(dataPin));
-  outClock = portOutputRegister(digitalPinToPort(clockPin));
-  bitData = digitalPinToBitMask(dataPin);
-  bitClock = digitalPinToBitMask(clockPin);
-
-  dataHigh = *outData;
-  dataHigh |=  bitData;
-  bitData ^= 0x0ff;
-  dataLow = dataHigh;
-  dataLow &= bitData;
-	
-  clockHigh = *outClock;
-  clockHigh |=  bitClock;
-  bitClock ^= 0x0ff;
-  clockLow = clockHigh;
-  clockLow &= bitClock;
-
-  cnt = 8;
-  if (bitOrder == LSBFIRST)
-  {
-    do
-    {
-      if ( val & 1 )
-	*outData = dataHigh;
-      else
-	*outData = dataLow;
-      
-      *outClock = clockHigh;
-      val >>= 1;
-      *outClock = clockLow;
-      cnt--;
-    } while( cnt != 0 );
-  }
-  else
-  {
-    do
-    {
-      if ( val & 128 )
-	*outData = dataHigh;
-      else
-	*outData = dataLow;
-      
-      *outClock = clockHigh;
-      val <<= 1;
-      *outClock = clockLow;
-      cnt--;
-    } while( cnt != 0 );
-  } 
-}
-#endif
 
 uint8_t dog_bitData, dog_bitNotData;
 uint8_t dog_bitClock, dog_bitNotClock;
@@ -565,6 +504,7 @@ void dog_do_shift_out_msb_first(uint8_t val)
   } while( cnt != 0 );
 }
 
+#ifdef OBSOLETE_POSTED_TO_ARDUINO_FORUM
 void shiftOutFast(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder, uint8_t val)
 {
   uint8_t cnt;
@@ -616,6 +556,7 @@ void shiftOutFast(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder, uint8_t v
     } while( cnt != 0 );
   } 
 }
+#endif
 
 #include <avr/interrupt.h>
 #include <avr/io.h>
