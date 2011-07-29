@@ -53,7 +53,8 @@
 typedef uint8_t PROGMEM dog_pgm_uint8_t;
 typedef char PROGMEM dog_pgm_char_t;
 #if defined(pgm_read_byte_far)
-#define dog_pgm_read(adr) pgm_read_byte_far(adr)
+/* #define dog_pgm_read(adr) pgm_read_byte_far(adr) */
+#define dog_pgm_read(adr) pgm_read_byte_near(adr)
 #else
 #define dog_pgm_read(adr) pgm_read_byte_near(adr)
 #endif
