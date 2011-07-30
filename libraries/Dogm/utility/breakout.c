@@ -25,7 +25,7 @@
 
 */
 
-#define BO_BUILD "v1.05"
+#define BO_BUILD "v1.06"
 
 
 #include <stdio.h>
@@ -44,7 +44,7 @@ typedef int16_t s16;
 
 #define BO_F1 font_5x7
 #define BO_F2 font_6x12
-#define BO_F3 font_8x16
+#define BO_F3 font_8x13
 
 #define BO_FP 4
 

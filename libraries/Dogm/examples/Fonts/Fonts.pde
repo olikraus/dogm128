@@ -64,7 +64,6 @@ void loop() {
       case 7: h = 11; p = font_7x13; f = "7x13"; break;
       case 8: h = 12; p = font_7x14; f = "7x14"; break;
       case 9: h = 12; p = font_8x13; f = "8x13"; break;
-      case 10: h = 15; p = font_8x16; f = "8x16"; break;
   }
   font_select++;
   

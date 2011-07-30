@@ -44,7 +44,6 @@ extern const dog_pgm_uint8_t font_6x13[];
 extern const dog_pgm_uint8_t font_7x13[];
 extern const dog_pgm_uint8_t font_7x14[];
 extern const dog_pgm_uint8_t font_8x13[];
-extern const dog_pgm_uint8_t font_8x16[];
 extern const dog_pgm_uint8_t font_9x15[];
 extern const dog_pgm_uint8_t font_9x18[];
 
