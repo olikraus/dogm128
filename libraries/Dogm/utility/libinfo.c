@@ -82,6 +82,12 @@ void libinfo_draw(void)
   dog_DrawStrP(0, y, font_4x6, DOG_PSTR("DOUBLE_MEM"));
   y -= LH;
 #endif
+
+#ifdef DOG_SPI_SW_ARDUINO
+  dog_DrawStrP(0, y, font_4x6, DOG_PSTR("SW SPI"));
+  y -= LH;
+#endif
+
   x = dog_DrawStrP(0, y, font_4x6, DOG_PSTR("Pages "));
   dog_DrawStr(x, y, font_4x6, dog_itoa(DOG_PAGE_CNT));
   y -= LH;
