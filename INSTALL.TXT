@@ -6,7 +6,6 @@ Supported Displays:
   ST7565P based 128x64 display from Adafruit.
   
 
-
 Please also visit 
   http://code.google.com/p/dogm128/wiki/install
 for install instructions.
