@@ -42,6 +42,7 @@
       --> default for ADA_ST7565P_HW
   DOG_SPI_ARDUINO or "nothing defined"
     --> Arduino 
+  DOG_SPI_SW_PIC
 
 */
 
@@ -51,7 +52,9 @@
 #elif defined(DOG_SPI_ATMEGA)
 #elif defined(DOG_SPI_ARDUINO)
 #elif defined(DOG_SPI_SW_ARDUINO)
-#elif defined(__18CXX)
+#elif defined(DOG_SPI_SW_STD_ARDUINO)
+#elif defined(__18CXX) || defined(__PIC32MX)
+#define DOG_SPI_SW_STD_ARDUINO
 #else  /* nothing defined */
 #if defined(ADA_ST7565P_HW) || defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__)
 #define DOG_SPI_SW_ARDUINO
@@ -595,6 +598,69 @@ unsigned char dog_spi_out(unsigned char data)
 {
   //shiftOutFast(PIN_MOSI, PIN_SCK, MSBFIRST, data);
   dog_do_shift_out_msb_first(data);
+  return data;
+}
+
+void dog_spi_enable_client(void)
+{
+        digitalWrite(dog_spi_pin_cs, LOW);  
+}
+
+void dog_spi_disable_client(void)
+{
+        digitalWrite(dog_spi_pin_cs, HIGH);
+}
+
+void dog_cmd_mode(void)
+{
+  digitalWrite(dog_spi_pin_a0, LOW);
+}
+
+void dog_data_mode(void)
+{
+  digitalWrite(dog_spi_pin_a0, HIGH);
+}
+
+#elif defined(DOG_SPI_SW_STD_ARDUINO)
+
+/*=======================================================================*/
+/* Arduino Software SPI with standard procedures, should work for CHIPKIT */
+/*=======================================================================*/
+
+#include <wiring.h>	/* arduino pinMode */
+
+/* copied here because wiring_shift.c is not included by CHIPKIT */
+void myShiftOut(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder, uint8_t val)
+{
+	uint8_t i;
+
+	for (i = 0; i < 8; i++)  
+	{
+		if (bitOrder == LSBFIRST)
+			digitalWrite(dataPin, !!(val & (1 << i)));
+		else	
+			digitalWrite(dataPin, !!(val & (1 << (7 - i))));
+			
+		digitalWrite(clockPin, HIGH);
+		digitalWrite(clockPin, LOW);		
+	}
+}
+
+void dog_spi_init(void)
+{
+  pinMode(PIN_SCK, OUTPUT);
+  pinMode(PIN_MOSI, OUTPUT);
+  pinMode(dog_spi_pin_a0, OUTPUT);
+  if (dog_spi_pin_cs > 0)
+  {
+    pinMode(dog_spi_pin_cs, OUTPUT);			/* this is the user chip select */
+    digitalWrite(dog_spi_pin_cs, LOW);
+  }
+}
+
+unsigned char dog_spi_out(unsigned char data)
+{
+  myShiftOut(PIN_MOSI, PIN_SCK, MSBFIRST, data);
   return data;
 }
 

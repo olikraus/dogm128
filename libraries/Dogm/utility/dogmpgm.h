@@ -80,13 +80,32 @@ typedef char rom dog_pgm_char_t;
 /* Strings in C18 are always in ROM */
 #define DOG_PSTR(s) (s)
 
+/*========================================================
+  MICROCHIP PIC32 (CHIPKIT) 
+*/
+#elif defined(__PIC32MX)
+typedef signed char int8_t;
+typedef unsigned char uint8_t;
+typedef signed short int int16_t;
+typedef unsigned short int uint16_t;
+typedef unsigned char dog_pgm_uint8_t;
+typedef char dog_pgm_char_t;
+#define dog_pgm_read(adr) (*(const dog_pgm_uint8_t *)(adr)) 
+#define DOG_ATTR_FN_NOINLINE
+#define DOG_PROGMEM
+#define DOG_ROM
+/* Strings are always in ROM */
+#define DOG_PSTR(s) (s)
 
 /*========================================================
   Fallback: Standard C
 */
 #else
-#include <stdint.h>
-typedef uint8_t dog_pgm_uint8_t;
+typedef signed char int8_t;
+typedef unsigned char uint8_t;
+typedef signed short int int16_t;
+typedef unsigned short int uint16_t;
+typedef unsigned char dog_pgm_uint8_t;
 typedef char dog_pgm_char_t;
 #define dog_pgm_read(adr) (*(const dog_pgm_uint8_t *)(adr)) 
 #define DOG_ATTR_FN_NOINLINE
