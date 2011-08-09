@@ -630,20 +630,20 @@ void dog_data_mode(void)
 #include <wiring.h>	/* arduino pinMode */
 
 /* copied here because wiring_shift.c is not included by CHIPKIT */
-void myShiftOut(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder, uint8_t val)
+void myShiftOut(uint8_t dataPin, uint8_t clockPin, uint8_t val)
 {
-	uint8_t i;
-
-	for (i = 0; i < 8; i++)  
-	{
-		if (bitOrder == LSBFIRST)
-			digitalWrite(dataPin, !!(val & (1 << i)));
-		else	
-			digitalWrite(dataPin, !!(val & (1 << (7 - i))));
-			
-		digitalWrite(clockPin, HIGH);
-		digitalWrite(clockPin, LOW);		
-	}
+  uint8_t i = 8;
+  do
+  {
+    if ( val & 128 )
+      digitalWrite(dataPin, HIGH);
+    else
+      digitalWrite(dataPin, LOW);
+    val <<= 1;
+    digitalWrite(clockPin, HIGH);
+    digitalWrite(clockPin, LOW);		
+    i--;
+  } while( i != 0 );
 }
 
 void dog_spi_init(void)
@@ -660,7 +660,7 @@ void dog_spi_init(void)
 
 unsigned char dog_spi_out(unsigned char data)
 {
-  myShiftOut(PIN_MOSI, PIN_SCK, MSBFIRST, data);
+  myShiftOut(PIN_MOSI, PIN_SCK, data);
   return data;
 }
 
