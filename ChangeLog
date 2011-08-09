@@ -71,5 +71,5 @@ dogm128 Library ChangeLog
 2011-07-15	v1.11	Oliver Kraus <olikraus@gmail.com>
 	* Support for Arduino Mega and Mega2560 
 	* Support ES13BB0
-	* Bugfix: "!!!" sequence does not work on Mega2560 upload: Removed font.
-	
+	* Bug: "!!!" sequence does not work on Mega2560 upload (workaround for this lib, 
+	    must be fixed in the Arduino Boot Loader)

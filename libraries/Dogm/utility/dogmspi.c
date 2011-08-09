@@ -42,7 +42,7 @@
       --> default for ADA_ST7565P_HW
   DOG_SPI_ARDUINO or "nothing defined"
     --> Arduino 
-  DOG_SPI_SW_PIC
+  DOG_SPI_SW_STD_ARDUINO
 
 */
 
