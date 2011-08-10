@@ -732,7 +732,8 @@ void draw_player(bo_player *p)
 
 void bo_DrawFPS(uint8_t fps)
 {
-  dog_DrawStr(95, DOG_HEIGHT-8, BO_F1, dog_itoa(fps));
+  if ( fps > 0 )
+    dog_DrawStr(85, DOG_HEIGHT-8, BO_F1, dog_itoa(fps));
 }
 
 void draw_field(u8 level)
