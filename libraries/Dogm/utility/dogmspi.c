@@ -48,16 +48,18 @@
 
 #include "dogm128.h"
 
+#define DOG_SPI_SW_ARDUINO
+
 #if defined(DOG_SPI_USI)
 #elif defined(DOG_SPI_ATMEGA)
 #elif defined(DOG_SPI_ARDUINO)
 #elif defined(DOG_SPI_SW_ARDUINO)
 #elif defined(DOG_SPI_SW_STD_ARDUINO)
-#elif defined(__18CXX) || defined(__PIC32MX)
-#define DOG_SPI_SW_STD_ARDUINO
 #else  /* nothing defined */
 #if defined(ADA_ST7565P_HW) || defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__)
 #define DOG_SPI_SW_ARDUINO
+#elif defined(__18CXX) || defined(__PIC32MX)
+#define DOG_SPI_SW_STD_ARDUINO
 #else
 #define DOG_SPI_ARDUINO
 #endif
@@ -561,9 +563,11 @@ void shiftOutFast(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder, uint8_t v
 }
 #endif
 
+#ifdef __AVR__
 #include <avr/interrupt.h>
 #include <avr/io.h>
 #include <util/delay.h>
+#endif
 #include <wiring.h>	/* arduino pinMode */
 
 void dog_spi_init(void)
@@ -640,8 +644,11 @@ void myShiftOut(uint8_t dataPin, uint8_t clockPin, uint8_t val)
     else
       digitalWrite(dataPin, LOW);
     val <<= 1;
+    dog_Delay(1);
     digitalWrite(clockPin, HIGH);
+    dog_Delay(1);
     digitalWrite(clockPin, LOW);		
+    dog_Delay(1);
     i--;
   } while( i != 0 );
 }
@@ -655,6 +662,7 @@ void dog_spi_init(void)
   {
     pinMode(dog_spi_pin_cs, OUTPUT);			/* this is the user chip select */
     digitalWrite(dog_spi_pin_cs, LOW);
+    dog_Delay(1);
   }
 }
 
@@ -666,22 +674,28 @@ unsigned char dog_spi_out(unsigned char data)
 
 void dog_spi_enable_client(void)
 {
-        digitalWrite(dog_spi_pin_cs, LOW);  
+  if (dog_spi_pin_cs > 0)
+    digitalWrite(dog_spi_pin_cs, LOW);  
+    dog_Delay(1);
 }
 
 void dog_spi_disable_client(void)
 {
+  if (dog_spi_pin_cs > 0)
         digitalWrite(dog_spi_pin_cs, HIGH);
+    dog_Delay(1);
 }
 
 void dog_cmd_mode(void)
 {
   digitalWrite(dog_spi_pin_a0, LOW);
+    dog_Delay(1);
 }
 
 void dog_data_mode(void)
 {
   digitalWrite(dog_spi_pin_a0, HIGH);
+    dog_Delay(1);
 }
 
 #endif
