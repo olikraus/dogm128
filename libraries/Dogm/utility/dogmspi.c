@@ -573,6 +573,7 @@ void shiftOutFast(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder, uint8_t v
 void dog_spi_init(void)
 {
   pinMode(PIN_SCK, OUTPUT);
+  digitalWrite(PIN_SCK, LOW);
   pinMode(PIN_MOSI, OUTPUT);
   pinMode(dog_spi_pin_a0, OUTPUT);
   if (dog_spi_pin_cs > 0)
@@ -658,6 +659,7 @@ void dog_spi_init(void)
   pinMode(PIN_SCK, OUTPUT);
   pinMode(PIN_MOSI, OUTPUT);
   pinMode(dog_spi_pin_a0, OUTPUT);
+  digitalWrite(PIN_SCK, LOW);
   if (dog_spi_pin_cs > 0)
   {
     pinMode(dog_spi_pin_cs, OUTPUT);			/* this is the user chip select */
@@ -674,6 +676,7 @@ unsigned char dog_spi_out(unsigned char data)
 
 void dog_spi_enable_client(void)
 {
+  digitalWrite(PIN_SCK, LOW);
   if (dog_spi_pin_cs > 0)
     digitalWrite(dog_spi_pin_cs, LOW);  
     dog_Delay(1);
@@ -681,6 +684,7 @@ void dog_spi_enable_client(void)
 
 void dog_spi_disable_client(void)
 {
+  digitalWrite(PIN_SCK, LOW);
   if (dog_spi_pin_cs > 0)
         digitalWrite(dog_spi_pin_cs, HIGH);
     dog_Delay(1);
