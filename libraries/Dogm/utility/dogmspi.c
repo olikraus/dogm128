@@ -48,8 +48,6 @@
 
 #include "dogm128.h"
 
-#define DOG_SPI_SW_ARDUINO
-
 #if defined(DOG_SPI_USI)
 #elif defined(DOG_SPI_ATMEGA)
 #elif defined(DOG_SPI_ARDUINO)
@@ -645,11 +643,8 @@ void myShiftOut(uint8_t dataPin, uint8_t clockPin, uint8_t val)
     else
       digitalWrite(dataPin, LOW);
     val <<= 1;
-    dog_Delay(1);
     digitalWrite(clockPin, HIGH);
-    dog_Delay(1);
     digitalWrite(clockPin, LOW);		
-    dog_Delay(1);
     i--;
   } while( i != 0 );
 }
@@ -657,15 +652,13 @@ void myShiftOut(uint8_t dataPin, uint8_t clockPin, uint8_t val)
 void dog_spi_init(void)
 {
   pinMode(PIN_SCK, OUTPUT);
-  pinMode(PIN_MOSI, OUTPUT);
-  pinMode(dog_spi_pin_a0, OUTPUT);
   digitalWrite(PIN_SCK, LOW);
-  if (dog_spi_pin_cs > 0)
-  {
-    pinMode(dog_spi_pin_cs, OUTPUT);			/* this is the user chip select */
-    digitalWrite(dog_spi_pin_cs, LOW);
-    dog_Delay(1);
-  }
+  pinMode(PIN_MOSI, OUTPUT);
+  digitalWrite(PIN_MOSI, LOW);
+  pinMode(PIN_A0_DEFAULT, OUTPUT); 
+  pinMode(PIN_SS, OUTPUT);			/* this is the user chip select */
+  digitalWrite(PIN_SS, HIGH);
+  dog_Delay(1);
 }
 
 unsigned char dog_spi_out(unsigned char data)
@@ -676,30 +669,26 @@ unsigned char dog_spi_out(unsigned char data)
 
 void dog_spi_enable_client(void)
 {
-  digitalWrite(PIN_SCK, LOW);
-  if (dog_spi_pin_cs > 0)
-    digitalWrite(dog_spi_pin_cs, LOW);  
-    dog_Delay(1);
+digitalWrite(PIN_SS, LOW);  
+dog_Delay(1);
 }
 
 void dog_spi_disable_client(void)
 {
-  digitalWrite(PIN_SCK, LOW);
-  if (dog_spi_pin_cs > 0)
-        digitalWrite(dog_spi_pin_cs, HIGH);
-    dog_Delay(1);
+   digitalWrite(PIN_SS, HIGH);
+   dog_Delay(1);
 }
 
 void dog_cmd_mode(void)
 {
-  digitalWrite(dog_spi_pin_a0, LOW);
-    dog_Delay(1);
+  digitalWrite(PIN_A0_DEFAULT, LOW);
+  //dog_Delay(1);
 }
 
 void dog_data_mode(void)
 {
-  digitalWrite(dog_spi_pin_a0, HIGH);
-    dog_Delay(1);
+  digitalWrite(PIN_A0_DEFAULT, HIGH);
+  //dog_Delay(1);
 }
 
 #endif
