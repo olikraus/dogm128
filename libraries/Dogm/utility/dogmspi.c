@@ -57,6 +57,7 @@
 #if defined(ADA_ST7565P_HW) || defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__)
 #define DOG_SPI_SW_ARDUINO
 #elif defined(__18CXX) || defined(__PIC32MX)
+//#define DOG_SPI_SW_ARDUINO
 #define DOG_SPI_SW_STD_ARDUINO
 #else
 #define DOG_SPI_ARDUINO
@@ -566,6 +567,7 @@ void shiftOutFast(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder, uint8_t v
 #include <avr/io.h>
 #include <util/delay.h>
 #endif
+
 #include <wiring.h>	/* arduino pinMode */
 
 void dog_spi_init(void)
@@ -573,11 +575,12 @@ void dog_spi_init(void)
   pinMode(PIN_SCK, OUTPUT);
   digitalWrite(PIN_SCK, LOW);
   pinMode(PIN_MOSI, OUTPUT);
+  digitalWrite(PIN_MOSI, LOW);
   pinMode(dog_spi_pin_a0, OUTPUT);
   if (dog_spi_pin_cs > 0)
   {
     pinMode(dog_spi_pin_cs, OUTPUT);			/* this is the user chip select */
-    digitalWrite(dog_spi_pin_cs, LOW);
+    digitalWrite(dog_spi_pin_cs, HIGH);
   }
 
 #ifdef ADA_ST7565P_HW  
