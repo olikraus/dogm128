@@ -43,6 +43,8 @@
   DOG_SPI_ARDUINO or "nothing defined"
     --> Arduino 
   DOG_SPI_SW_STD_ARDUINO
+  
+  DOG_SPI_CHIPKIT_PIC32
 
 */
 
@@ -57,8 +59,8 @@
 #if defined(ADA_ST7565P_HW) || defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__)
 #define DOG_SPI_SW_ARDUINO
 #elif defined(__18CXX) || defined(__PIC32MX)
-//#define DOG_SPI_SW_ARDUINO
-#define DOG_SPI_SW_STD_ARDUINO
+#define DOG_SPI_CHIPKIT_PIC32
+//#define DOG_SPI_SW_STD_ARDUINO
 #else
 #define DOG_SPI_ARDUINO
 #endif
@@ -508,60 +510,6 @@ void dog_do_shift_out_msb_first(uint8_t val)
   } while( cnt != 0 );
 }
 
-#ifdef OBSOLETE_POSTED_TO_ARDUINO_FORUM
-void shiftOutFast(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder, uint8_t val)
-{
-  uint8_t cnt;
-  uint8_t bitData, bitNotData;
-  uint8_t bitClock, bitNotClock;
-  volatile uint8_t *outData;
-  volatile uint8_t *outClock;
- 
-  outData = portOutputRegister(digitalPinToPort(dataPin));
-  outClock = portOutputRegister(digitalPinToPort(clockPin));
-  bitData = digitalPinToBitMask(dataPin);
-  bitClock = digitalPinToBitMask(clockPin);
-
-  bitNotClock = bitClock;
-  bitNotClock ^= 0x0ff;
-
-  bitNotData = bitData;
-  bitNotData ^= 0x0ff;
-
-  cnt = 8;
-  if (bitOrder == LSBFIRST)
-  {
-    do
-    {
-      if ( val & 1 )
-	*outData |= bitData;
-      else
-	*outData &= bitNotData;
-      
-      *outClock |= bitClock;
-      *outClock &= bitNotClock;
-      val >>= 1;
-      cnt--;
-    } while( cnt != 0 );
-  }
-  else
-  {
-    do
-    {
-      if ( val & 128 )
-	*outData |= bitData;
-      else
-	*outData &= bitNotData;
-      
-      *outClock |= bitClock;
-      *outClock &= bitNotClock;
-      val <<= 1;
-      cnt--;
-    } while( cnt != 0 );
-  } 
-}
-#endif
-
 #ifdef __AVR__
 #include <avr/interrupt.h>
 #include <avr/io.h>
@@ -610,11 +558,13 @@ unsigned char dog_spi_out(unsigned char data)
 void dog_spi_enable_client(void)
 {
         digitalWrite(dog_spi_pin_cs, LOW);  
+  dog_Delay(1);
 }
 
 void dog_spi_disable_client(void)
 {
         digitalWrite(dog_spi_pin_cs, HIGH);
+  dog_Delay(1);
 }
 
 void dog_cmd_mode(void)
@@ -627,6 +577,111 @@ void dog_data_mode(void)
   digitalWrite(dog_spi_pin_a0, HIGH);
 }
 
+#elif defined(DOG_SPI_CHIPKIT_PIC32)
+
+/*=======================================================================*/
+/* Arduino Software SPI with standard procedures, should work for CHIPKIT */
+/*=======================================================================*/
+
+#include <wiring.h>	/* arduino pinMode */
+
+#include "wiring_private.h"
+#include "pins_arduino.h"
+
+
+uint8_t dog_bitData, dog_bitNotData;
+uint8_t dog_bitClock, dog_bitNotClock;
+volatile uint8_t *dog_outData;
+volatile uint8_t *dog_outClock;
+
+void dog_init_shift_out(uint8_t dataPin, uint8_t clockPin)
+{
+  dog_outData = portOutputRegister(digitalPinToPort(dataPin));
+  dog_outClock = portOutputRegister(digitalPinToPort(clockPin));
+  dog_bitData = digitalPinToBitMask(dataPin);
+  dog_bitClock = digitalPinToBitMask(clockPin);
+
+  dog_bitNotClock = dog_bitClock;
+  dog_bitNotClock ^= 0x0ff;
+
+  dog_bitNotData = dog_bitData;
+  dog_bitNotData ^= 0x0ff;
+}
+
+void dog_do_shift_out_msb_first(uint8_t val)
+{
+  uint8_t cnt = 8;
+  //uint8_t bitData = dog_bitData;
+  //uint8_t bitNotData = dog_bitNotData;
+  uint8_t bitClock = dog_bitClock;
+  uint8_t bitNotClock = dog_bitNotClock;
+  //volatile uint8_t *outData = dog_outData;
+  volatile uint8_t *outClock = dog_outClock;
+  do
+  {
+    /*
+    if ( val & 128 )
+      *outData |= bitData;
+    else
+      *outData &= bitNotData;
+    */
+	  
+    if ( val & 128 )
+      digitalWrite(PIN_MOSI, HIGH);
+    else
+      digitalWrite(PIN_MOSI, LOW);
+    val <<= 1;
+    
+    *outClock |= bitClock;
+    *outClock &= bitNotClock;
+    cnt--;
+  } while( cnt != 0 );
+}
+
+void dog_spi_init(void)
+{
+  pinMode(PIN_SCK, OUTPUT);
+  digitalWrite(PIN_SCK, LOW);
+  pinMode(PIN_MOSI, OUTPUT);
+  digitalWrite(PIN_MOSI, LOW);
+  pinMode(PIN_A0_DEFAULT, OUTPUT); 
+  pinMode(PIN_SS, OUTPUT);			/* this is the user chip select */
+  digitalWrite(PIN_SS, HIGH);
+  dog_init_shift_out(PIN_MOSI, PIN_SCK);
+  dog_Delay(1);
+}
+
+unsigned char dog_spi_out(unsigned char data)
+{
+  //myShiftOut(PIN_MOSI, PIN_SCK, data);
+  dog_do_shift_out_msb_first(data);
+  return data;
+}
+
+void dog_spi_enable_client(void)
+{
+digitalWrite(PIN_SS, LOW);  
+dog_Delay(1);
+}
+
+void dog_spi_disable_client(void)
+{
+   digitalWrite(PIN_SS, HIGH);
+   dog_Delay(1);
+}
+
+void dog_cmd_mode(void)
+{
+  digitalWrite(PIN_A0_DEFAULT, LOW);
+  //dog_Delay(1);
+}
+
+void dog_data_mode(void)
+{
+  digitalWrite(PIN_A0_DEFAULT, HIGH);
+  //dog_Delay(1);
+}
+
 #elif defined(DOG_SPI_SW_STD_ARDUINO)
 
 /*=======================================================================*/
@@ -635,7 +690,6 @@ void dog_data_mode(void)
 
 #include <wiring.h>	/* arduino pinMode */
 
-/* copied here because wiring_shift.c is not included by CHIPKIT */
 void myShiftOut(uint8_t dataPin, uint8_t clockPin, uint8_t val)
 {
   uint8_t i = 8;
