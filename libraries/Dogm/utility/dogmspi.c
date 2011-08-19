@@ -54,6 +54,7 @@
 #elif defined(DOG_SPI_ATMEGA)
 #elif defined(DOG_SPI_ARDUINO)
 #elif defined(DOG_SPI_SW_ARDUINO)
+#elif defined(DOG_SPI_CHIPKIT_PIC32)
 #elif defined(DOG_SPI_SW_STD_ARDUINO)
 #else  /* nothing defined */
 #if defined(ADA_ST7565P_HW) || defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__)

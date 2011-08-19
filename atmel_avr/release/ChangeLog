@@ -48,7 +48,7 @@ dogm128 Library ChangeLog
 	* Tested with Arduino UNO and Arduino 0021 IDE
 2010-12-03	v1.07	Oliver Kraus <olikraus@gmail.com> 
 	* DOGM132-Shield fully supported by SpaceTrash.pde
-	* ATMEGA88: SPI support and examples
+	* ATMEGA88: SPI support and examples 
 	* Arduino Environment: Allow to select an IO port as chip select line
 2011-01-02	v1.08	Oliver Kraus <olikraus@gmail.com>
 	* Splash Screen
@@ -63,10 +63,13 @@ dogm128 Library ChangeLog
 	* Little Rook Chess Example
 	* New Function: ClrBitmapP
 	* Throw error message if LCD is not defined (previous versions did use DOGM128 by default)
-	
 2011-06-18	v1.10	Oliver Kraus <olikraus@gmail.com>
 	* Added support for Adafruit Product 250
 	* Updated Makefiles to produce more compact HEX files
 	* Fixed dogmfont.c: Handle codes below ASCII 32 correctly
 	* Added dog_SetUC1610GrayShade()
-	
+2011-07-15	v1.11	Oliver Kraus <olikraus@gmail.com>
+	* Support for Arduino Mega and Mega2560 
+	* Support ES13BB0
+	* Bug: "!!!" sequence does not work on Mega2560 upload (workaround for this lib, 
+	    must be fixed in the Arduino Boot Loader)
