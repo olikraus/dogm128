@@ -590,10 +590,11 @@ void dog_data_mode(void)
 #include "pins_arduino.h"
 
 
-uint8_t dog_bitData, dog_bitNotData;
-uint8_t dog_bitClock, dog_bitNotClock;
-volatile uint8_t *dog_outData;
-volatile uint8_t *dog_outClock;
+uint16_t dog_bitData, dog_bitNotData;
+uint16_t dog_bitClock, dog_bitNotClock;
+volatile uint32_t *dog_outData;
+volatile uint32_t *dog_outClock;
+volatile uint32_t dog_pic32_spi_tmp;
 
 void dog_init_shift_out(uint8_t dataPin, uint8_t clockPin)
 {
@@ -603,39 +604,38 @@ void dog_init_shift_out(uint8_t dataPin, uint8_t clockPin)
   dog_bitClock = digitalPinToBitMask(clockPin);
 
   dog_bitNotClock = dog_bitClock;
-  dog_bitNotClock ^= 0x0ff;
+  dog_bitNotClock ^= 0x0ffff;
 
   dog_bitNotData = dog_bitData;
-  dog_bitNotData ^= 0x0ff;
+  dog_bitNotData ^= 0x0ffff;
 }
 
 void dog_do_shift_out_msb_first(uint8_t val)
 {
   uint8_t cnt = 8;
-  //uint8_t bitData = dog_bitData;
-  //uint8_t bitNotData = dog_bitNotData;
-  uint8_t bitClock = dog_bitClock;
-  uint8_t bitNotClock = dog_bitNotClock;
-  //volatile uint8_t *outData = dog_outData;
-  volatile uint8_t *outClock = dog_outClock;
   do
   {
-    /*
     if ( val & 128 )
-      *outData |= bitData;
+	*dog_outData |= dog_bitData;
     else
-      *outData &= bitNotData;
-    */
-	  
-    if ( val & 128 )
-      digitalWrite(PIN_MOSI, HIGH);
-    else
-      digitalWrite(PIN_MOSI, LOW);
+	*dog_outData &= dog_bitNotData;    
     val <<= 1;
-    
-    *outClock |= bitClock;
-    *outClock &= bitNotClock;
+    /*
+	There must be some delay here. However
+	fetching the adress dog_outClock is enough delay, so
+	do not place dog_outClock in a local variable. This will
+	break the procedure
+    */
+    *dog_outClock |= dog_bitClock;
+    *dog_outClock &= dog_bitNotClock;
     cnt--;
+    /* 
+	little additional delay after clk pulse, done by 3x32bit reads 
+	from I/O. Optimized for PIC32 with 80 MHz.
+    */
+    dog_pic32_spi_tmp = *dog_outClock;
+    dog_pic32_spi_tmp = *dog_outClock;
+    dog_pic32_spi_tmp = *dog_outClock;
   } while( cnt != 0 );
 }
 
@@ -654,33 +654,28 @@ void dog_spi_init(void)
 
 unsigned char dog_spi_out(unsigned char data)
 {
-  //myShiftOut(PIN_MOSI, PIN_SCK, data);
   dog_do_shift_out_msb_first(data);
   return data;
 }
 
 void dog_spi_enable_client(void)
 {
-digitalWrite(PIN_SS, LOW);  
-dog_Delay(1);
+  digitalWrite(PIN_SS, LOW);  
 }
 
 void dog_spi_disable_client(void)
 {
    digitalWrite(PIN_SS, HIGH);
-   dog_Delay(1);
 }
 
 void dog_cmd_mode(void)
 {
   digitalWrite(PIN_A0_DEFAULT, LOW);
-  //dog_Delay(1);
 }
 
 void dog_data_mode(void)
 {
   digitalWrite(PIN_A0_DEFAULT, HIGH);
-  //dog_Delay(1);
 }
 
 #elif defined(DOG_SPI_SW_STD_ARDUINO)
