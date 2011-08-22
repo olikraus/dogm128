@@ -428,12 +428,13 @@ unsigned char dog_spi_out(unsigned char data)
 
 void dog_spi_enable_client(void)
 {
-        digitalWrite(dog_spi_pin_cs, LOW);  
+  digitalWrite(PIN_SCK, LOW);
+  digitalWrite(dog_spi_pin_cs, LOW);  
 }
 
 void dog_spi_disable_client(void)
 {
-        digitalWrite(dog_spi_pin_cs, HIGH);
+  digitalWrite(dog_spi_pin_cs, HIGH);
 }
 
 void dog_cmd_mode(void)
@@ -558,14 +559,12 @@ unsigned char dog_spi_out(unsigned char data)
 
 void dog_spi_enable_client(void)
 {
-        digitalWrite(dog_spi_pin_cs, LOW);  
-  dog_Delay(1);
+  digitalWrite(dog_spi_pin_cs, LOW);  
 }
 
 void dog_spi_disable_client(void)
 {
-        digitalWrite(dog_spi_pin_cs, HIGH);
-  dog_Delay(1);
+  digitalWrite(dog_spi_pin_cs, HIGH);
 }
 
 void dog_cmd_mode(void)
@@ -581,7 +580,7 @@ void dog_data_mode(void)
 #elif defined(DOG_SPI_CHIPKIT_PIC32)
 
 /*=======================================================================*/
-/* Arduino Software SPI with standard procedures, should work for CHIPKIT */
+/* CHIPKIT Software SPI */
 /*=======================================================================*/
 
 #include <wiring.h>	/* arduino pinMode */
@@ -627,8 +626,8 @@ void dog_do_shift_out_msb_first(uint8_t val)
 	break the procedure
     */
     *dog_outClock |= dog_bitClock;
-    *dog_outClock &= dog_bitNotClock;
     cnt--;
+    *dog_outClock &= dog_bitNotClock;
     /* 
 	little additional delay after clk pulse, done by 3x32bit reads 
 	from I/O. Optimized for PIC32 with 80 MHz.
@@ -722,14 +721,13 @@ unsigned char dog_spi_out(unsigned char data)
 
 void dog_spi_enable_client(void)
 {
-digitalWrite(PIN_SS, LOW);  
-dog_Delay(1);
+  digitalWrite(PIN_SCK, LOW);
+  digitalWrite(PIN_SS, LOW);  
 }
 
 void dog_spi_disable_client(void)
 {
    digitalWrite(PIN_SS, HIGH);
-   dog_Delay(1);
 }
 
 void dog_cmd_mode(void)
