@@ -20,10 +20,12 @@
   along with dogm128.  If not, see <http://www.gnu.org/licenses/>.
 
   Controller SPI Interface Selection 
-    DOG_SPI_USI		Universal Serial Interface of ATTINY controller
-    DOG_SPI_ATMEGA	ATMEGA SPI Interface
-    DOG_SPI_ARDUINO	SPI Interface for ATMEGA within Arduino Environment
-    nothing defined		defaults to DOG_SPI_ARDUINO
+    DOG_SPI_USI			Universal Serial Interface of ATTINY controller
+    DOG_SPI_ATMEGA		ATMEGA SPI Interface
+    DOG_SPI_ARDUINO		HW SPI Interface for ATMEGA within Arduino Environment
+    DOG_SPI_SW_ARDUINO	SW SPI Interface
+    DOG_SPI_CHIPKIT_PIC32	SW SPI Interface for the CHIPKIT Environment
+    nothing defined			defaults to DOG_SPI_ARDUINO (ATMEGA) or DOG_SPI_CHIPKIT_PIC32 (PIC32)
 
   Normal or Revers Display Mode
     DOG_REVERSE		Display output rotated by 180 degree
@@ -70,6 +72,13 @@
                                                 */
 //#define ES13BB0_HW				/* uncomment for ES13BB0 128x64 display */
 
+
+
+//#define DOG_SPI_USI			/* uncomment to force Universal Serial Interface of ATTINY controller  (HW SPI) */
+//#define DOG_SPI_ATMEGA		/* uncomment to ATMEGA SPI Interface (HW SPI) */
+//#define DOG_SPI_ARDUINO		/* uncomment to HW SPI Interface for ATMEGA within Arduino Environment */
+//#define DOG_SPI_SW_ARDUINO	/* uncomment to SW SPI Interface */
+//#define DOG_SPI_CHIPKIT_PIC32	/* uncomment to SW SPI Interface for the CHIPKIT Environment */
 
 
 

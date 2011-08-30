@@ -559,6 +559,7 @@ unsigned char dog_spi_out(unsigned char data)
 
 void dog_spi_enable_client(void)
 {
+  digitalWrite(PIN_SCK, LOW);
   digitalWrite(dog_spi_pin_cs, LOW);  
 }
 
@@ -659,6 +660,7 @@ unsigned char dog_spi_out(unsigned char data)
 
 void dog_spi_enable_client(void)
 {
+  digitalWrite(PIN_SCK, LOW);
   digitalWrite(PIN_SS, LOW);  
 }
 
