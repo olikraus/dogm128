@@ -13,7 +13,6 @@ for install instructions.
 Install instruction for the Arduino Hardware
 
 Arduino Environment
-
    1. Download latest version of dogm128_arduino_vX.XX.zip
    2. cd <arduino environment path>/libraries
    3. unzip dogm128_vX.XX.zip
@@ -22,3 +21,6 @@ Arduino Environment
    6. Optional: Edit file dogm128.h and uncomment DOG_REVERSE (change top/bottom view)
    7. (re)start the Arduino IDE
    8. Dogm128 examples are available under File > Examples > Dogm 
+
+ChipKIT Environment
+  Please visit http://code.google.com/p/dogm128/wiki/install

@@ -73,3 +73,6 @@ dogm128 Library ChangeLog
 	* Support ES13BB0
 	* Bug: "!!!" sequence does not work on Mega2560 upload (workaround for this lib, 
 	    must be fixed in the Arduino Boot Loader)
+2011-08-31	v1.12	Oliver Kraus <olikraus@gmail.com>
+	* Support for ChipKIT UNO32
+	
