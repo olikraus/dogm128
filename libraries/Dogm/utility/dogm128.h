@@ -40,7 +40,8 @@
     DOGM128_HW		DOGM128 Display
     DOGS102_HW		DOGS102 Display
     DOGM132_HW		DOGM132 Display
-    DOGXL60_HW		DOGXL160 Display
+    DOGXL160_HW_BW		DOGXL160 Display
+    DOGXL160_HW_GR		DOGXL160 Display
     ADA_ST7565P_HW      Adafruit Graphics LCD based on the ST7565P
     
     nothing defined		error message
