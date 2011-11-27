@@ -131,7 +131,7 @@ void dog_Delay(uint16_t val)
 		Delay1KTCYx((GetInstructionClock()+999999)/1000000);
 }
 #elif defined(__PIC32MX)
-/* use chipkit function */
+/* assume chipkig and use chipkit procedure */
 void dog_Delay(uint16_t val)
 {
 	delay(val);
