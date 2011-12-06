@@ -24,8 +24,11 @@
 
 /* #include <avr/io.h>   */ /* complained by the chipkit environment, but why is it there at all??? it is not needed */
 #include <Dogm.h>
+#if defined(ARDUINO) && ARDUINO >= 100
+#include "Arduino.h"
+#else
 #include "WProgram.h"
-
+#endif
 
 void Dogm::Init(void)
 {

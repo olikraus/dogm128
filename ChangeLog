@@ -75,4 +75,6 @@ dogm128 Library ChangeLog
 	    must be fixed in the Arduino Boot Loader)
 2011-08-31	v1.12	Oliver Kraus <olikraus@gmail.com>
 	* Support for ChipKIT UNO32
-	
+2011-12-06      v1.13	Oliver Kraus <olikraus@gmail.com>
+	* Support for Arduino 1.0 (might not work for ChipKit UNO32 any more)
+        

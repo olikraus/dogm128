@@ -67,7 +67,11 @@ class Dogm : public Print {
     void drawChar(uint8_t c);
     void drawStr(const char *s);
     uint8_t getStrWidth(const char *s) { return dog_GetStrWidth(fptr, s); }
+#if defined(ARDUINO) && ARDUINO >= 100
+    size_t write(uint8_t c) { tx += dog_DrawChar(tx, ty, fptr, c); return 1;}
+#else
     void write(uint8_t c) { tx += dog_DrawChar(tx, ty, fptr, c); }
+#endif
 
     /* Draw functions */
     void setSize(uint8_t s) { size = s; }

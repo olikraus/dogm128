@@ -382,7 +382,11 @@ void dog_data_mode(void)
 #include <avr/interrupt.h>
 #include <avr/io.h>
 #include <util/delay.h>
+#if defined(ARDUINO) && ARDUINO >= 100
+#include "Arduino.h"
+#else
 #include <wiring.h>	/* arduino pinMode */
+#endif
 
 void dog_spi_init(void)
 {
@@ -466,8 +470,13 @@ void dog_data_mode(void)
     DOUBLE_MEM, Hardware SPI:	42 FPS
   
 */
+#if defined(ARDUINO) && ARDUINO >= 100
+#include "Arduino.h"
+#include "wiring_private.h"
+#else
 #include "wiring_private.h"
 #include "pins_arduino.h"
+#endif
 
 
 uint8_t dog_bitData, dog_bitNotData;
@@ -518,7 +527,12 @@ void dog_do_shift_out_msb_first(uint8_t val)
 #include <util/delay.h>
 #endif
 
+#if defined(ARDUINO) && ARDUINO >= 100
+#include "Arduino.h"
+#else
+#include "WProgram.h"
 #include <wiring.h>	/* arduino pinMode */
+#endif
 
 void dog_spi_init(void)
 {
