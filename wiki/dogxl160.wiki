@@ -1,0 +1,61 @@
+#summary About the DOGXL160 Display...
+
+<wiki:toc max_depth="2" />
+
+= Library Support =
+
+Version v1.08 and above also support the DOGXL160 display.
+
+
+<table><tr><td>
+
+== Introduction ==
+
+The DOGXL160 has 160x104 pixel. Each pixel can have one of 4 different values:
+ * Pixel off (value 0)
+ * Light gray (value 1)
+ * Dark gray (value 2)
+ * Black (value 3)
+
+== BW and GR Modes ==
+
+For the DOGXL160 display, two different modes are available (See also the [install install] wiki page for configuration of the library):
+ * {{{DOGXL160_HW_BW}}}: A black and white mode, which does not support gray levels. It is faster than  {{{DOGXL160_HW_GR}}} mode. Only values 0 and 3 can be used.
+ * {{{DOGXL160_HW_GR}}}: Supports gray levels (all pixel values) for the DOGXL160
+
+</td><td>
+
+[http://wiki.dogm128.googlecode.com/hg/dogxl160_gr_test.jpg]
+
+
+</td></tr></table>
+
+== Frames per Second ==
+
+The following table gives an overview on the frame rates with the DOGXL160 display. Measure condition: End of level 1 in spacetrash (Arduino Uno).
+
+|| Mode           || DOG_DOUBLE_MEMORY || DOG_REVERSE || Frames per Second || 
+|| DOGXL160_HW_GR || no			|| no REV	|| 14 FPS ||
+|| DOGXL160_HW_GR || no			|| with REV	|| 14 FPS ||
+|| DOGXL160_HW_GR || yes		|| no REV	|| 18 FPS ||
+|| DOGXL160_HW_GR || yes		|| with REV	|| 17 FPS ||
+|| DOGXL160_HW_BW || no			|| no REV	|| 19 FPS ||
+|| DOGXL160_HW_BW || no			|| with REV	|| 19 FPS ||
+|| DOGXL160_HW_BW || yes		|| no REV	|| 21 FPS ||
+|| DOGXL160_HW_BW || yes		|| with REV	|| 21 FPS ||
+  
+
+= Hardware =
+
+A new Arduino compatible shield with the DOGXL160 display will be documented here: 
+[http://schmelle2.de/wp/arduino/shields/dogxl160-shield]
+
+
+
+[http://wiki.dogm128.googlecode.com/hg/dogxl160_shield_sch.jpg]
+
+= Links =
+
+  * [dogm128 Wiki]
+  * [http://code.google.com/p/dogm128/ Project Home] 
+  * [http://code.google.com/p/dogm128/source/browse/ Browse Source]

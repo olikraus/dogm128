@@ -1,0 +1,16 @@
+#summary DOGS102 with Arduino Hardware
+
+<wiki:toc max_depth="2" />
+
+= DOGS102 Graphics Module =
+
+The current init sequence for the DOGS102 graphics module assumes a hardware configuration as shown in the following schematic: 
+
+[http://wiki.dogm128.googlecode.com/hg/dogs102_arduino_sch.jpg]
+
+= Links =
+
+  * [dogm128 Wiki Toplevel Page]
+  * [hardware Wiki Hardware Overview]
+  * [http://code.google.com/p/dogm128/ Project Home] 
+  * [http://code.google.com/p/dogm128/source/browse/ Browse Source]

@@ -1,0 +1,29 @@
+#summary Release Testing Plan
+
+<wiki:toc max_depth="2" />
+
+= Release Testing Plan =
+
+A new release must be only uploaded to the download section of this google project, if the release successfully passes the following tests. 
+
+== Arduino Environment ==
+
+=== "Make" Environment ===
+ # Goto "libraries", ./create_release
+ # Goto "tools/release_test"
+  # ./do_ramdisk.sh
+  # execute tests with the hardware
+  # ./undo_ramdisk.sh
+
+=== IDE ===
+  # Create ZIP file
+  # Copy ZIP file into the Arduino Uno environment
+  # Run some example within the environment
+
+== Atmel AVR ==
+
+ # Create ZIP file
+ # Unzip ZIP file into temp folder. Perform next steps within the temp folder:
+ # Upload to ATTINY84 and ATMEGA88
+ # Run and inspect all examples (make process, visual results)
+ # Run graphics_test with activated DOG_REVERSE on all controllers

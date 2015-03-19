@@ -1,0 +1,77 @@
+#summary Hardware
+
+<wiki:toc max_depth="2" />
+
+= Supported Hardware =
+
+This library has been designed to support the DOGM128 Graphics LCD for the [http://www.arduino.cc Arduino] Board.
+With version 1.03 DOGS102 and DOGM132 LCDs are also supported:
+
+  * [dogm128_arduino_hardware DOGM128 with Arduino Hardware]
+  * [dogs102_arduino_hardware DOGS102 with Arduino Hardware]
+  * [dogm132_arduino_hardware DOGM132 with Arduino Hardware]
+  * [dogxl160 DOGXL160]
+
+Additionally this library has examples for using ATTINY and ATMEGA controllers without Arduino environment:
+
+  * [dogm132_attiny84_hardware DOGM132 with ATTINY84 Hardware] (Version 1.04 and above)
+  * [dogm132_atmega88_hardware DOGM132 with ATMEGA88 Hardware] (Version 1.07 and above)
+
+= Shields =
+
+DOG-S and DOG-M shields are available for the Arduino environment:
+
+ * [dogs102_arduino_shield DOGS102 Shield] (Project Wiki), [http://www.arduino.cc/cgi-bin/yabb2/YaBB.pl?num=1285280487/2 DOGS102 Shield] (External Link)
+ * [dogs102_spi_keypad DOGS102 Shield with SPI Keypad] (Project Wiki)  
+ * [dogm128_arduino_shield DOGM128 Shield (Creative Common)]
+ * [dogm132_arduino_shield DOGM132 Shield (Creative Common)]
+
+
+= Hardware and Software Overview =
+
+== Hardware Environment and Displays ==
+
+|| Display          || DOGM128 || DOGM132 || DOGS102 || DOGXL160 || DOGXL160 ||
+|| avr-gcc define || DOGM128_HW || DOGM132_HW || DOGS102_HW || DOGXL160_HW_BW || DOGXL160_HW_GR ||
+|| Arduino Duemilanove || p, t     || p, t    ||   p, t  ||   p   ||  p   ||
+|| Arduino Uno || p, t     || p, t    ||   p  ||    p, t  ||   p, t  ||
+|| ATTINY84 (Universal Serial Interface) || p        || p, t    ||   p     ||
+|| ATMEGA88 (SPI) || p        || p, t    ||   p     ||   p, t  ||    p, t  ||
+
+ * p: The library has been ported.
+ * t: The library has been successfully tested.
+ * ATTINY port is available with version v1.04 of the dogm128 library.
+ * ATMEGA port is available with version v1.07 of the dogm128 library.
+ * DOGXL160 port is available with version v1.08 of the dogm128 library.
+
+== Example Programs and Displays ==
+
+|| Example       || DOGM128 || DOGM132 || DOGS102 || DOGXL160 ||
+|| Breakorino    ||   s,t   ||         ||   s,t   ||   s,t   ||
+|| Fonts         ||   s,t   ||   s,t   ||   s,t   ||   s,t   ||
+|| Walk          ||   s,t   ||   s,t   ||   s,t   ||   s,t   ||
+|| Graphics Test ||   s,t   ||   s,t   ||   s,t   ||   s,t   ||
+|| Space Trash   ||   s,t   ||   s,t   ||   s,t   ||   s,t   ||
+|| Stars         ||   s,t   ||   s,t   ||   s,t   ||   s,t   ||
+
+ * s: The example supports the display.
+ * t: The example has been successfully tested with the display.
+
+== Example Programs and Memory Usage ==
+
+ * RAM requirements also depend on the display (e.g. DOGM132 requires 4 bytes more than the DOGM128).
+ * Values are provided for ATTINY
+
+|| Example       || Flash ROM || RAM ||
+|| Fonts         || 8 K       || 0.25 K ||
+|| Walk          || 2 K       || 0.25 K ||
+|| Graphics Test || 5 K       || 0.25 K ||
+|| Space Trash   || 8 K        || 0.5 K ||
+
+
+
+= Links =
+
+  * [dogm128 Wiki]
+  * [http://code.google.com/p/dogm128/ Project Home] 
+  * [http://code.google.com/p/dogm128/source/browse/ Browse Source]

@@ -1,0 +1,39 @@
+#summary DOGS102 Shield with SPI Keypad for the Arduino Hardware
+
+
+<wiki:toc max_depth="2" />
+
+
+= Features = 
+
+== Top View ==
+
+[http://wiki.dogm128.googlecode.com/hg/dogs102/LCD_full.jpg]
+
+== Functionality ==
+This shield is improved version of the original DOG102S shield with added functionality:
+ * Keypad state for all buttons returned via SPI interface, no digital pins used
+ * Different CS and A0 pins can be selected if default D9/D10 are not available or used by another shield
+ * Extended pin headers to keep shield above tall Ethernet Shield and USB connectors 
+
+== Schematic ==
+
+The schematic is available as PDF: 
+
+[http://wiki.dogm128.googlecode.com/hg/dogs102/DOGS102_SPI_Keypad.pdf DOGS102_SPI_Keypad.pdf]
+
+= Software Support =
+== ATTINY261 code ==
+This shield uses on-board ATTINY261 microcontroller.<br>
+<to be published >
+
+== DOGM library support ==
+Fully supported with release 1.07 of higher
+[http://code.google.com/p/dogm128/ Project Home]
+
+= Links =
+
+  * [dogm128 Wiki Toplevel Page]
+  * [hardware Wiki Hardware Overview]
+  * [http://code.google.com/p/dogm128/ Project Home] 
+  * [http://code.google.com/p/dogm128/source/browse/ Browse Source]
